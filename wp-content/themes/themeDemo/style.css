@@ -1,0 +1,35 @@
+/*
+Theme Name: Theme Demo
+Theme URI:
+Description: Theme Demo is a Theme.
+Author: Develoepr Faraz Hashmi
+Author URI: https://about.me/farazhashmi
+Version: 1.0
+Tested up to: 5.9
+Requires at least: 3.0
+Requires PHP: 5.2.4
+License:
+License URI:
+Tags: blog
+Text Domain: themedemo
+*/
+
+*{
+	/*#Default styling reset.*/
+	margin: 0;
+	padding: 0;
+}
+.main-heading{
+	text-align: center;
+	vertical-align: middle;
+	display: block;
+	text-transform: uppercase;
+	color: #00ff00;
+	width: 100%;
+	padding: 50px;
+}
+.main-footer{
+	text-align: center;
+	display: block;
+	padding: 50px;
+}

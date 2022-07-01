@@ -1,0 +1,20 @@
+/*Theme Name: Corporate
+Theme URI: https://inspirothemes.com/polo/home-corporate-v7.html
+Author: the Inspiro Themes
+Author URI: https://inspirothemes.com/polo/home-corporate-v7.html
+Description: A Corporate WordPress Theme.
+Requires at least: 5.3
+Tested up to: 5.9
+Requires PHP: 5.6
+Version: 1.5
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: corporate
+Tags: one-column, accessibility-ready, custom-colors, custom-menu, custom-logo, editor-style, featured-images, footer-widgets, block-patterns, rtl-language-support, sticky-post, threaded-comments, translation-ready
+*/
+
+*{
+    /*Default Styling Reset.*/
+    margin: 0px;
+    padding: 0px;
+}
