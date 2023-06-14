@@ -48,14 +48,14 @@ define( 'DB_COLLATE', '' );
  *
  * @since 2.6.0
  */
-define( 'AUTH_KEY',         'put your unique phrase here' );
-define( 'SECURE_AUTH_KEY',  'put your unique phrase here' );
-define( 'LOGGED_IN_KEY',    'put your unique phrase here' );
-define( 'NONCE_KEY',        'put your unique phrase here' );
-define( 'AUTH_SALT',        'put your unique phrase here' );
-define( 'SECURE_AUTH_SALT', 'put your unique phrase here' );
-define( 'LOGGED_IN_SALT',   'put your unique phrase here' );
-define( 'NONCE_SALT',       'put your unique phrase here' );
+// define( 'AUTH_KEY',         'put your unique phrase here' );
+// define( 'SECURE_AUTH_KEY',  'put your unique phrase here' );
+// define( 'LOGGED_IN_KEY',    'put your unique phrase here' );
+// define( 'NONCE_KEY',        'put your unique phrase here' );
+// define( 'AUTH_SALT',        'put your unique phrase here' );
+// define( 'SECURE_AUTH_SALT', 'put your unique phrase here' );
+// define( 'LOGGED_IN_SALT',   'put your unique phrase here' );
+// define( 'NONCE_SALT',       'put your unique phrase here' );
 
 /**#@-*/
 
@@ -65,7 +65,16 @@ define( 'NONCE_SALT',       'put your unique phrase here' );
  * You can have multiple installations in one database if you give each
  * a unique prefix. Only numbers, letters, and underscores please!
  */
-$table_prefix = 'wp_';
+define('AUTH_KEY',         'Tz:.Uv}!r*;O)F=<bLs^SEB1ExCckf|7Bc+!ovom0bRX.y*.W}+vsn9|NVR)*:k>');
+define('SECURE_AUTH_KEY',  '+giy%C3<,a9-*g$vK<{Z(K6{BVOm|V-~Y4RBDlA(7L11!KzJoP_-+p-{U@|Vqj>j');
+define('LOGGED_IN_KEY',    '=%LBR/c[QSt<2w=bgFYNeePsR0sAlz6;bg|[s7d|xe2g`7_9cgakELVcuK-d;+A>');
+define('NONCE_KEY',        'L[$;g84>H!8o>az:m5)l1P-I3*v2B.H-/Mx:Eqo{gm]gQ6p@YArSp#O4Kg`?BcW/');
+define('AUTH_SALT',        '*6]hN*yA+bMqcB+~*|h_P_bX#Z_R`-x7?gY8Lk7;BdPsZu(=Kj0}|$jLab/XQp<{');
+define('SECURE_AUTH_SALT', 'eVt!8*Epl8j&BZ3Wu^^^cHf{46f.M-~u_oiRhEqK=shU)<FPUVpjXdk[=%qMr$+>');
+define('LOGGED_IN_SALT',   '|U]$w[}T!oZL|a`z `.tq)I)pg:+Wks|c_@}-T3 1R*QPP[,N$dYS[zByj*u,%nT');
+define('NONCE_SALT',       '-|.}Mle-ZZT&&C6D]:k]L6+^(fR<fed2`0|RY{0KsikZu>z^)p<&A!Y|ce%os bs');
+
+$table_prefix = 'wp_demo_';
 
 /**
  * For developers: WordPress debugging mode.
