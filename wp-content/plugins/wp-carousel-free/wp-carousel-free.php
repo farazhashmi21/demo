@@ -6,18 +6,18 @@
  * @since   2.0.0
  * @package WP_Carousel_Free
  *
- * Plugin Name:       WordPress Carousel
- * Plugin URI:        https://shapedplugin.com/plugin/wordpress-carousel-pro/?ref=1
- * Description:       The Most Powerful and User-friendly WordPress Carousel Plugin. Create beautiful carousels in minutes using Images, Posts, WooCommerce Products etc.
- * Version:           2.4.8
- * Author:            ShapedPlugin
+ * Plugin Name:       WP Carousel
+ * Plugin URI:        https://wordpresscarousel.com/
+ * Description:       The most powerful and user-friendly carousel, slider, and gallery plugin for WordPress. Create unlimited beautiful carousels, sliders, and galleries in minutes using images, posts, WooCommerce products, etc.
+ * Version:           2.5.7
+ * Author:            ShapedPlugin LLC
  * Author URI:        https://shapedplugin.com/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       wp-carousel-free
  * Domain Path:       /languages
  * WC requires at least: 4.0
- * WC tested up to: 6.4.1
+ * WC tested up to: 7.7.2
  */
 
 // If this file is called directly, abort.
@@ -119,7 +119,7 @@ class SP_WP_Carousel_Free {
 	 */
 	public function setup() {
 		$this->plugin_name = 'wp-carousel-free';
-		$this->version     = '2.4.8';
+		$this->version     = '2.5.7';
 		$this->define_constants();
 		$this->includes();
 		$this->load_dependencies();
@@ -203,7 +203,6 @@ class SP_WP_Carousel_Free {
 	 */
 	private function load_dependencies() {
 		$this->loader = new WP_Carousel_Free_Loader();
-
 	}
 
 	/**
@@ -262,11 +261,11 @@ class SP_WP_Carousel_Free {
 
 		// Help Page.
 		$help_page = new WP_Carousel_Free_Help( $this->get_plugin_name(), $this->get_version() );
-		$this->loader->add_action( 'admin_menu', $help_page, 'help_admin_menu', 40 );
+		$this->loader->add_action( 'admin_menu', $help_page, 'help_admin_menu', 35 );
 
 		// Premium Page.
 		$upgrade_page = new WP_Carousel_Free_Upgrade( $this->get_plugin_name(), $this->get_version() );
-		$this->loader->add_action( 'admin_menu', $upgrade_page, 'upgrade_admin_menu', 35 );
+		$this->loader->add_action( 'admin_menu', $upgrade_page, 'upgrade_admin_menu', 40 );
 
 		// Gutenberg block.
 		if ( version_compare( $GLOBALS['wp_version'], '5.3', '>=' ) ) {
@@ -278,7 +277,6 @@ class SP_WP_Carousel_Free {
 		if ( ( is_plugin_active( 'elementor/elementor.php' ) || is_plugin_active_for_network( 'elementor/elementor.php' ) ) ) {
 			new Wp_Carousel_Free_Element_Shortcode_Block();
 		}
-
 	}
 
 	/**
@@ -290,14 +288,13 @@ class SP_WP_Carousel_Free {
 	 */
 	private function define_public_hooks() {
 		$plugin_public = new WP_Carousel_Free_Public( $this->get_plugin_name(), $this->get_version() );
-
+		$this->loader->add_action( 'wp_loaded', $plugin_public, 'register_all_scripts' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$this->loader->add_action( 'save_post', $plugin_public, 'delete_page_wp_carousel_option_on_save' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_public, 'admin_enqueue_scripts' );
 
 		$plugin_shortcode = new WP_Carousel_Free_Shortcode( $this->get_plugin_name(), $this->get_version() );
 		$this->loader->add_shortcode( 'sp_wpcarousel', $plugin_shortcode, 'sp_wp_carousel_shortcode' );
-
 	}
 
 	/**

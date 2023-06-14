@@ -35,7 +35,7 @@ if ( ! class_exists( 'SP_WPCF' ) ) {
 		 *
 		 * @var string
 		 */
-		public static $version = '2.2.4';
+		public static $version = WPCAROUSELF_VERSION;
 		/**
 		 * Dir.
 		 *
@@ -347,11 +347,13 @@ if ( ! class_exists( 'SP_WPCF' ) ) {
 					'color',
 					'color_group',
 					'custom_import',
+					'dimensions_advanced',
 					'column',
 					'gallery',
 					'heading',
 					'image_select',
 					'image_sizes',
+					'media',
 					'notice',
 					'radio',
 					'select',
@@ -473,7 +475,7 @@ if ( ! class_exists( 'SP_WPCF' ) ) {
 					'wpcf',
 					'wpcf_vars',
 					array(
-						'previewJS'     => self::include_plugin_url( 'assets/js/preview' . $min . '.js' ),
+						'previewJS'     => WPCAROUSELF_URL . 'public/js/wp-carousel-free-public.min.js',
 						'color_palette' => apply_filters( 'wpcf_color_palette', array() ),
 						'i18n'          => array(
 							'confirm'         => esc_html__( 'Are you sure?', 'wp-carousel-free' ),
@@ -501,6 +503,9 @@ if ( ! class_exists( 'SP_WPCF' ) ) {
 						}
 					}
 				}
+
+				// Fix the CSS conflict of radio player with wp caroursel free.
+				wp_dequeue_style( 'radio-player-admin' );
 
 				do_action( 'wpcf_enqueue' );
 			}

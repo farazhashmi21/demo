@@ -14,12 +14,12 @@ $average_rating = ( $av_rating / 5 ) * 100;
 if ( $average_rating > 0 && $show_product_rating ) {
 	$rating_text = __( 'Rated ', 'wp-carousel-free' ) . $av_rating . __( ' out of 5', 'wp-carousel-free' );
 	?>
-<div class="wpcp-product-rating woocommerce">
-	<div class="woocommerce-product-rating">
-		<div class="star-rating" title="<?php echo esc_attr( $rating_text ); ?>">
-			<span style="width:<?php echo esc_attr( $average_rating ); ?>%"></span>
+	<div class="wpcp-product-rating woocommerce">
+		<div class="woocommerce-product-rating">
+			<div class="star-rating" title="<?php echo esc_attr( $rating_text ); ?>">
+				<span style="width:<?php echo esc_attr( $average_rating ); ?>%"></span>
+			</div>
 		</div>
 	</div>
-</div
 	<?php
 }

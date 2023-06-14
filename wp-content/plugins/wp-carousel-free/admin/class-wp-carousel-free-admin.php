@@ -61,10 +61,15 @@ class WP_Carousel_Free_Admin {
 	 * @return void
 	 */
 	public function enqueue_admin_styles() {
-		wp_enqueue_style( 'font-awesome', WPCAROUSELF_URL . 'public/css/font-awesome.min.css', array(), $this->version, 'all' );
+		$current_screen        = get_current_screen();
+		$the_current_post_type = $current_screen->post_type;
+		if ( 'sp_wp_carousel' === $the_current_post_type ) {
+			wp_enqueue_style( 'font-awesome', WPCAROUSELF_URL . 'public/css/font-awesome.min.css', array(), $this->version, 'all' );
+		}
 		wp_enqueue_style( $this->plugin_name . 'admin', WPCAROUSELF_URL . 'admin/css/wp-carousel-free-admin' . $this->suffix . '.css', array(), $this->version, 'all' );
 		// Scripts.
 		wp_enqueue_script( $this->plugin_name . 'admin', WPCAROUSELF_URL . 'admin/js/wp-carousel-free-admin' . $this->suffix . '.js', array( 'jquery' ), $this->version, true );
+
 	}
 
 	/**
@@ -142,11 +147,11 @@ class WP_Carousel_Free_Admin {
 	public function add_plugin_action_links( $links, $plugin_file ) {
 
 		if ( WPCAROUSELF_BASENAME === $plugin_file ) {
-			$ui_links = sprintf( '<a href="%s">%s</a>', admin_url( 'post-new.php?post_type=sp_wp_carousel' ), __( 'Create Carousel', 'wp-carousel-free' ) );
+			$ui_links = sprintf( '<a href="%s">%s</a>', admin_url( 'post-new.php?post_type=sp_wp_carousel' ), __( 'Add New', 'wp-carousel-free' ) );
 
 			array_unshift( $links, $ui_links );
 
-			$links['go_pro'] = sprintf( '<a target="_blank" href="%1$s" style="color: #35b747; font-weight: 700;">Go Premium!</a>', 'https://shapedplugin.com/plugin/wordpress-carousel-pro/?ref=1' );
+			$links['go_pro'] = sprintf( '<a target="_blank" href="%1$s" style="color: #35b747; font-weight: 700;">Go Pro!</a>', 'https://wordpresscarousel.com/pricing/?ref=1' );
 		}
 
 		return $links;
@@ -172,7 +177,7 @@ class WP_Carousel_Free_Admin {
 	public function plugin_row_meta( $plugin_meta, $plugin_file ) {
 		if ( WPCAROUSELF_BASENAME === $plugin_file ) {
 			$row_meta = array(
-				'docs' => '<a href="https://wordpresscarousel.com" aria-label="' . esc_attr( __( 'Live Demo', 'wp-carousel-free' ) ) . '" target="_blank">' . __( 'Live Demo', 'wp-carousel-free' ) . '</a>',
+				'docs' => '<a href="https://wordpresscarousel.com/wp-carousel-free-demo/" aria-label="' . esc_attr( __( 'Live Demo', 'wp-carousel-free' ) ) . '" target="_blank">' . __( 'Live Demo', 'wp-carousel-free' ) . '</a>',
 				'ideo' => '<a href="https://docs.shapedplugin.com/docs/wordpress-carousel/introduction/" aria-label="' . esc_attr( __( 'View WP Carousel Video Tutorials', 'wp-carousel-free' ) ) . '" target="_blank">' . __( 'Docs & Video Tutorials', 'wp-carousel-free' ) . '</a>',
 			);
 
@@ -193,7 +198,7 @@ class WP_Carousel_Free_Admin {
 		$screen = get_current_screen();
 		if ( 'sp_wp_carousel' === get_post_type() || 'sp_wp_carousel_page_wpcp_settings' === $screen->id || 'sp_wp_carousel_page_wpcp_help' === $screen->id ) {
 			$url  = 'https://wordpress.org/support/plugin/wp-carousel-free/reviews/?filter=5#new-post';
-			$text = sprintf( 'If you like <strong>WordPress Carousel</strong>, please leave us a <a href="%s" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating. Your Review is very important to us as it helps us to grow more. ', $url );
+			$text = sprintf( 'If you like <strong>WP Carousel</strong>, please leave us a <a href="%s" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating. Your Review is very important to us as it helps us to grow more. ', $url );
 		}
 
 		return $text;

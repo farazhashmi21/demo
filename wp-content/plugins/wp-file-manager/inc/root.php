@@ -15,7 +15,7 @@ if (isset($_POST['submit']) && wp_verify_nonce(sanitize_text_field($_POST['wp_fi
     if($packet_value <= 0 ){
         
         $prev_value = get_option('wp_file_manager_settings',true);
-        $packet_value = intval($prev_value['fm_max_packet_allowed']);
+        $packet_value = isset($prev_value['fm_max_packet_allowed']) ? intval($prev_value['fm_max_packet_allowed']) : 0;
         $save_array['fm_max_packet_allowed'] = $packet_value;
         $packet_value = intval($packet_value * 1000000);
     } else {

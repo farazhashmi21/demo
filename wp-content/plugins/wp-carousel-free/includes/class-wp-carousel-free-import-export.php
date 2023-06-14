@@ -79,7 +79,12 @@ class Wp_Carousel_Free_Import_Export {
 	public function export_shortcodes() {
 		$nonce = ( ! empty( $_POST['nonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
 		if ( ! wp_verify_nonce( $nonce, 'wpcf_options_nonce' ) ) {
-			die();
+			wp_send_json_error(
+				array(
+					'message' => __( 'Error: Invalid nonce verification.', 'wp-carousel-free' ),
+				),
+				401
+			);
 		}
 		// XSS ok.
 		// No worries, This "POST" requests is sanitizing in the below array map.
@@ -246,7 +251,12 @@ class Wp_Carousel_Free_Import_Export {
 	public function import_shortcodes() {
 		$nonce = ( ! empty( $_POST['nonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
 		if ( ! wp_verify_nonce( $nonce, 'wpcf_options_nonce' ) ) {
-			die();
+			wp_send_json_error(
+				array(
+					'message' => __( 'Error: Invalid nonce verification.', 'wp-carousel-free' ),
+				),
+				401
+			);
 		}
 		$data       = isset( $_POST['shortcode'] ) ? wp_kses_data( wp_unslash( $_POST['shortcode'] ) ) : '';
 		$data       = json_decode( $data );

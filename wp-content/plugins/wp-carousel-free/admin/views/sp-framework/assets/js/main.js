@@ -2277,7 +2277,7 @@
           opacity: 0,
         }, 200);
         jQuery(".spwpc-after-copy-text").animate({
-          bottom: 0
+          bottom: -100
         }, 0);
       }, 2000);
     });
@@ -2314,7 +2314,7 @@
           opacity: 0,
         }, 200);
         jQuery(".spwpc-after-copy-text").animate({
-          bottom: 0
+          bottom: -100
         }, 0);
       }, 2000);
     });
@@ -2326,11 +2326,20 @@
       $export_type = $(this).find('input:checked').val();
     });
 
+    // Check If the string is a valid JSON string.
+    function isValidJSONString(str) {
+      try {
+        JSON.parse(str);
+      } catch (e) {
+        return false;
+      }
+      return true;
+    }
+
     $('.wpcp_export .wpcf--button').click(function (event) {
       event.preventDefault();
 
       var $shortcode_ids = $('.wpcp_post_ids select').val();
-      console.log($shortcode_ids);
       var $ex_nonce = $('#wpcf_options_noncesp_wpcf_tools').val();
       var selected_shortcode = $export_type === 'selected_shortcodes' ? $shortcode_ids : 'all_shortcodes';
       if ($export_type === 'all_shortcodes' || $export_type === 'selected_shortcodes') {
@@ -2348,10 +2357,14 @@
       $.post(ajaxurl, data, function (resp) {
         if (resp) {
           // Convert JSON Array to string.
-          var json = JSON.stringify(resp);
+          if (isValidJSONString(resp)) {
+            var json = JSON.stringify(JSON.parse(resp));
+          } else {
+            var json = JSON.stringify(resp);
+          }
+
           // Convert JSON string to BLOB.
-          json = [json];
-          var blob = new Blob(json);
+          var blob = new Blob([json], { type: 'application/json' });
           var link = document.createElement('a');
           var wpcp_time = $.now();
           link.href = window.URL.createObjectURL(blob);
@@ -2370,8 +2383,14 @@
     // Wp Carousel import.
     $('.wpcp_import button.import').click(function (event) {
       event.preventDefault();
-      var wpcp_shortcodes = $('#import').prop('files')[0];
+      var $this = $(this),
+      button_text = $this.text(),
+      wpcp_shortcodes = $('#import').prop('files')[0];
+
       if ($('#import').val() != '') {
+        $this.css('opacity', '0.7');
+        $this.append('<span class="wpcf-page-loading-spinner"><i class="fa fa-spinner" aria-hidden="true"></i></span>');
+
         var $im_nonce = $('#wpcf_options_noncesp_wpcf_tools').val();
         var reader = new FileReader();
         reader.readAsText(wpcp_shortcodes);
@@ -2386,11 +2405,22 @@
               nonce: $im_nonce,
             },
             success: function (resp) {
+              $this.html(button_text).css('opacity', '1');
+  
               $('.wpcf-form-result.wpcf-form-success').text('Imported successfully!').show();
               setTimeout(function () {
                 $('.wpcf-form-result.wpcf-form-success').hide().text('');
                 $('#import').val('');
                 window.location.replace($('#wpcf_shortcode_link_redirect').attr('href'));
+              }, 2000);
+            },
+            error: function (error) {
+              $('#import').val('');
+              $this.html(button_text).css('opacity', '1');
+              $('.wpcf-form-result.wpcf-form-success').addClass('error')
+              .text('Something went wrong, please try again!').show();
+              setTimeout(function () {
+                $('.wpcf-form-result.wpcf-form-success').hide().text('').removeClass('error');
               }, 2000);
             }
           });
@@ -2402,18 +2432,25 @@
         }, 3000);
       }
     });
-
+    // Hide justified layout if source type is not "image carousel".
+    $('.wpcf-field-carousel_type').on('change', function () {
+      if ($('.wpcf-field-carousel_type input[name="sp_wpcp_upload_options[wpcp_carousel_type]"]:checked').val() == 'image-carousel') {
+        $('.wpcp_layout .wpcf--sibling.wpcf--image').eq(4).show();
+      } else {
+        $('.wpcp_layout .wpcf--sibling.wpcf--image').eq(4).hide();
+      }
+    });
     // hide Carousel Settings when grid layout will be selected.
-    if ($('.wpcp_layout input[name="sp_wpcp_shortcode_options[wpcp_layout]"]:checked').val() == 'gallery') {
-      $(".wpcf-nav-metabox li:nth-child(4)").hide();
+    if ($('.wpcp_layout input[name="sp_wpcp_shortcode_options[wpcp_layout]"]:checked').val() == 'grid') {
+      $(".wpcf-nav-metabox li:nth-child(5)").hide();
     } else {
-      $(".wpcf-nav-metabox li:nth-child(4)").show();
+      $(".wpcf-nav-metabox li:nth-child(5)").show();
     }
     $('.wpcf-field-image_select.wpcp_layout').on('change', function () {
-      if ($('.wpcp_layout input[name="sp_wpcp_shortcode_options[wpcp_layout]"]:checked').val() == 'gallery') {
-        $(".wpcf-nav-metabox li:nth-child(4)").hide();
+      if ($('.wpcp_layout input[name="sp_wpcp_shortcode_options[wpcp_layout]"]:checked').val() == 'grid') {
+        $(".wpcf-nav-metabox li:nth-child(5)").hide();
       } else {
-        $(".wpcf-nav-metabox li:nth-child(4)").show();
+        $(".wpcf-nav-metabox li:nth-child(5)").show();
       }
     });
   });

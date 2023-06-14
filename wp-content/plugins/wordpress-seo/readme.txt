@@ -1,12 +1,12 @@
 === Yoast SEO ===
-Contributors: yoast, joostdevalk, omarreiss
+Contributors: yoast, joostdevalk, tdevalk
 Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 6.0
-Stable tag: 19.2
-Requires PHP: 5.6.20
+Tested up to: 6.2
+Stable tag: 20.9
+Requires PHP: 7.2.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
 
@@ -36,8 +36,8 @@ Yoast SEO is packed full of features, designed to help visitors and search engin
 * **Faster loading times** for your whole website, due to an innovative way of managing data in WordPress.
 * **[Premium]** E-mail support for our [Yoast SEO Premium](https://yoa.st/1v8) users.
 * **[Premium]** The possibility to expand Yoast SEO with the [News SEO](https://yoa.st/1uv), [Video SEO](https://yoa.st/1uw), [Local SEO](https://yoa.st/1uu) and [WooCommerce SEO](https://yoa.st/3rh) extensions.
-* **[Premium]** **New!** Yoast SEO Premium comes with wide-ranging crawl settings that help you improve how search engines crawl your site.
 * **[Premium]** **New!** Yoast SEO Premium comes with an IndexNow integration to ping search engines like Microsoft Bing whenever you publish or update content.
+* **New!** Yoast SEO comes with wide-ranging crawl settings that help you improve how search engines crawl your site, lowering its carbon footprint.
 
 #### WRITE KILLER CONTENT WITH YOAST SEO
 We know content is king, that's why Yoast SEO is famous for its **state-of-the-art content and SEO analysis**. Yoast SEO gives you:
@@ -55,6 +55,8 @@ We know content is king, that's why Yoast SEO is famous for its **state-of-the-a
 * **[Premium]** Automatic internal linking suggestions: write your article and get automatic suggested posts to link to!
 * **[Premium]** An orphaned content filter to detect posts that have no links pointing towards them!
 * **[Premium]** SEO workouts to make working on your site as easy as ABC. These SEO workflows will get your site into shape in no time!
+* **[Premium]** **New!** Yoast SEO Premium comes with a new word complexity feature that gives you actionable feedback on using difficult words. This feature is in beta and English only for now.
+* **New!** Yoast SEO Free and Premium come with a new inclusive language analysis that helps you write inclusive content. This feature is opt-in and English-only for now.
 
 #### KEEP YOUR SITE IN PERFECT SHAPE
 
@@ -85,7 +87,6 @@ Did you know that [Yoast SEO Premium](https://yoa.st/1v8) contains a lot of extr
 * **Internal linking suggestions** while you’re writing.
 * Preview your content to see what it will look like in the search results and when shared on social media using the **Google preview** and **social preview**.
 * **Cornerstone content checks** that point search engines to your most important pages.
-* Connect Yoast SEO to Zapier to easily **create zaps that instantly share your published posts** with 2000+ destinations like Twitter, Facebook, and much more.
 
 If you are serious about your WordPress SEO, install the [Yoast SEO Premium plugin](https://yoa.st/1v8)! **Costs a little, saves a lot of time!**
 
@@ -110,7 +111,6 @@ Yoast SEO integrates seamlessly into a range of themes and plugins. We work part
 * Google’s [Web Stories](https://wordpress.org/plugins/web-stories/) plugin, which helps you to create ‘[web stories](https://amp.dev/about/stories/)’.
 * The [Advanced Custom Fields](https://wordpress.org/plugins/advanced-custom-fields/) plugin, when you also activate the [ACF Content Analysis for Yoast SEO](https://wordpress.org/plugins/acf-content-analysis-for-yoast-seo/) plugin.
 * The [Elementor](https://wordpress.org/plugins/elementor/) website builder.
-* [Zapier](https://zapier.com/apps/yoast-seo/integrations), which helps you automate your publishing flow.
 * [Algolia](https://wordpress.org/plugins/wp-search-with-algolia/) integration to improve the quality of your site search.
 * [WordProof](https://wordproof.com/), which helps you prove ownership by adding timestamps.
 
@@ -224,77 +224,67 @@ The plugins you buy at Yoast are called ‘premium plugins’ (even if Premium i
 
 [Read more on how to get support](https://yoa.st/3r2)
 
+= What happens to my data if I enable usage tracking? =
+
+[This page on yoast.com explains what data we collect to improve Yoast SEO](https://yoa.st/4w7). We only collect data when you explicitly opt in. Read more about how we handle your data in [our Privacy Policy](https://yoa.st/4w8).
+
 = I have a different question than listed here =
 
 Your question has most likely been answered on our help center: [yoast.com/help/](https://yoa.st/1va).
 
 == Screenshots ==
 
-1. The Yoast SEO plugin general meta box. You'll see this on edit post pages, for posts, pages and custom post types.
-2. Example of the SEO analysis functionality.
-3. Example of the readability analysis functionality.
-4. Overview of site-wide SEO problems and possible improvements.
-5. Control over which features you want to use.
-6. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
+1. The modern interface makes Yoast SEO easy to work with.
+2. Easily manage how your posts and pages appear in SERPs.
+3. Yoast SEO Premium has extra crawl optimization options.
+4. Yoast SEO integrates with tools like Semrush and Wincher.
+5. The famous SEO and readability analyses in Yoast SEO.
+6. See what your post looks like in Google.
+7. The First-time configuration helps you get started quickly.
+8. The inclusive language analysis in Yoast SEO.
 
 == Changelog ==
 
-= 19.2 =
-Release Date: June 28th, 2022
+= 20.9 =
 
-Yoast SEO 19.2 is out today! In this release, we've rolled out some improvements to the content and SEO analyses and we've added an integration with WordProof to timestamp privacy pages on the blockchain. Read more about what's new in Yoast SEO 19.2 in [our release post in English](https://yoa.st/release-28-6-22) or [our release post in Spanish](https://yoa.st/release-28-6-22-spanish)!
+Release date: 2023-06-13
 
-Enhancements:
+In Yoast SEO 20.9, you'll find improvements to our Wincher integration. We've added a dashboard widget to track your keyphrase rankings. We've also done the usual fixes and made enhancements. Find out more about what's new in Yoast SEO 20.9 in [our release post](https://yoa.st/release-13-6-23)!
 
-* NEW: Adds an integration with WordProof, which allows for improving the trustworthiness of the privacy policy and terms and conditions pages by adding a timestamp.
-* Adds support for `webp` images for OpenGraph output.
-* Adds a notice that displays when Yoast SEO Premium is installed but not activated prompting the user to activate it.
-* Adds a new filter `wpseo_change_home_url` that allows changing the URL checked by the Ryte integration, to support more versatile hosting setups.
-* Adds a `meta author` tag to ensure that LinkedIn picks up the name of a post author properly.
-* Adds the name of the article author to the `author` section of the `Article` schema piece, to ensure that Pinterest picks up the name of a post author properly.
-* Enables sorting on the SEO and readability score columns on the post overview page.
-* Ensures the Bing XML sitemap ping is only sent if IndexNow is disabled.
-* Prevents XML sitemap pings for blogs that aren't public.
-* Improves the content analysis by excluding blockquote HTML elements.
-* Improves the sentence recognition by disregarding abbreviations and initials as potential sentence boundaries.
-* Improves the text analysis by not splitting sentences on semicolon ;.
-* Improves the text analysis by supporting sentence detection for declarative sentences in quotation marks.
-* Improves the text analysis in Elementor by not always splitting on ellipsis &#8230; regardless of whether the next sentence has a valid beginning or not.
+#### Enhancements
 
-Bugfixes:
+* Adds a new widget on the dashboard that shows your top keywords added to Yoast SEO with Wincher. Provides a connection button if you haven't yet connected your site to Wincher.
+* Tightens crawl optimization site search blocking rules.
+* We now automatically schedule background performance optimization processes (via WP Cron).
 
-* Fixes a bug that would cause the First-time configuration to crash when completing indexation with the Yoast admin bar menu hidden.
-* Fixes a bug where filtering the OpenGraph and Twitter image to a URL containing ampersands would lead to encoding issues.
-* Fixes a bug where HTML tags in the `og:description` meta tag would be displayed encoded instead of being removed completely.
-* Fixes a bug where the sitemap `image:loc` URLs containing ampersands would lead to encoding issues.
-* Fixes a bug where notices would show an abnormally large heading in Yoast SEO Premium page.
+#### Bugfixes
 
-Other:
+* Fixes a bug where a fatal error would occur after updating the plugin due to a failed query.
+* Fixes a bug where indexables would be created when using the `wp yoast index` WP CLI command on a staging site.
+* Fixes a bug where the link popover position in the block editor would be positioned incorrectly when adding or creating links.
+* Fixes a bug where the Yoast SEO metabox would crash in conjunction with Yoast SEO Premium when additional keyphrases are stored in the DB in a malformed way.
 
-* Renames the 'Keyphrase in title' SEO assessment to 'Keyphrase in SEO title'.
+= 20.8 =
 
-= 19.1 =
-Release Date: June 14th, 2022
+Release date: 2023-05-23
 
-Yoast SEO 19.1 is out today! In this release, we've rolled out some improvements that make the content and SEO analyses more flexible. We've also expanded our range of crawl settings in Premium. Read more about what's new in Yoast SEO 19.1 in [our release post in English](https://yoa.st/release-14-6-22) or [our release post in Spanish](https://yoa.st/release-14-6-22-spanish)!
+Today, we're launching Yoast SEO 20.8. In this release, you'll find improvements to our content analyses and regular fixes and enhancements. Find out more about what's new in Yoast SEO 20.8 in [our release post](https://yoa.st/release-23-5-23)!
 
-Enhancements:
+#### Enhancements
 
-* Improves text analysis by splitting text on full-stop only when the next sentence is preceded by a whitespace.
-* Prompts users to set up their site in order to take advantage of all SEO features.
+* Improves feedback strings for the _keyphrase density_ assessment by referring to the keyphrase in general instead of the focus keyphrase.
+* Improves the accuracy of the content analysis by excluding texts within textarea tags from the analysis.
 
-Bugfixes:
+#### Bugfixes
 
-* Fixes a bug where the "Check links to this URL" option on admin bar menu would lead to an error page on setups with home URL different from the site URL. Props to @suascat.
-* Fixes a bug where the network setting for the crawl cleanup feature would default to `Disable` when the super admin saved settings before upgrading/installing Premium.
-* Fixes a bug which caused the Spanish transition word `para ilustrar` to not be recognized by the transition words assessment.
+* Fixes a bug where an entry in the indexable table would be created when an archive of a non-public but publicly queryable post type would be visited.
+* Fixes a bug where a warning about a missing key in a component would be thrown in the console in the Yoast SEO Settings page.
+* Fixes a bug where entries in the indexable table would be created for archives of excluded post types.
+* Fixes a bug where the score icon for the SEO and Readability tabs would not show a sad emoji when the post is empty or there is no set keyphrase.
 
-Other:
+#### Other
 
-* Adds an informative error message to the steps of the First-time configuration should an error occur.
-* Adds dismissable weekly webinar promo banners to Yoast settings pages & block/Elementor editor sidebars.
-* Adds new disabled toggles to the Crawl settings tab in the General page.
-* Improves handling of OAuth errors in the Wincher integration and clears refresh tokens that seem to be invalid.
+* Renames "SEO Framework" to "The SEO Framework".
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

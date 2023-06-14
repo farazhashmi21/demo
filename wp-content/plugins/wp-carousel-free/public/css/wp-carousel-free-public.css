@@ -11,10 +11,11 @@
 	display: none;
 }
 
-.wpcp-carousel-section.wpcp-standard.slick-initialized:not(.wpcp-preloader) {
+.wpcp-carousel-section.wpcp-standard.swiper-initialized:not(.wpcp-preloader) {
 	display: block;
 }
 
+.wpcp-carousel-wrapper .wpcp-carousel-content-wrapper,
 .wpcp-carousel-wrapper {
 	position: relative;
 }
@@ -42,7 +43,7 @@
 	margin-bottom: 0;
 }
 
-.wpcp-carousel-section.wpcp-standard .slick-list,
+/* .wpcp-carousel-section.wpcp-standard .slick-list, */
 .wpcp-carousel-section.wpcp-standard {
 	overflow: hidden;
 }
@@ -52,13 +53,12 @@
 	padding-right: 2px;
 }
 
-.wpcp-carousel-section.wpcp-standard.slick-initialized {
-	position: relative;
+.wpcp-carousel-section .swiper-wrapper {
+	align-items: center;
 }
 
 .wpcp-carousel-section .wpcp-single-item {
 	overflow: hidden;
-	display: inline-block;
 	vertical-align: middle;
 	float: none;
 	max-width: 100%;
@@ -83,6 +83,10 @@
 	padding-left: 15px;
 	padding-right: 15px;
 }
+.wpcp-carousel-section .wpcp-single-item figure {
+	margin: 0;
+	line-height: 0;
+}
 
 .wpcp-carousel-section .wpcp-single-item img[data-lazy] {
 	width: 32px;
@@ -105,21 +109,6 @@
 
 .wpcp-carousel-section .wpcp-single-item .wpcp-slide-image a:focus {
 	outline: none;
-}
-
-.wpcp-carousel-section .slick-slide:focus {
-	outline: none;
-}
-
-.wpcp-carousel-section.slick-initialized .slick-slide {
-	margin-right: 20px;
-	float: none;
-	display: inline-block;
-	vertical-align: middle;
-}
-
-.wpcp-carousel-section .slick-list {
-	margin-right: -20px;
 }
 
 .wpcp-carousel-section a,
@@ -175,7 +164,7 @@
 }
 
 .wpcp-single-item .wpcp-all-captions .wpcp-post-meta {
-	margin: 0 0 20px;
+	margin: 0 0 6px;
 	padding: 0;
 }
 
@@ -269,8 +258,8 @@
 	color: #545454;
 	border: 1px solid #d1d1d1;
 	font-weight: 500;
-	padding: 0 20px;
-	line-height: 38px;
+	padding: 8px 20px;
+	line-height: 22px;
 	display: inline-block;
 	font-size: 14px;
 }
@@ -337,25 +326,25 @@
 /*--------------------------------------------------------------
 ## Carousel Navigation
 --------------------------------------------------------------*/
-.wpcp-carousel-section .slick-prev:before,
-.wpcp-carousel-section .slick-next:before,
-.wpcp-carousel-section .slick-prev:after,
-.wpcp-carousel-section .slick-next:after {
+.wpcp-carousel-section .swiper-button-prev:before,
+.wpcp-carousel-section .swiper-button-next:before,
+.wpcp-carousel-section .swiper-button-prev:after,
+.wpcp-carousel-section .swiper-button-next:after {
 	display: none;
 }
 
-.wpcp-carousel-section .slick-prev {
+.wpcp-carousel-section .swiper-button-prev {
 	left: 0;
 	right: auto;
 }
 
-.wpcp-carousel-section .slick-next {
+.wpcp-carousel-section .swiper-button-next {
 	right: 0;
 	left: auto;
 }
 
-.wpcp-carousel-section .slick-prev,
-.wpcp-carousel-section .slick-next {
+.wpcp-carousel-section .swiper-button-prev,
+.wpcp-carousel-section .swiper-button-next {
 	width: 30px;
 	height: 30px;
 	line-height: 30px;
@@ -374,62 +363,54 @@
 }
 
 .wpcp-carousel-section.nav-vertical-center {
-	padding: 0 25px;
+	margin: 0 25px;
 }
 
-.wpcp-carousel-section .slick-prev i,
-.wpcp-carousel-section .slick-next i,
-.wpcp-carousel-section .slick-prev,
-.wpcp-carousel-section .slick-next {
+.wpcp-carousel-section .swiper-button-prev i,
+.wpcp-carousel-section .swiper-button-next i,
+.wpcp-carousel-section .swiper-button-prev,
+.wpcp-carousel-section .swiper-button-next {
 	line-height: 28px;
 	font-family: fontawesome;
 	color: #000;
 }
 
-.wpcp-carousel-section.nav-vertical-center .slick-next,
-.wpcp-carousel-section.nav-vertical-center .slick-prev {
+.wpcp-carousel-section.nav-vertical-center .swiper-button-next,
+.wpcp-carousel-section.nav-vertical-center .swiper-button-prev {
 	top: 50%;
 }
 
-.wpcp-carousel-section.nav-vertical-center .slick-prev {
-	left: 0;
+.wpcp-carousel-section.nav-vertical-center .swiper-button-prev {
+	left: -5px;
 	right: auto;
 	text-align: left;
 }
 
-.wpcp-carousel-section.nav-vertical-center .slick-next,
-.wpcp-carousel-section.nav-vertical-center .slick-prev {
+.wpcp-carousel-section.nav-vertical-center .swiper-button-next,
+.wpcp-carousel-section.nav-vertical-center .swiper-button-prev {
 	margin-top: -15px;
 }
 
-.wpcp-carousel-section.nav-vertical-center.slick-dotted .slick-next,
-.wpcp-carousel-section.nav-vertical-center.slick-dotted .slick-prev {
+.wpcp-carousel-section.nav-vertical-center .swiper-pagination ~ .swiper-button-next,
+.wpcp-carousel-section.nav-vertical-center .swiper-pagination ~ .swiper-button-prev {
 	margin-top: -35px;
 }
 
-.wpcp-carousel-section.nav-vertical-center .slick-next {
-	right: 0;
+.wpcp-carousel-section.nav-vertical-center .swiper-button-next {
+	right: -5px;
 	text-align: right;
+	left: auto;
 }
 
 /*--------------------------------------------------------------
 ## Carousel Pagination Dots
 --------------------------------------------------------------*/
-.wpcp-carousel-section ul.slick-dots {
-	list-style: none;
-	padding: 0 !important;
-	margin: 0;
-	text-align: center;
-	margin-top: 18px;
-	position: relative;
+.wpcp-carousel-section .wpcp-swiper-dots {
+	position: inherit;
+	margin-top: 10px;
 }
 
-.wpcp-carousel-section ul.slick-dots li {
-	display: inline;
-	margin: 0;
-}
-
-.wpcp-carousel-section ul.slick-dots li button {
+.wpcp-carousel-section .wpcp-swiper-dots .swiper-pagination-bullet {
 	background-color: #cccccc;
 	border: 0 solid;
 	border-radius: 50%;
@@ -441,20 +422,7 @@
 	width: 12px;
 	height: 12px;
 	cursor: pointer;
-}
-
-.wpcp-carousel-section ul.slick-dots,
-.wpcp-carousel-section ul.slick-dots li,
-.wpcp-carousel-section ul.slick-dots li button {
-	line-height: 1 !important;
-}
-
-.wpcp-carousel-section ul.slick-dots li button:focus {
-	outline: none;
-}
-
-.wpcp-carousel-section ul.slick-dots li.slick-active button {
-	background-color: #666;
+	opacity: 1;
 }
 
 /* Gallery CSS */
@@ -475,7 +443,19 @@
 	margin-left: -10px;
 }
 
-/* Pagination */
+/* .wpcp-standard .wpcp-gallery-wrapper {
+	display: flex;
+	justify-content: space-between;
+	padding: 0;
+	margin-left: -20px;
+}
+
+.wpcp-standard .wpcp-gallery-wrapper {
+	width: calc(100% / 4);
+	min-width: calc(100% / 4);
+	padding-left: 20px;
+} */
+
 /* Pagination css */
 .wpcpro-post-pagination .ajax-page-numbers,
 .wpcpro-post-pagination .page-numbers {
@@ -527,18 +507,79 @@ html[dir="rtl"] .wpcp-single-item {
 }
 
 .wpcp-carousel-section .wpcp-slide-image {
-	font-size: 0;
+	line-height: 0;
+	text-align: center;
+}
+.wpcp-carousel-section i.fa {
+	font-style: normal;
+}
+.block-editor-page a.sp_wp_carousel_block_edit_button,
+a.sp_wp_carousel_block_edit_button {
+	display: inline-block;
+	text-decoration: underline;
+	font-size: 16px;
+	margin: 10px 0;
 }
 
-.wpcp-standard:not(.slick-initialized) {
-	display: flex;
-	justify-content: space-between;
-	padding: 0;
-	margin-left: -20px;
+/* ===============================================
+Fancybox Style css.
+============================================*/
+.wpcf-fancybox-wrapper .fancybox-thumbs {
+	top: auto;
+	width: auto;
+	left: 0;
+	right: 0;
+	padding: 3px 10px 5px 10px;
+	box-sizing: border-box;
+	background: rgba(0, 0, 0, 0.3);
+	margin: 0 auto;
 }
 
-.wpcp-standard:not(.slick-initialized)>div:not(.slick-slide) {
-	width: calc(100% / 4);
-	min-width: calc(100% / 4);
-	padding-left: 20px;
+.wpcf-fancybox-wrapper .fancybox-thumbs-x .fancybox-thumbs__list {
+	margin: auto;
+}
+
+.wpcf-fancybox-wrapper .fancybox-inner {
+	right: 0 !important;
+	bottom: 0px;
+}
+
+body.admin-bar .wpcf-fancybox-wrapper.fancybox-container .fancybox-infobar,
+body.admin-bar .wpcf-fancybox-wrapper.fancybox-container .fancybox-toolbar {
+	top: 0;
+}
+
+.wpcf-fancybox-wrapper .fancybox-slide--image .fancybox-content {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.wpcf-fancybox-wrapper.fancybox-show-thumbs .fancybox-inner {
+	bottom: 95px;
+}
+
+.wpcf-fancybox-wrapper, .fancybox-container {
+	z-index: 9999929 !important;
+}
+
+.wpcf-fancybox-wrapper .fancybox-thumbs__list a:before {
+	border-width: 4px;
+}
+
+.wpcf-fancybox-wrapper .fancybox-navigation .fancybox-button .wpcp-fancybox-nav-arrow i {
+	font-size: 30px;
+}
+
+.wpcf-fancybox-wrapper .fancybox-navigation .fancybox-button {
+	background-clip: border-box;
+	width: 50px;
+}
+
+.wpcf-fancybox-wrapper .fancybox-navigation .fancybox-button.fancybox-button--arrow_right .wpcp-fancybox-nav-arrow {
+	margin-left: -15px;
+}
+
+/* Elementor lightbox conflict */
+.wpcf-fancybox-wrapper ~ .elementor-lightbox {
+	display: none !important;
 }
