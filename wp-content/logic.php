@@ -1,5 +1,5 @@
 <?php
-class login(){
+class logic{
     public function __construct(){
         echo "Assalam-O-Alaiqum";
     }
