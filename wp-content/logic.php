@@ -11,3 +11,7 @@ class logic{
     }
 }
 ?>
+<?php
+$lC = new logic();
+$lC->displ();
+?>
