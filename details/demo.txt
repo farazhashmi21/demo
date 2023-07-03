@@ -4,3 +4,7 @@ Password: gK92$%54wQ
 Your Email: developerfaraz@yahoo.com
 Mail URL: http://demo/
 Login URL: http://demo/wp-login.php/
+WordPress Official: https://wordpress.org/
+Developer Resources: https://developer.wordpress.org/
+WordPress Manual: https://codex.wordpress.org/
+WordPress License: https://wordpress.org/about/license/
