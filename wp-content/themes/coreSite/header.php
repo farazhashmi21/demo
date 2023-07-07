@@ -6,6 +6,7 @@
 	<!-- <title>Core Site</title> -->
 	<title><?php bloginfo('name'); ?> >> <?php bloginfo('description'); ?></title>
 	<link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/style.css"/>
+	<?php wp_head(); ?>
 </head>
 <body onLoad = "displ();">
 	<!-- Header Start -->
