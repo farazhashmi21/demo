@@ -5,5 +5,6 @@
 </footer>
 <!-- Footer Section Ends -->
 <script type="text/javascript" src="assets/js/functions.js"></script>
+<?php wp_footer(); ?>
 </body>
 </html>
