@@ -8,3 +8,7 @@ WordPress Official: https://wordpress.org/
 Developer Resources: https://developer.wordpress.org/
 WordPress Manual: https://codex.wordpress.org/
 WordPress License: https://wordpress.org/about/license/
+
+https://home.smelogin.co.uk/CustomerData/4614/GeneratedDocuments/Marketing/waas/all_marketed_properties
+
+http://demo/wp-content/plugins/json-content-importer/json/gutenbergblockexample1.json
