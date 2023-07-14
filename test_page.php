@@ -14,9 +14,16 @@
             }
             public function display($get_greetings = "Assalam-O-Alaiqum"){
                 $getGreetings = htmlspecialchars(trim($get_greetings));
+                $developer = [
+                    "Mobile Model" => "RMX3201",
+                    "Mobile Number" => "0000-0000000"
+                ];
                 echo "<p>$getGreetings.</p>";
-            }
+                foreach($developer as $d => $p){  
+                    echo "<p>Developer ".$d. " = " .$p. "</p>";                  
+                }
         }
+    }
         $tP = new test_page();
         //$tP->sysInfo();
         $tP->display();
