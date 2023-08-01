@@ -3,7 +3,7 @@
 Plugin Name: JSON Content Importer
 Plugin URI: https://json-content-importer.com/
 Description: Plugin to import, cache and display a JSON-Feed. Display is done with wordpress-shortcode or gutenberg-block.
-Version: 1.3.17
+Version: 1.4
 Author: Bernhard Kux
 Author URI: https://json-content-importer.com/
 Text Domain: json-content-importer
@@ -62,17 +62,12 @@ class jciGutenberg {
 			$this->itIsWP5 = version_compare(get_bloginfo('version'),'5.','>='); # ????? 5. // 5.0
 			if ($this->itIsWP5) {
 				# maybe the classic editor plugin is active in wp 5.0
-				
-				
-				#if ( ! function_exists( 'is_plugin_active' ) ) {
-				#	include_once ABSPATH . 'wp-admin/includes/plugin.php';
-				#}
 				if ( class_exists( 'Classic_Editor' ) ) {
 				#if (is_plugin_active( 'classic-editor/classic-editor.php' )) {
 					$this->buildGutenbergMessage("#f00", __('No Gutenberg: Classic Editor Plugin active', 'json-content-importer'));
 				} else {
 					$this->gutenbergIsActive = TRUE;
-					$this->buildGutenbergMessage("#3db634", __('Gutenberg-WP5-Mode', 'json-content-importer'));
+					$this->buildGutenbergMessage("#3db634", __('JCI Block is available', 'json-content-importer'));
 				}
 			}
 		}
@@ -97,7 +92,7 @@ if (!isset($jciGB)) {
 
 
 if ( $jciGB->getGutenbergIsActive() ) {
-	define( 'JCI_FREE_BLOCK_VERSION', '0.1' );
+	define( 'JCI_FREE_BLOCK_VERSION', '0.2' );
 	if ( ! defined( 'JCI_FREE_BLOCK_NAME' ) ) {
 		define( 'JCI_FREE_BLOCK_NAME', trim( dirname( plugin_basename( __FILE__ ) ), '/' ) );
 	}
@@ -137,8 +132,7 @@ if (!function_exists('jci_addlinks')) {
 			}
 			$link2pro = array(
 				$gbmsg,
-				'<a style="color:#3db634; font-weight: bold;" href="https://json-content-importer.com/welcome-to-the-home-of-the-json-content-importer-plugin/" target="_blank">'.__('Upgrade to PRO-Version', 'json-content-importer').'</a>',
-				'<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=APWXWK3DF2E22" title="'.__('Support the development', 'json-content-importer').'" target="_blank">'.__('Donate', 'json-content-importer').'</a>'
+				'<a style="color:#3db634; font-weight: bold;" href="https://json-content-importer.com/welcome-to-the-home-of-the-json-content-importer-plugin/" target="_blank">'.__('Upgrade to PRO-Version', 'json-content-importer').'</a>'
 			);
 			return array_merge( $links, $link2pro);
 		}
@@ -147,9 +141,7 @@ if (!function_exists('jci_addlinks')) {
 	add_filter( 'plugin_row_meta', 'jci_addlinks', 10, 2 );
 }
 
-if(!class_exists('JsonContentImporter')){
-	require_once plugin_dir_path( __FILE__ ) . '/class-json-content-importer.php';
-}
+require_once plugin_dir_path( __FILE__ ) . '/class-json-content-importer.php';
 require_once plugin_dir_path( __FILE__ ) . '/options.php';
 $JsonContentImporter = new JsonContentImporter();
 
@@ -157,4 +149,68 @@ $JsonContentImporter = new JsonContentImporter();
 /* extension hook BEGIN */
 do_action('json_content_importer_extension');
 /* extension hook END */
+
+## API for JCI-Block
+/**/
+function jci_restapi() {
+	register_rest_route(
+		'wp/jcifree/v1',
+		'/get/crte/',
+		array(
+			'callback'            => function ( $request ) {
+				$nonce = $request->get_header('X-WP-Nonce');
+				$ret[] = Array();
+				if (is_null($nonce)) {
+					$ret["template"]  ="permission denied";
+					return json_encode($ret);
+				}
+
+				$url = isset( $request['url'] ) ? esc_attr( $request['url'] ) : null;
+				$basenode = isset( $request['basenode'] ) ? esc_attr( $request['basenode'] ) : null;
+				$ret[] = Array();
+				$ret["useragent"]  = get_option( "jci_http_header_default_useragent");
+				if (preg_match("/^\//", $url)) {
+					$url = WP_PLUGIN_URL.$url;
+				}
+				$ret["url"]  = $url;
+				$ret["basenode"] = $basenode;
+ 
+				require_once plugin_dir_path( __FILE__ ) . '/class-fileload-cache.php';
+				
+				$urlgettimeout = 5;
+				$cacheEnable = FALSE;
+				$cacheFile = '';
+				$cacheExpireTime = 0;
+				$oauth_bearer_access_key = "";
+				$http_header_default_useragent_flag = "";
+				$debugmode = "";
+				$fallback2cache = 0;
+				$removewrappingsquarebrackets = FALSE;
+				
+				$fileLoadWithCacheObj = new FileLoadWithCache($url, $urlgettimeout, $cacheEnable, $cacheFile, $cacheExpireTime, $oauth_bearer_access_key, $http_header_default_useragent_flag, $debugmode, $fallback2cache, $removewrappingsquarebrackets);
+				$fileLoadWithCacheObj->retrieveJsonData();
+				$feedData = $fileLoadWithCacheObj->getFeeddata();
+					
+				$jsonArr = json_decode($feedData);
+				if (is_null($jsonArr)) {
+					$ret["template"]  ="Invalid JSON: $url";
+					return json_encode($ret);
+				}
+				
+				require_once plugin_dir_path( __FILE__ ) . '/lib/JsonToTemplateConverter.php';
+
+				$j2t = new JsonToTemplateConverter($jsonArr, $basenode);
+				$res = $j2t->getTemplate();
+				$ret["template"] = $res;
+				return json_encode($ret);
+			},
+			'permission_callback' => function () {
+				return TRUE;
+			},			
+			'methods'             => 'GET',
+		)
+	);
+}
+add_action( 'rest_api_init', 'jci_restapi' );
+/**/
 ?>

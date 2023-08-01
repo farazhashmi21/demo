@@ -264,6 +264,10 @@
 	font-size: 14px;
 }
 
+#sp-wpcf-preview-box .wpcp-carousel-section.wpcp-product-carousel .wpcp-cart-button a.button {
+	height: auto;
+}
+
 .wpcp-carousel-section.wpcp-product-carousel .wpcp-all-captions .wpcp-cart-button a.add_to_cart_button.added {
 	display: none;
 }
@@ -582,4 +586,8 @@ body.admin-bar .wpcf-fancybox-wrapper.fancybox-container .fancybox-toolbar {
 /* Elementor lightbox conflict */
 .wpcf-fancybox-wrapper ~ .elementor-lightbox {
 	display: none !important;
+}
+/* Elementor Pro v3.14.1 conflict */
+.elementor-default .wpcp-carousel-wrapper .swiper-container:not(.swiper-container-initialized) .swiper-wrapper {
+    overflow: initial;
 }

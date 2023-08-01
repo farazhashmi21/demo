@@ -103,7 +103,7 @@ class WP_Carousel_Free_Review {
 	public function dismiss_review_notice() {
 		$review = array();
 		$nonce  = ( ! empty( $_POST['nonce'] ) ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
-		if ( wp_verify_nonce( $nonce, 'wpcfree-review-notice' ) ) {
+		if ( current_user_can( 'manage_options' ) && wp_verify_nonce( $nonce, 'wpcfree-review-notice' ) ) {
 			$notice_dismissed = ( ! empty( $_POST['notice_dismissed_data'] ) ) ? sanitize_text_field( wp_unslash( $_POST['notice_dismissed_data'] ) ) : '';
 
 			switch ( $notice_dismissed ) {

@@ -1,5 +1,5 @@
 <?php
-# version 20160226
+# version 20230729
 
 class CheckCacheFolder {
   /* internal */
@@ -76,7 +76,8 @@ class JSONdecode {
 	    $this->jsondata =  json_decode($this->feedData);
       if (is_null($this->jsondata)) {
       # utf8_encode JSON-datastring, then try json_decode again
-    	$this->jsondata =  json_decode(utf8_encode($this->feedData));
+    	#$this->jsondata =  json_decode(utf8_encode($this->feedData)); #utf8_encode deprecated from PHP 8.2 on
+    	$this->jsondata =  json_decode(iconv('iso-8859-1', 'utf-8', $this->feedData));
       if (is_null($this->jsondata)) {
         #echo "JSON-Decoding failed. Check structure and encoding if JSON-data.";
          return FALSE;
@@ -114,6 +115,8 @@ class FileLoadWithCache {
   private $debugmessage = "";
   private $fallback2cache = 0;
   private $removewrappingsquarebrackets = FALSE;
+  private $respHttpCode = "";
+  private $respHttpServerError = "";
 
   public function __construct($feedUrl, $urlgettimeout, $cacheEnable, $cacheFile, $cacheExpireTime, $oauth_bearer_access_key, $http_header_default_useragent_flag, $debugmode, $fallback2cache=0, $removewrappingsquarebrackets=FALSE){
     $this->debugmode = $debugmode;
@@ -140,105 +143,106 @@ class FileLoadWithCache {
     return $this->allok;
   }
 
-		public function getdebugmessage(){
+	public function getdebugmessage(){
       return $this->debugmessage;
     }
     
-		private function showdebugmessage($message){
-      if ($this->debugmode!=10) {
-        return "";
-      }
-      $this->debugmessage .=  __('DEBUG', 'json-content-importer').": $message<br>";
-      #echo "DEBUG: $message<br>";
+	private function showdebugmessage($message){
+		if ($this->debugmode!=10) {
+			return "";
+		}
+		$this->debugmessage .=  __('DEBUG', 'json-content-importer').": $message<br>";
+		#echo "DEBUG: $message<br>";
     }
 
     /* retrieveJsonData: get json-data and build json-array */
-		public function retrieveJsonData(){
-      # check cache: is there a not expired file?
-			if ($this->cacheEnable) {
-        # use cache
-        if ($this->isCacheFileExpired()) {
-          # get json-data from cache
-          #$this->retrieveFeedFromCache();
-          $this->retrieveFeedFromCache();
-        } else {
-          $this->retrieveFeedFromWeb();
-        }
-      } else {
-        # no use of cache OR cachefile expired: retrieve json-url
-        $this->retrieveFeedFromWeb();
-      }
+	public function retrieveJsonData(){
+		# check cache: is there a not expired file?
+		if ($this->cacheEnable) {
+			# use cache
+			if ($this->isCacheFileExpired()) {
+				# get json-data from cache
+				#$this->retrieveFeedFromCache();
+				$this->retrieveFeedFromCache();
+			} else {
+				$this->retrieveFeedFromWeb();
+			}
+		} else {
+			# no use of cache OR cachefile expired: retrieve json-url
+			$this->retrieveFeedFromWeb();
+		}
 
   		if(empty($this->feedData)) {
-        $this->errormsg .= __("error: get of json-data failed - plugin aborted: check url of json-feed", 'json-content-importer');
-        $this->showdebugmessage(__("no data received: check url of json-feed", 'json-content-importer'));
-        $this->allok = FALSE;
-        return "";
-      } else {
-		if ($this->removewrappingsquarebrackets) {
-			$this->feedData = preg_replace("/^\[/", "", trim($this->feedData));
-			$this->feedData = preg_replace("/\]$/", "", trim($this->feedData));
+			$this->errormsg .= __("error: get of json-data failed - plugin aborted: check url of json-feed", 'json-content-importer');
+			$this->showdebugmessage(__("no data received: check url of json-feed", 'json-content-importer'));
+			$this->allok = FALSE;
+			return "";
+		} else {
+			if ($this->removewrappingsquarebrackets) {
+				$this->feedData = preg_replace("/^\[/", "", trim($this->feedData));
+				$this->feedData = preg_replace("/\]$/", "", trim($this->feedData));
+			}
 		}
-	  }
+	}
+
+    /* isCacheFileExpired: check if cache enabled, if so: */
+	public function isCacheFileExpired(){
+		# get age of cachefile, if there is one...
+		if (file_exists($this->cacheFile)) {
+			$ageOfCachefile = filemtime($this->cacheFile);  # time of last change of cached file
+		} else {
+			# there is no cache file yet
+			return FALSE;
 		}
 
-      /* isCacheFileExpired: check if cache enabled, if so: */
-		public function isCacheFileExpired(){
-			# get age of cachefile, if there is one...
-      if (file_exists($this->cacheFile)) {
-        $ageOfCachefile = filemtime($this->cacheFile);  # time of last change of cached file
-      } else {
-        # there is no cache file yet
-        return FALSE;
-      }
-
-      # if $ageOfCachefile is < $cacheExpireTime use the cachefile:  isCacheFileExpired = FALSE
-      if ($ageOfCachefile < $this->cacheExpireTime) {
-        return FALSE;
-      } else {
-        return TRUE;
-      }
+		# if $ageOfCachefile is < $cacheExpireTime use the cachefile:  isCacheFileExpired = FALSE
+		if ($ageOfCachefile < $this->cacheExpireTime) {
+			return FALSE;
+		} else {
+			return TRUE;
 		}
+	}
 
     /* storeFeedInCache: store retrieved data in cache */
 	private function storeFeedInCache(){
-		  if (!$this->cacheEnable) {
-        # no use of cache if cache is not enabled or not working
-        return NULL;
-      }
+		if (!$this->cacheEnable) {
+			# no use of cache if cache is not enabled or not working
+			return NULL;
+		}
 	  
-	  $tmpJSON = json_decode($this->feedData, TRUE);
-	  if (is_null($tmpJSON)) {
-		# utf8_encode JSON-datastring, then try json_decode again
-    	$tmpJSON2 =  json_decode(utf8_encode($this->feedData));
-        if (is_null($tmpJSON2)) {
-			# invalid data: do not cache!
-			$this->debugmessage .= "cache-error:<br>".__("feed is not valid JSON - not cached", 'json-content-importer');
-			$this->showdebugmessage( "cache-error:<br>".__("feed is not valid JSON - not cached", 'json-content-importer'));
+		$tmpJSON = json_decode($this->feedData, TRUE);
+		if (is_null($tmpJSON)) {
+			# utf8_encode JSON-datastring, then try json_decode again
+			#$tmpJSON2 =  json_decode(utf8_encode($this->feedData)); #utf8_encode deprecated from PHP 8.2 on
+			$tmpJSON2 =  json_decode(iconv('iso-8859-1', 'utf-8', $this->feedData));
+			if (is_null($tmpJSON2)) {
+				# invalid data: do not cache!
+				#$this->debugmessage .= __("Feed is not valid JSON - not cached", 'json-content-importer')."<br>";
+				#$this->showdebugmessage( __("Feed is not valid JSON - not cached", 'json-content-importer'))."<br>";
+				return "";
+			}
+		}
+	  
+		$handle = fopen($this->cacheFile, 'w');
+		if(isset($handle) && !empty($handle)){
+			$this->cacheWritesuccess = fwrite($handle, $this->feedData); # false if failed
+			fclose($handle);
+			if (!$this->cacheWritesuccess) {
+				$this->debugmessage .= "cache-error:<br>".$this->cacheFile."<br>".__("can't be stored - plugin aborted", 'json-content-importer');
+				$this->showdebugmessage("cache-error:<br>".__("JSON-data can't be stored to", 'json-content-importer').$this->cacheFile);
+				$this->allok = FALSE;
+				return "";
+			} else {
+				$this->showdebugmessage(__("saving JSON-data to cache successful", 'json-content-importer'));
+				return $this->cacheWritesuccess; # no of written bytes
+			}
+		} else {
+			$this->debugmessage .= "cache-error:<br>".$this->cacheFile."<br>".__('is either empty or unwriteable - plugin aborted', 'json-content-importer');
+			$this->showdebugmessage("cache-error:<br>".$this->cacheFile."<br>".__('is either empty or unwriteable - plugin aborted', 'json-content-importer'));
+			$this->allok = FALSE;
 			return "";
 		}
-	  }
-	  
-      $handle = fopen($this->cacheFile, 'w');
-			if(isset($handle) && !empty($handle)){
-				$this->cacheWritesuccess = fwrite($handle, $this->feedData); # false if failed
-				fclose($handle);
-        if (!$this->cacheWritesuccess) {
-          $this->debugmessage .= "cache-error:<br>".$this->cacheFile."<br>".__("can't be stored - plugin aborted", 'json-content-importer');
-          $this->showdebugmessage("cache-error:<br>".__("JSON-data can't be stored to", 'json-content-importer').$this->cacheFile);
-          $this->allok = FALSE;
-          return "";
-        } else {
-          $this->showdebugmessage(__("saving JSON-data to cache successful", 'json-content-importer'));
-          return $this->cacheWritesuccess; # no of written bytes
-        }
-			} else {
-        $this->debugmessage .= "cache-error:<br>".$this->cacheFile."<br>".__('is either empty or unwriteable - plugin aborted', 'json-content-importer');
-        $this->showdebugmessage("cache-error:<br>".$this->cacheFile."<br>".__('is either empty or unwriteable - plugin aborted', 'json-content-importer'));
-        $this->allok = FALSE;
-        return "";
-      }
-		}
+	}
 
 	public function retrieveFeedFromWeb() {
       # wordpress unicodes http://openstates.org/api/v1/bills/?state=dc&q=taxi&apikey=4680b1234b1b4c04a77cdff59c91cfe7;
@@ -292,9 +296,10 @@ class FileLoadWithCache {
       $this->showdebugmessage(__('arguments', 'json-content-importer').": ".print_r($args, TRUE));
 
       $response = wp_remote_get($this->feedUrl, $args);
-	  $respHttpCode = wp_remote_retrieve_response_code($response);
-	  
+	  $this->respHttpCode = wp_remote_retrieve_response_code($response); # gives http-errorcode BUT nothing if request fails completely, e .g. no serveranswer
       if ( is_wp_error( $response ) ) {
+		# server does not answer at all
+		$this->respHttpServerError = $response->get_error_message();
         $error_message = $response->get_error_message();
         $this->errormsg .= __('Something went wrong fetching URL with JSON-data', 'json-content-importer').": $error_message";
         $this->showdebugmessage(__('error getting URL:', 'json-content-importer'). $error_message);
@@ -305,19 +310,26 @@ class FileLoadWithCache {
         $this->showdebugmessage(__('success getting URL', 'json-content-importer'));
 	  }
 		if ($this->fallback2cache>0) {
-			$this->func_fallback2cache($respHttpCode);
+			$this->func_fallback2cache($this->respHttpCode);
     	}
 	}
 
 
-	public function func_fallback2cache($respHttpCode){
+	public function get_respHttpCode(){
+		return $this->respHttpCode;
+	}
+	public function get_respHttpServerError(){
+		return $this->respHttpServerError;
+	}
+	
+	public function func_fallback2cache(){
 		$this->showdebugmessage(__('use fallback2cache', 'json-content-importer').": ".$this->fallback2cache);
 		# use cached JSON, if needed and available:
 		# 1: use cache if http-response is not 200
 		# 2: use cache if response is not JSON
 		# 3: use cache if http-response is not 200 AND not JSON
 		$useCachedJson = FALSE;
-		if ("200"!=$respHttpCode && ("1"==$this->fallback2cache || "3"==$this->fallback2cache)) {
+		if ("200"!=$this->respHttpCode && ("1"==$this->fallback2cache || "3"==$this->fallback2cache)) {
 			$useCachedJson = TRUE;
 		}
 		$jsondecodetmp = json_decode($this->feedData, TRUE);
@@ -329,6 +341,8 @@ class FileLoadWithCache {
 				# use previous generated and as cache stored JSON
 				$this->feedData = file_get_contents($this->cacheFile);
 				$this->showdebugmessage(__('fallback2cache ok: cached JSON found', 'json-content-importer'));
+				$this->respHttpServerError = "";
+				$this->respHttpCode = "200";
 				$this->allok = TRUE;
 			} else {
 				$this->showdebugmessage(__('fallback2cache failed: no cached JSON found', 'json-content-importer'));
@@ -338,13 +352,17 @@ class FileLoadWithCache {
 
 
     /* retrieveFeedFromCache: get cached filedata  */
-		public function retrieveFeedFromCache(){
-			if(file_exists($this->cacheFile)) {
-        $this->feedData = file_get_contents($this->cacheFile);
-      } else {
-        # get from cache failed, try from web
-        $this->retrieveFeedFromWeb();
-      }
+	public function retrieveFeedFromCache(){
+		if(file_exists($this->cacheFile)) {
+			$this->feedData = file_get_contents($this->cacheFile);
+			$this->respHttpServerError = "";
+			$this->respHttpCode = "200";
+			$this->showdebugmessage("Retrieved from the local cache: ".$this->feedUrl);
+		} else {
+			# get from cache failed, try from web
+			$this->retrieveFeedFromWeb();
+			$this->showdebugmessage("Failed to retrieved from the local cache: ".$this->feedUrl);
 		}
+	}
 }
 ?>

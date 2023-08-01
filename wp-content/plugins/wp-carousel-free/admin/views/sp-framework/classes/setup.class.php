@@ -131,12 +131,27 @@ if ( ! class_exists( 'SP_WPCF' ) ) {
 			// Init action.
 			do_action( 'wpcf_init' );
 
+			self::set_locale();
+
 			add_action( 'after_setup_theme', array( 'SP_WPCF', 'setup' ) );
 			add_action( 'init', array( 'SP_WPCF', 'setup' ) );
 			add_action( 'switch_theme', array( 'SP_WPCF', 'setup' ) );
 			add_action( 'admin_enqueue_scripts', array( 'SP_WPCF', 'add_admin_enqueue_scripts' ) );
 		}
 
+		/**
+		 * Define the locale for this plugin for internationalization.
+		 *
+		 * Uses the WP_Carousel_Free_I18n class in order to set the domain and to register the hook
+		 * with WordPress.
+		 *
+		 * @since  2.0.0
+		 */
+		public static function set_locale() {
+			include_once WPCAROUSELF_INCLUDES . '/class-wp-carousel-free-i18n.php';
+			$plugin_i18n = new WP_Carousel_Free_I18n();
+			$plugin_i18n->load_plugin_textdomain();
+		}
 		/**
 		 * Setup frameworks
 		 *

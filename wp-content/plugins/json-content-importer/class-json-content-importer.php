@@ -20,7 +20,7 @@ class JsonContentImporter {
     private $debugmode = 0; # 10: show ebug-messages
     private $oneofthesewordsmustbein = ""; # optional: one of these ","-separated words have to be in the created html-code
     private $oneofthesewordsmustbeindepth = 1; # optional: one of these ","-separated words have to be in the created html-code
-    private $oneofthesewordsmustnotbeIn = ""; # optional: one of these ","-separated words must NOT in the created html-code
+    private $oneofthesewordsmustnotbein = ""; # optional: one of these ","-separated words must NOT in the created html-code
     private $oneofthesewordsmustnotbeindepth = 1; # optional: one of these ","-separated words must NOT to in the created html-code
 
     /* plugin settings */
@@ -28,6 +28,7 @@ class JsonContentImporter {
  
     /* internal */
 	private $cacheFile = "";
+	private $cacheEnable = FALSE;
 	private $jsondata;
 	private $feedData  = "";
  	private $cacheFolder;
@@ -60,11 +61,11 @@ class JsonContentImporter {
     
     /* shortcodeExecute: read shortcode-params and check cache */
 		public function shortcodeExecute($atts , $content = ""){
-			
-      extract(shortcode_atts(array(
+		/*		
+		extract(shortcode_atts(array(
         'url' => '',
-        'urlgettimeout' => '',
-        'numberofdisplayeditems' => '',
+        'urlgettimeout' => 5,
+        'numberofdisplayeditems' => -1,
         'oneofthesewordsmustbein' => '',
         'oneofthesewordsmustbeindepth' => '',
         'oneofthesewordsmustnotbein' => '',
@@ -76,15 +77,47 @@ class JsonContentImporter {
         'nojsonvalue' => '',
         'trytorepairjson' => 0,
       ), $atts));
+	  */
+
+       $attsIn = shortcode_atts(array(
+        'url' => '',
+        'urlgettimeout' => '',
+        'numberofdisplayeditems' => '',
+        'oneofthesewordsmustbein' => '',
+        'oneofthesewordsmustbeindepth' => '',
+        'oneofthesewordsmustnotbein' => '',
+        'oneofthesewordsmustnotbeindepth' => '',
+        'basenode' => 'k',
+        'fallback2cache' => 0,
+        'debugmode' => '',
+        'removewrappingsquarebrackets' => '',
+        'nojsonvalue' => '',
+        'trytorepairjson' => 0,
+      ), $atts);
+	  
+		$url = $attsIn["url"] ?? "";
+		$basenode = $attsIn["basenode"];
+	    $urlgettimeout = $attsIn["urlgettimeout"]  ?? 5;
+        $numberofdisplayeditems = $attsIn["numberofdisplayeditems"] ?? -1;
+        $oneofthesewordsmustbein = $attsIn["oneofthesewordsmustbein"] ?? "";
+        $oneofthesewordsmustbeindepth = $attsIn["oneofthesewordsmustbeindepth"] ?? "";
+        $oneofthesewordsmustnotbein = $attsIn["oneofthesewordsmustnotbein"] ?? "";
+        $oneofthesewordsmustnotbeindepth = $attsIn["oneofthesewordsmustnotbeindepth"] ?? "";
+        $basenode = $attsIn["basenode"] ?? "";
+        $fallback2cache = $attsIn["fallback2cache"] ?? 0;
+        $debugmode = $attsIn["debugmode"] ?? "";
+        $removewrappingsquarebrackets = $attsIn["removewrappingsquarebrackets"] ?? "";
+        $nojsonvalue = $attsIn["nojsonvalue"] ?? "";
+        $trytorepairjson = $attsIn["trytorepairjson"] ?? 0;
 
       if ($debugmode==10) {
         $this->debugmode = $debugmode;
       }
       
       $this->feedUrl = $this->removeInvalidQuotes($url);
-      $this->oneofthesewordsmustbein = $this->removeInvalidQuotes($oneofthesewordsmustbein);
+      $this->oneofthesewordsmustbein = $this->removeInvalidQuotes( ($oneofthesewordsmustbein ?? "") );
       $this->oneofthesewordsmustbeindepth = $this->removeInvalidQuotes($oneofthesewordsmustbeindepth);
-      $this->oneofthesewordsmustnotbein = $this->removeInvalidQuotes($oneofthesewordsmustnotbein);
+      $this->oneofthesewordsmustnotbein = $this->removeInvalidQuotes( ($oneofthesewordsmustnotbein ?? "") ) ?? "";
       $this->oneofthesewordsmustnotbeindepth = $this->removeInvalidQuotes($oneofthesewordsmustnotbeindepth);
 	  
 		if ("y" == $nojsonvalue) {
@@ -108,13 +141,16 @@ class JsonContentImporter {
 	  }
 	  
       /* caching or not? */
+	  /*
       if (
           (!class_exists('FileLoadWithCache'))
           || (!class_exists('JSONdecode'))
-      ) {
+		 ) {
         require_once plugin_dir_path( __FILE__ ) . '/class-fileload-cache.php';
       }
-	
+ 	*/
+    require_once plugin_dir_path( __FILE__ ) . '/class-fileload-cache.php';
+
     $this->cacheFolder = WP_CONTENT_DIR.'/cache/jsoncontentimporter/';
     # cachefolder ok: set cachefile
 	$this->cacheFile = $this->cacheFolder . sanitize_file_name(md5($this->feedUrl)) . ".cgi";  # cache json-feed

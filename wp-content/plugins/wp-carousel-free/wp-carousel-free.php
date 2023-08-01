@@ -9,7 +9,7 @@
  * Plugin Name:       WP Carousel
  * Plugin URI:        https://wordpresscarousel.com/
  * Description:       The most powerful and user-friendly carousel, slider, and gallery plugin for WordPress. Create unlimited beautiful carousels, sliders, and galleries in minutes using images, posts, WooCommerce products, etc.
- * Version:           2.5.7
+ * Version:           2.5.8
  * Author:            ShapedPlugin LLC
  * Author URI:        https://shapedplugin.com/
  * License:           GPL-2.0+
@@ -17,7 +17,7 @@
  * Text Domain:       wp-carousel-free
  * Domain Path:       /languages
  * WC requires at least: 4.0
- * WC tested up to: 7.7.2
+ * WC tested up to: 7.9.0
  */
 
 // If this file is called directly, abort.
@@ -119,11 +119,10 @@ class SP_WP_Carousel_Free {
 	 */
 	public function setup() {
 		$this->plugin_name = 'wp-carousel-free';
-		$this->version     = '2.5.7';
+		$this->version     = '2.5.8';
 		$this->define_constants();
 		$this->includes();
 		$this->load_dependencies();
-		$this->set_locale();
 		$this->define_common_hooks();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
@@ -174,7 +173,6 @@ class SP_WP_Carousel_Free {
 		include_once WPCAROUSELF_INCLUDES . '/class-wp-carousel-free-shortcode.php';
 		include_once WPCAROUSELF_INCLUDES . '/class-wp-carousel-free-import-export.php';
 		include_once WPCAROUSELF_PATH . '/public/shortcode-deprecated.php';
-		include_once WPCAROUSELF_INCLUDES . '/class-wp-carousel-free-i18n.php';
 		include_once WPCAROUSELF_PATH . '/public/WPCF_Helper.php';
 		include_once WPCAROUSELF_PATH . '/public/class-wp-carousel-free-public.php';
 		include_once WPCAROUSELF_PATH . '/admin/class-wp-carousel-free-admin.php';
@@ -205,19 +203,6 @@ class SP_WP_Carousel_Free {
 		$this->loader = new WP_Carousel_Free_Loader();
 	}
 
-	/**
-	 * Define the locale for this plugin for internationalization.
-	 *
-	 * Uses the WP_Carousel_Free_I18n class in order to set the domain and to register the hook
-	 * with WordPress.
-	 *
-	 * @since  2.0.0
-	 * @access private
-	 */
-	private function set_locale() {
-		$plugin_i18n = new WP_Carousel_Free_I18n();
-		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
-	}
 
 	/**
 	 * Register common hooks.
@@ -252,6 +237,7 @@ class SP_WP_Carousel_Free {
 		$this->loader->add_filter( 'plugin_row_meta', $plugin_admin, 'plugin_row_meta', 10, 2 );
 		$this->loader->add_filter( 'admin_footer_text', $plugin_admin, 'sp_wpcp_review_text', 10, 2 );
 		$this->loader->add_action( 'activated_plugin', $plugin_admin, 'sp_wpcf_redirect_after_activation', 10, 2 );
+		$this->loader->add_action( 'before_woocommerce_init', $plugin_admin, 'declare_compatibility_with_woo_hpos_feature' );
 
 		// Export and Import ajax call.
 		$import_export = new Wp_Carousel_Free_Import_Export( $this->get_plugin_name(), $this->get_version() );

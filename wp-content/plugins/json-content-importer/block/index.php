@@ -1,6 +1,6 @@
 <?php
 /*
- * : JCI FREE 20201225
+ * : JCI FREE 20230725
  */
  
 add_action( 'init', 'jsoncontentimporterGutenbergBlock' );
@@ -44,52 +44,66 @@ function checkCacheFolder($cacheBaseFolder, $cacheFolder) {
 		 if (trim($value)=="") {
 			 return "";
 		 }
-		 $asc = $key.'='.$value;
-		 $asc .= " ";
+		 $asc = " ".$key.'="'.$value.'"';
+		 #$asc .= " ";
 		 return $asc;
 	 }
 
 
  function jci_free_render( $attributes, $content ) {
-	 $out = "";
-	 #$out .= "att: ".$attributes{'apiURL'}."<br>";
-	 #return $out;
-	 
+	$attributes['template'] = preg_replace("/#GT#/", ">", $attributes['template']);	
+	$attributes['template'] = preg_replace("/#LT#/", "<", $attributes['template']);	
 	 $debugmode = 0;
 	 $debugmsg = '';
 	 $example_out_text = '';
 	 $example_url = '/json-content-importer/json/gutenbergblockexample1.json';
-	 if (""==$attributes['template']) {
-		 $exampleTemplate = 'start: {start}<br>
-			 {subloop-array:level2:-1}
-			 level2: {level2.key}
-			 <br>{subloop:level2.data:-1}
-			 id: {level2.data.id}, type: {level2.data.type}<br>
-			 {/subloop:level2.data}
-			 {/subloop-array:level2}
+		 $exampleTemplate = 'hello: {hello}<br>
+			{exampledate}: {exampledate:datetime,"d.m.Y, H:i:s",0}<br>
+			{exampletimestamp}: {exampletimestamp:datetime,"d.m.Y, H:i:s",10}<br>	
+			{subloop:level1:-1}
+			start: {level1.start}<br>			
+			{subloop-array:level1.level2:-1}
+			level2: {level1.level2.key}
+			<br>{subloop:level1.level2.data:-1}
+			id: {level1.level2.data.id}, type: {level1.level2.data.type}<br>
+			{/subloop:level1.level2.data}
+			{/subloop-array:level1.level2}
+			{/subloop:level1}
 		 ';
 		 $exampleTemplate = str_replace ( "{" , "&#123;" ,$exampleTemplate);
 		 $exampleTemplate = str_replace ( "}" , "&#125;" ,$exampleTemplate);
 		 $exampleTemplate = str_replace ( "<" , "&lt;" ,$exampleTemplate);
 		 $exampleTemplate = str_replace ( ">" , "&gt;" ,$exampleTemplate);
+	 if (""==$attributes['template']) {
 		 $attributes['template'] = '<b>'.__('Empty template: Add some text!', 'json-content-importer').'</b><br>
 			 '.__('For the example copypaste this to the right Template box', 'json-content-importer').':<br>'.$exampleTemplate;			
 	 }
 	 if ('e1'==trim($attributes['apiURL'])) {
 		 $attributes['apiURL'] = $example_url;
 	 }
+
 	 if ($example_url==trim($attributes['apiURL'])) {
 		 $attributes['apiURL'] = WP_PLUGIN_URL.$example_url;
-		 $example_out_text = __('Welcome!', 'json-content-importer').'<br><b>'.__('Click on this block', 'json-content-importer').'</b> '.__('and you see on the right side  the Gutenberg-Block settings of the "JSON Content Importer Gutenberg Block". Yet there is an example to show how it works. The Example-URL is', 'json-content-importer').'<br><a href="'.$attributes['apiURL'].'" target="_blank">'.$attributes['apiURL'].'</a><br> 
-	 '.__('Some settings show you how the JSON-parser and display works.
-	 The example-template is (try to change it on the right)', 'json-content-importer').':<br><code>'.htmlentities($attributes['template']).'</code><hr>'.__('The result of combining JSON and this template gives us the output. Use this example to experiment', 'json-content-importer').': <b>'.__('Type "level1" in the right basenode-field, please. This will change the output as now the JSON and the template fit together (without not...)', 'json-content-importer').'</b>
-	 <br>'.__('You may also open the lower right "<b>JCI Advanced</b>"-section. Insert at "One of these words must be displayed:" the word "bb". And at "JSON-depth of the above displayed Words:" the number 3. Do you see the difference at once?', 'json-content-importer').'
-	 <hr>';
 	 } 
+	$example_out_text ="<h4>". __('Warm welcome! Here you can get to know JCI by trying it out.', 'json-content-importer').'</h4>'.
+			__('To the right of this text, you should see the block settings. If not, just click on this text here.', 'json-content-importer').'<br>'.
+			__('The block of the free JCI plugin includes this example: With it, you can familiarize yourself with the JCI plugin.', 'json-content-importer')."<br>".
+			__('On the right side, a sample URL is automatically inserted:', 'json-content-importer').
+			'<br><a href="'.$example_url.'" target="_blank">'.$example_url.'</a><br>'.
+			__('Similarly, a sample template that matches the JSON delivered by the sample URL is entered in the template box (edit it in the template box)', 'json-content-importer').':<br><code>'.$exampleTemplate.'</code><hr>'.
+			__('By merging the JSON and this template, we obtain the output. Feel free to experiment with this example.', 'json-content-importer').'<br>'.
+			"<b>".__('By clicking on "Create JCI-Template for JSON", the template is automatically regenerated based on the JSON.', 'json-content-importer').'</b><hr>'.
+			"<b>".__('Here\'s a suggestion: Please insert "level1" into the basenode field.', 'json-content-importer')."</b><br>".
+			__('You will notice a change in the output, as the JSON and the template will no longer align.', 'json-content-importer')."<br>".
+			__('The "basenode" value indicates the point from which to begin utilizing the JSON.', 'json-content-importer')."<br>".
+			__('Therefore, we need another template. By selecting "Create JCI-Template for JSON", such a template will be created and populated into the template box. Then, by hitting "Try template", the JSON (starting from the node) and the newly created template will be merged and displayed.', 'json-content-importer').
+			'<hr><b>'.__('You may also open the lower right "JCI Advanced"-section.', 'json-content-importer')."</b><br>".
+			__('Enter "bb" in the field labeled "One of these words must be displayed:" and input the number "3" into the field for "JSON-depth of the above displayed Words:". Can you immediately spot the difference?', 'json-content-importer').
+			'<hr>';
 	 
-	 if (1!=trim($attributes['toggleswitchexample'])) {
+	if (1!=trim($attributes['toggleswitchexample'])) {
 		 $example_out_text = '';
-	 }
+	}
 	 
 	 $oneofthesewordsmustbeindepth = checkIntAttrib(($attributes['oneofthesewordsmustbeindepth'] ?? ''), "");
 	 $oneofthesewordsmustnotbeindepth = checkIntAttrib(($attributes['oneofthesewordsmustnotbeindepth'] ?? ''), "");
@@ -97,10 +111,12 @@ function checkCacheFolder($cacheBaseFolder, $cacheFolder) {
 	 $oneofthesewordsmustnotbein = $attributes['oneofthesewordsmustnotbein'] ?? '';		
 	 $basenode = $attributes['basenode'] ?? '';;
 
-	 $debugmode = 0 ?? 0;
-	 if (1==$attributes['toggleswitch']) {
-		 $debugmode = 10;
-	 }
+	$debugmode = 0 ?? 0;
+	$debugheadline = "";
+	if (1==$attributes['toggleswitch']) {
+		$debugmode = 10;
+		$debugheadline = "<b>".__('Debug Info:', 'json-content-importer')."</b><br>";
+	}
 	 
 	 $urlgettimeout = checkIntAttrib(($attributes['urlgettimeout'] ?? ''), 5) ?? '';
 	 $numberofdisplayeditems = checkIntAttrib(($attributes['numberofdisplayeditems'] ?? ''), -1) ?? '';
@@ -146,7 +162,7 @@ function checkCacheFolder($cacheBaseFolder, $cacheFolder) {
 	 ## plugin-option END
 
 	 #$out = "att: ".$attributes['apiURL']."<br>";
-	 $out .= $example_out_text;
+	 
 	 
 	 if(!class_exists('FileLoadWithCache')){
 		 require_once plugin_dir_path( __FILE__ ) . '../class-fileload-cache.php';
@@ -157,28 +173,73 @@ function checkCacheFolder($cacheBaseFolder, $cacheFolder) {
 			 update_option('jci_api_errorhandling', 0);
 		 }
 
-	 $fileLoadWithCacheObj = new FileLoadWithCache($feedUrl, $urlgettimeout, $cacheEnable, $cacheFile,
+	$fileLoadWithCacheObj = new FileLoadWithCache($feedUrl, $urlgettimeout, $cacheEnable, $cacheFile,
 		 $cacheExpireTime, $pluginOption_oauthBearerAccessKey, $pluginOption_httpHeaderDefaultUseragentFlag, $debugmode, $pluginOption_jci_api_errorhandling);
-	 $fileLoadWithCacheObj->retrieveJsonData();
-	 $feedData = $fileLoadWithCacheObj->getFeeddata();
-	 $debugmsg .= $fileLoadWithCacheObj->getdebugmessage();
+	
+	$fileLoadWithCacheObj->retrieveJsonData();
+	$feedData = $fileLoadWithCacheObj->getFeeddata();
+	$debugmsg .= $fileLoadWithCacheObj->getdebugmessage();
+	
+	## error-handling
+	# server does not answer
+	$respHttpServerError = $fileLoadWithCacheObj->get_respHttpServerError();
+	if (""!=$respHttpServerError) {
+		$errormsg = __('API-Server does not answer', 'json-content-importer').':<br><b>'.
+			$respHttpServerError.
+			'</b><br>'.
+			__('Please check the API URL in the block!', 'json-content-importer');
+		   return $debugmsg.$errormsg;
+	}
+	
+	# server anserwes, but not with 200-OK
+	$respHttpCode = $fileLoadWithCacheObj->get_respHttpCode();
+	if ("200"!=$respHttpCode) {
+		$httpr = Array();
+		$httpr[301] = "301 Moved Permanently - change the API-URL!";
+		$httpr[302] = "302 Found - Previously Moved temporarily - change the API-URL!";
+		$httpr[400] = "400 Bad Reques - Check what the API expects!";
+		$httpr[401] = "401 Unauthorized (RFC 7235) - Check what the API expects!";
+		$httpr[403] = "403 Forbidden - Check what the API expects!";
+		$httpr[404] = "404 Not Found - Check API-URL!";
+		$httpr[405] = "405 Method Not Allowed  - Check what the API expects!";
+		$httpr[500] = "500 Internal Server Error - Check the API, this error happens at the API server";
+		$respHttpCodeMessage = $respHttpCode;
+		if (""!=$httpr[$respHttpCode]) {
+			$respHttpCodeMessage = $httpr[$respHttpCode];
+		}
+
+		$debugmsg .= __('API-Server does answer, but with an error-message', 'json-content-importer').':<br><b>'.
+			#"respHttpCode: ".$respHttpCode."--".
+			$respHttpCodeMessage.
+			'</b><br>';
+		#return $debugmsg;  # if an API gives a non-200-answer may there is JSON in the answer
+	}
 
 	 if (""==$feedData) {
-		 $errormsg = __('EMPTY api-answer: No JSON received - is the API down?', 'json-content-importer').'<br><b>'.__('Check the API-URL in the Block-Settings, please.', 'json-content-importer').'</b><br>
-		 Use "/json-content-importer/json/gutenbergblockexample1.json" '.__('as example. You might switch on the debugmode on the right side.', 'json-content-importer');
+		 # empty API answer
+		 $errormsg = __('Invalid API answer: Empty answer, no JSON received.', 'json-content-importer').'<br><b>'.
+			__('Check the API-URL in the Block-Settings, please.', 'json-content-importer').
+			'</b><br>'.
+			__('Use', 'json-content-importer').
+			" "."/json-content-importer/json/gutenbergblockexample1.json".
+			" ".__('as example. You might switch on the debugmode on the right side.', 'json-content-importer');
 		 
-		 $rdamtmp = $debugmsg;
-		   return $debugmsg.$errormsg;
+		$rdamtmp = $debugmsg;
+		return $debugmsg.$errormsg;
 	 }
 	 
 	 # template
 	 $datastructure = $attributes['template'];
 	 
 	 ## shortcode builder BEGIN
-	 $shortcodeData = '[jsoncontentimporter url='.$feedUrl.' ';
-	 $shortcodeData .= addShortcodeParam('numberofdisplayeditems', $numberofdisplayeditems);
+	 $shortcodeData = '[jsoncontentimporter url="'.$feedUrl.'"';
+	 if ($numberofdisplayeditems!=-1) {
+		$shortcodeData .= addShortcodeParam('numberofdisplayeditems', $numberofdisplayeditems);
+	 }
 	 $shortcodeData .= addShortcodeParam('basenode', $basenode);
-	 $shortcodeData .= addShortcodeParam('urlgettimeout', $urlgettimeout);
+	 if ($urlgettimeout!=5) {
+		$shortcodeData .= addShortcodeParam('urlgettimeout', $urlgettimeout);
+	 }
 	 $shortcodeData .= addShortcodeParam('debugmode', $debugmode);
 	 $shortcodeData .= addShortcodeParam('oneofthesewordsmustbein', $oneofthesewordsmustbein);
 	 $shortcodeData .= addShortcodeParam('oneofthesewordsmustbeindepth', $oneofthesewordsmustbeindepth);
@@ -187,16 +248,30 @@ function checkCacheFolder($cacheBaseFolder, $cacheFolder) {
 	 $shortcodeData .= ']'.$datastructure.'[/jsoncontentimporter]';
 	 $debugmsg .= add2Debug($debugmode, 
 		 buildDebugTextarea(
-			 __('If you use Wordpress without Gutenberg, you can use this Shortcode (copy with Strg+A, paste to TEXT-editor!)', 'json-content-importer').":", 
+			 __('If you want to use the WP-Shortcode: CopyPaste this Shortcode in the Shortcode-Block or the Wordpress-TEXT-editor!', 'json-content-importer'), 
 			 $shortcodeData));
 	 ## shortcode builder END
 	 
 	 $inspurl = "https://jsoneditoronline.org";
 	 $debugmsg .= add2Debug($debugmode, 
-		 buildDebugTextarea(__('api-answer', 'json-content-importer').":<br>".__('Inspect JSON: Copypaste (click in box, Strg-A marks all, then insert into clipboard) the JSON from the following box to', 'json-content-importer')." <a href=\"".$inspurl."\" target=_blank>https://jsoneditoronline.org</a>):", $feedData));
+		 buildDebugTextarea(__('API answer', 'json-content-importer').":<br>".__('Inspect JSON: Copypaste (click in box, Strg-A marks all, then insert into clipboard) the JSON from the following box to', 'json-content-importer')." <a href=\"".$inspurl."\" target=_blank>https://jsoneditoronline.org</a>", $feedData));
 
 	 $jsonDecodeObj = new JSONdecode($feedData);
 	 $jsonObj = $jsonDecodeObj->getJsondata();
+	 
+	 $showjson = "";
+	if (1==trim($attributes['toggleswitchjson'])) {
+		$jsonout = json_encode($jsonObj, JSON_PRETTY_PRINT);
+		if (is_null($jsonObj)) {
+			$shlen = 300;
+			$feedDataShort = substr(htmlentities($feedData), 0, $shlen)."...";
+			$showjson = '<h4>API answered with an Errorcode:</h4><b>'.$respHttpCodeMessage.'</b><br>API answer (no valid JSON, first '.$shlen.' chars):<br><pre style="background-color:#eee;">'.$feedDataShort."</pre>";
+		} else {
+			$showjson = '<h4>JSON received from the API:</h4><pre style="background-color:#eee;">'.htmlentities(json_encode($jsonObj, JSON_PRETTY_PRINT))."</pre>";
+		}
+	}
+	 $out = $showjson.$example_out_text.$debugheadline;
+	 
 
 	 # debug info template
 	 $debugmsg .= add2Debug($debugmode, buildDebugTextarea(__('template', 'json-content-importer').":", $datastructure));
@@ -221,7 +296,7 @@ function checkCacheFolder($cacheBaseFolder, $cacheFolder) {
 		 $out .= $debugmsg;
 		 return $out;
 	 }
-	 $debugmsg .= add2Debug($debugmode, $out_pluginSettings."<hr><b>".__('the real result', 'json-content-importer').":</b><br>");
+	 $debugmsg .= add2Debug($debugmode, $out_pluginSettings."<hr><b>".__('The merged JSON and template', 'json-content-importer').":</b><br>");
 	 $out .= $debugmsg."\n".$rdam;
 
 	 ## the magic ends ;-)
@@ -274,12 +349,11 @@ function checkIntAttrib($value, $defaultvalue) {
  }
 
 function jsoncontentimporterGutenbergBlock() {
-
 	wp_register_script(
 		'jcifree-block-script', 
-		plugins_url( 'jcifree-block.js', __FILE__ ),
+		plugins_url( 'jcifree-block.php', __FILE__ ),
 		array( 'wp-blocks', 'wp-element', 'wp-i18n', 'wp-editor', 'wp-components'),
-		filemtime( plugin_dir_path(__FILE__).'jcifree-block.js')
+		filemtime( plugin_dir_path(__FILE__).'jcifree-block.php')
 	);
 	if (is_admin()) {
 		wp_enqueue_script('jcifree-block-script');
@@ -315,6 +389,10 @@ function jsoncontentimporterGutenbergBlock() {
 				'toggleswitchexample'	 => array(
 					'type' => 'boolean',
 					'default' => true,
+				),
+				'toggleswitchjson'	 => array(
+					'type' => 'boolean',
+					'default' => false,
 				),
 				//'m1'	 => array(
 				//	'type' => 'string',

@@ -22,6 +22,7 @@ class JsonContentParser123 {
     private $oneOfTheseWordsMustNotBeIn = "";
     private $oneOfTheseWordsMustNotBeInDepth = 1;
     private $errormsg = "";
+    private $output = "";
 
     /* internal */
     private $showDebugMessages = FALSE; # set TRUE in constructor for debugging
@@ -68,7 +69,7 @@ class JsonContentParser123 {
           } else if (is_array($jsonTree)){
            foreach($jsonTree as $jsonTreekey => $jsonTreeval) {
               if (is_object($jsonTreeval)) {
-                $test = $jsonTree[$jsonTreekey]->$val;
+                $test = ($jsonTree[$jsonTreekey]->$val) ?? null;
                 if (!is_null($test)) {
                   $jsonTree1 = $jsonTree[$jsonTreekey];
                 }

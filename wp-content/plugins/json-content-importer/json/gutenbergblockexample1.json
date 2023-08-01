@@ -1,4 +1,7 @@
-{ 
+{ "hello": "world",
+    "exampledate" : "Wednesday, July 19, 2023",
+    "exampletimestamp" : "1630485600",
+    "listofitems" : ["one", "two", "three", "four"],
   "level1": {
   "start": "Very good, this is the value of 'start', right out of the JSON-data",
   "level2": [

@@ -215,4 +215,17 @@ class WP_Carousel_Free_Admin {
 			exit( esc_url( wp_safe_redirect( admin_url( 'edit.php?post_type=sp_wp_carousel&page=wpcf_help' ) ) ) );
 		}
 	}
+
+	/**
+	 * Declare the compatibility of WooCommerce High-Performance Order Storage (HPOS) feature.
+	 *
+	 * @since 2.5.7
+	 *
+	 * @return void
+	 */
+	public function declare_compatibility_with_woo_hpos_feature() {
+		if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', 'wp-carousel-free/wp-carousel-free.php', true );
+		}
+	}
 }

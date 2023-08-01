@@ -1,43 +1,92 @@
-=== JSON Content Importer ===
+=== Get Use APIs - JSON Content Importer ===
 Contributors: berkux
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=APWXWK3DF2E22
-Tags: json,api,gutenberg,block,webservice,twig,livedata,connect,template,content,opendata,parser,application
-Requires at least: 6.0
-Tested up to: 6.2.2
+Tags: json, api, external api, endpoint, rest, rest api, block, template generator
+Requires at least: 5.0
 Requires PHP: 7.0
-Stable tag: 1.3.17
+Tested up to: 6.2.2
+Stable tag: 1.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Plugin to import, cache and display a JSON-Feed / JSON-API: Connect your Wordpress to an API / Webservice and display live JSON-data.
-
+Effortlessly integrate WordPress with external APIs. Easily get data from APIs and showcase API data through a Shortcode or a JCI Block. Generate a template with the JCI Block. Bridging WordPress with APIs has never been this simple.
 
 == Description ==
 
-= Display live data from a JSON-feed / API on your wordpress-site! =
-Grab JSON from an URL and convert it to HTML on a Wordpress-Page
+The simplest method to link WordPress with external APIs
 
-= JSON Content Importer - API- and Webservice-Connector - Powerful and Simple JSON-Import Plugin: =
-* Use a templateengine to display the data from an JSON-Feed.
-* Define the url of the JSON-Feed, a template for it and other options like number of displayed items, cachetime etc..
-* Cacher with new Option: If a http-API request fails, you can use the maybe cached JSON. Set the radio-button in the plugins settings: what API-problem should be handled how (either a non valid API-http-response or a non JSON-API-response - or both). By default for backwards-compatibility this is switched off. Recommendation: Switch on the plugins-cacher (e. g. some minutes) and select the radiobutton for "If the API-http-answercode is not 200 OR sends invalid JSON: try to use cached JSON" in the plugins options.    
-* The templateengine inserts the JSON-data in the template.
-* You can either use this as wordpress-shortcode inside a page - whereby some extras like urlencoding can be invoked.
-* Or use the Gutenberg Mode: Then you don't have the hassle to put an shortcode together, test it and change it. With a Gutenberg-Block you can test it in realtime and create a shortcode (if you want to stay with shortcodes).
+JCI simplifies the task of retrieving data from a third-party REST API. The returned data can be neatly arranged and showcased on your WordPress site via a shortcode or a JCI Block. Generate a template with the JCI Block.
 
-= How to start and help =
-* [2 Steps using this plugin, plus: examples and the PRO-Version](http://json-content-importer.com/support/faq/ "Step 1 and 2 using this plugin, plus: examples and the PRO-Version").
+https://www.youtube.com/watch?v=t3m0PmNyOHI
+
+### Examples, Preview
+
+Check out the live demonstration to explore how we're interfacing with various APIs
+[LIVE PREVIEW - WordPress and a external API](https://api.json-content-importer.com/free-jci-plugin-example/wetter/)
+
+[Video: How to use the Wikipedia API](https://www.youtube.com/watch?v=GJGBPvaKZsk)
+
+### Main Plugin Features
+
+* Low code usage: Save time and avoid coding using an API
+* Insert an API-URL into the JCI Block: Data is loaded, and a template can be generated to display the data.
+* Easy to start: Check Installation - Is your WordPress ready for JCI? Most probably!
+* Basic Settings: Check SSL, Cacher, Gutenberg and Authentication
+* Use the JCI cacher to avoid many API requests
+* Step 1: Use the simple JCI Block interface to get data! Query the API and check the response.
+* Step 2: Utilize the simple template generator inside the JCI Block to use the data!
+
+### Documentation
+
+There's a wealth of resources and support at your fingertips. Explore the articles listed below to begin your journey:
+
+* [JCI Manual](https://doc.json-content-importer.com/)
+* [Step 1: Access the Data](https://doc.json-content-importer.com/json-content-importer/step-1-data-access/)
+* [Step 2: Using the Data](https://doc.json-content-importer.com/json-content-importer/step-2-data-usage/)
+* [Shortcode – Basic structure](https://doc.json-content-importer.com/json-content-importer/shortcode-basic-structure/)
+* [Free JCI Plugin: Overview Videos](https://doc.json-content-importer.com/json-content-importer/free-overview-videos/)
+* [Free JCI Plugin: Getting Started](https://doc.json-content-importer.com/json-content-importer/basic-start/)
+
+### You need more?
+
+= JSON Content Importer PRO =
+Both the free and PRO JCI Plugins serve the same purpose: retrieving data, transforming it, and publishing the results.
+However, while the free Plugin can only handle basic challenges, the PRO JCI Plugin offers nearly full control over WordPress, the database, and applications.
+[Compare: Free vs. JCI PRO Plugin](https://json-content-importer.com/compare/)
+
+PRO features:
+* application building by creating a searchform and connect it to a JSON-API in the background: pass GET-Variables to use a dynamic JSON-Feed-URL ("talk to API / webservice")
+* much better and more flexible templateengine: twig
+* create and use Custom Post Types
+* store Templates independent of pages
+* more Shortcode-Parameters
+* executing Shortcodes inside a template
+* more features...
+
+== Frequently Asked Questions ==
+
+= Help! I need more information! =
+[Check the JCI manual, please](https://doc.json-content-importer.com)
+
+= Where to start?
+Give it a try: The JCI plugin's block comes with a simple, easy-to-understand example. This lets you learn how JCI works without any risk.
+
+= What does this plugin do? =
+This plugin enables you to insert a WordPress shortcode or a Gutenberg Block within any page, post, or Custom Post Type (CPT). This facilitates the retrieval of data from an API, which you can then manipulate, such as converting it to HTML for display purposes.
+Connecting an API to WordPress offers enhanced content management, extended functionality, personalization and scalability. It enables real-time data display, third-party service integration, and process automation, making your website dynamic and powerful.
+The plugin parses almost any JSON-feed and allows you to display all data on your website: Import data from an API or Webservice to display it on your website.
+
+= How can I make sure the plugin works? =
+Select the 'JSON Content Importer' option from the Admin Menu. Upon doing so, you'll be presented with various tabs, one of which is labeled 'Check Installation.' Ensure all the tests conducted here are successfully passed for the optimal functioning of the plugin.
+Then use the Shortcodes from Tab "Step 1: Get data" and if successful "Step 2: Use data". If that does not work, check Tab "Support".
+
+= Where is this plugin from? =
+This plugin is made in munich, bavaria, germany!
+Famous for Oktoberfest, FC Bayern Munich, AllianzArena, TUM, BMW, Siemens, seas, mountains and much more...
 
 
-= How to example of using the plugin =
-
-[youtube https://www.youtube.com/watch?v=GJGBPvaKZsk]
-
-[youtube https://www.youtube.com/watch?v=t3m0PmNyOHI]
-
-Basic structure of the Shortcode:
+### Basic structure of a JCI Shortcode (use the JCI Block to generate such a shortcode and a template):
+= Shortcode =
 '[jsoncontentimporter
-
 * url="http://...json"
 * numberofdisplayeditems="number: how many items of level 1 should be displayed? display all: leave empty or set -1"
 * urlgettimeout="number: who many seconds for loading url till timeout?"
@@ -67,78 +116,26 @@ the other is "{subloop:AAAA.image:10}" where "AAAA.image" is the path to an obje
 * "{street:ifNotEmptyAddLeft:,}": If datafield "street" is not empty, add "," left of datafield-value. allowed chars are: "a-zA-Z0-9,;_-:&lt;&gt;/ "
 * "{locationname:urlencode}": Insert the php-urlencoded value of the datafield "locationname". Needed when building URLs
 
-
-= JSON Content Importer PRO =
-This free version of "JSON Content Importer" can put together many JSON-Feeds and is flexible with it's template-engine. But sometimes you might need more:
-
-* application building by creating a searchform and connect it to a JSON-API in the background: pass GET-Variables to use a dynamic JSON-Feed-URL ("talk to API / webservice")
-* much better and more flexible templateengine: twig
-* use it as Widget
-* create and use Custom Post Types
-* usage on multisite installations
-* store Templates independent of pages
-* more Shortcode-Parameters
-* executing Shortcodes inside a template and
-* more features...
-
-If the free version comes to your limit, I'm looking forward that you [COMPARE PRO and FREE of the JSON Content Importer](http://json-content-importer.com/compare/ "COMPARE PRO and FREE of the JSON Content Importer").
-
-
-== Installation ==
-[youtube https://www.youtube.com/watch?v=sZ0GI2j1tn4]
-For detailed installation instructions, please read the [standard installation procedure for WordPress plugins](http://codex.wordpress.org/Managing_Plugins#Installing_Plugins).
-
-1. Login to your WordPress installation
-2. Install plugin by uploading json-content-importer.zip to `/wp-content/plugins/`.
-2. Activate the plugin through the _Plugins_ menu.
-3. Klick on "JSON Content Importer" menuentry in the left bar: basic caching-settings and more instructions about usage.
-4. Cache folder: WP_CONTENT_DIR.'/cache/jsoncontentimporter'. So "WP_CONTENT_DIR.'/cache/'" must be writable for the http-daemon. The plugin checks this and might aborts with an error-message like dir is missing or not writeable. if so: check permissions of the directories.
-
-
-== Frequently Asked Questions ==
-
-= Help! I need more information! =
-[Check the plugin-website!](http://json-content-importer.com/support/faq/ "Check the plugin-website!")
-
-= What does this plugin do? =
-This plugin gives a wp-shortcode for use in a page/blog to import, cache and display JSON-data. Inside wp-shortcode some markups (and attributes like urlencode) are defined to define how to display the data.
-
-= How can I make sure the plugin works? =
-See this video and try to experiment: 
-[youtube https://www.youtube.com/watch?v=t3m0PmNyOHI]
-Create a sample-page and use the wordpress-shortcode "jsoncontentimporter". An example is given in the plugin-configpage and in the "Description"-Section.
-there are 2 steps: . access to JSON and convert it to HTML: [Step 1: Get access to the JSON-data](https://json-content-importer.com/support/shortcode-jsoncontentimporterpro/ "Get access to the JSON-data") and [Step 2: Convert JSON to HTML](https://json-content-importer.com/support/very-basic-example/ "Convert JSON to HTML").
-The Pro-version comes with a installation-check option.
-
-= Who do I find the proper template for my JSON? =
-[Check the plugin-website!](http://json-content-importer.com/support/faq/ "Check the plugin-website!")
-Free-Version: [If you're lost: open ticket at wordPress.org](https://wordpress.org/support/plugin/json-content-importer) please provide the JSON-code or link to it (either in the posting or in a mail to the plugin author).
-
-= Don't forget: =
-[Donate whatever this plugin is worth for you](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=APWXWK3DF2E22)
-
-= What does this plugin NOT do? =
-The plugins templateengine of the free version is focused on some basic JSON-imports.
-If this comes to a limit check out the pro-version: There you can use the twig-templatengine, create custom posts out of JSON and many other features.
-Your options if this plugin does not work:
-
-* use correct code for this plugin ;-)
-* if the above is ok, change the JSON-Input
-* [open ticket at wordPress.org](https://wordpress.org/support/plugin/json-content-importer) provide the JSON-code there or an email to the plugin-author.
-* [Check the pro-plugin!](http://json-content-importer.com/support/faq/ "Check the pro plugin!")
-
-= Where is this plugin from? =
-This plugin is made in munich, bavaria, germany!
-Famous for Oktoberfest, FC Bayern Munich, AllianzArena, DLD, TUM, BMW, Siemens, seas, mountains and much more...
-
-== Screenshots ==
-
-1. This screen shows the description and settings-page of the "JSON Content Importer"-Plugin
-2. This screen shows the Wordpress-Editor with some [jsoncontentimporter]-code
-3. The JCI-Gutenberg Block is in the Widget-Blockarea
-4. Add a Gutenberg-Block: Right the settings, left the output
-
+== Screenshots ==  
+1. Welcome to JCI! Thank you!
+2. Check your JCI installation and its requirements.
+3. Configure your JCI settings: SSL? Cache? Gutenberg?
+4. Step 1: Retrieve data. Highly recommended: Use the JCI Block.
+5. Step 2: Use data. Generate a template with the JCI Block and try it out.
+6. Locate the JCI Block.
+7. JCI Block: Welcome to the JCI Block. Familiarize yourself with the JSON example.
+8. JCI Block: Turn debug mode on to see what is happening.
+9. JCI Block: Generate a template from JSON.
+	
 == Changelog ==
+= 1.4 =
+* Recommendation: Please check your JCI cache! The plugin displays the number of files in the JCI cache and its size. You can delete the cached files by using the 'Clear Cache' function.
+* Significantly improved admin interface: Tabs, Tests, Settings, Step 1, Step 2...
+* Greatly enhanced JCI block. Better error handling, and as a highlight, the creation of templates.
+* New: Improved uninstall process.
+* Minor PHP 8 fixes
+* New Screenshots and improved Plugin-Description
+
 = 1.3.17 =
 * Wordpress 6.2 changed the way Blocks are rendered. This Update fixes the crash of the JCI-Block with wordpress 6.2
 
@@ -350,9 +347,9 @@ Bugfixes
 Enhanced the template engine for better JSON-handling.
 
 = 1.0.2 =
-Initial release on WordPress.org. Any comments and feature-requests are welcome: blog@kux.de
-
-
+Initial release on WordPress.org
 
 == Upgrade Notice ==
-Version 1.3.6: * Gutenberg-Mode: No backend-JS loading in frontend when using Gutenberg-Block
+= 1.4 =
+This version primarily enhances the JCI block: The user interface has been significantly improved to make it easier to fetch and process API data. 
+A special highlight is the ability to create a template from the JSON data, which can be used as a template for presenting the data.
