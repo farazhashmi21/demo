@@ -2,8 +2,8 @@ Site Title: Demo Site
 Username: adminfarazhashmi
 Password: gK92$%54wQ
 Your Email: developerfaraz@yahoo.com
-Mail URL: http://127.0.0.1/demo/
-Login URL: http://127.0.0.1/demo/wp-login.php/
+Mail URL: http://demo/
+Login URL: http://demo/wp-login.php/
 WordPress Official: https://wordpress.org/
 Developer Resources: https://developer.wordpress.org/
 WordPress Manual: https://codex.wordpress.org/
