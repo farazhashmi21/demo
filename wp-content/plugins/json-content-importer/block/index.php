@@ -83,13 +83,13 @@ function checkCacheFolder($cacheBaseFolder, $cacheFolder) {
 	 }
 
 	 if ($example_url==trim($attributes['apiURL'])) {
-		 $attributes['apiURL'] = WP_PLUGIN_URL.$example_url;
-	 } 
-	$example_out_text ="<h4>". __('Warm welcome! Here you can get to know JCI by trying it out.', 'json-content-importer').'</h4>'.
+		 $attributes['apiURL'] = WP_PLUGIN_URL.$example_url; 
+		 } 
+	$example_out_text .="<h4>". __('Warm welcome! Here you can get to know JCI by trying it out.', 'json-content-importer').'</h4>'.
 			__('To the right of this text, you should see the block settings. If not, just click on this text here.', 'json-content-importer').'<br>'.
 			__('The block of the free JCI plugin includes this example: With it, you can familiarize yourself with the JCI plugin.', 'json-content-importer')."<br>".
 			__('On the right side, a sample URL is automatically inserted:', 'json-content-importer').
-			'<br><a href="'.$example_url.'" target="_blank">'.$example_url.'</a><br>'.
+			'<br><a href="'.$attributes['apiURL'].'" target="_blank">'.$attributes['apiURL'].'</a><br>'.
 			__('Similarly, a sample template that matches the JSON delivered by the sample URL is entered in the template box (edit it in the template box)', 'json-content-importer').':<br><code>'.$exampleTemplate.'</code><hr>'.
 			__('By merging the JSON and this template, we obtain the output. Feel free to experiment with this example.', 'json-content-importer').'<br>'.
 			"<b>".__('By clicking on "Create JCI-Template for JSON", the template is automatically regenerated based on the JSON.', 'json-content-importer').'</b><hr>'.
@@ -388,7 +388,7 @@ function jsoncontentimporterGutenbergBlock() {
 				),
 				'toggleswitchexample'	 => array(
 					'type' => 'boolean',
-					'default' => true,
+					'default' => false,
 				),
 				'toggleswitchjson'	 => array(
 					'type' => 'boolean',

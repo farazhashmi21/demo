@@ -1,4 +1,6 @@
-( function( editor, components, i18n, element ) {
+<?php
+	header('Content-Type: application/javascript');  
+?>( function( editor, components, i18n, element ) {
 	const { __ } = wp.i18n;
 	var el = element.createElement;
 	var registerBlockType = wp.blocks.registerBlockType;
@@ -75,11 +77,11 @@
 			},
 			toggleswitch: {
 				type: 'boolean',
-				default: true,
+				default: false,
 			},
 			toggleswitchexample: {
 				type: 'boolean',
-				default: true,
+				default: false,
 			},
 			toggleswitchjson: {
 				type: 'boolean',
@@ -189,7 +191,7 @@
 							},
 						} ), 
 		el('div', { props },
-            ! isOpen && el(Button, { isPrimary: true, onClick: openModal }, 'Create JCI-Template for JSON'),
+            ! isOpen && el(Button, { isPrimary: true, onClick: openModal }, __('Create JCI-Template for JSON', 'json-content-importer' )),
             isOpen && el(Modal, { title: ('Generate Template:'), onRequestClose: closeModal },
 				isLoading
                     ? el(Spinner)
@@ -221,7 +223,7 @@
 						} ), 
 						el( ToggleControl, { // https://wordpress.org/gutenberg/handbook/components/toggle-control/
 							type: 'string',
-							label: __( 'Exampletext on / off', 'json-content-importer' ),
+							label: __( 'Welcome on / off', 'json-content-importer' ),
 							//help : i18n.__( 'help' ),
 							checked : !!toggleswitchexample,
 							onChange: function( newtoggleswitchexample ) {

@@ -26,15 +26,15 @@ function register_jcisettings() {
 function jci_admin_tabs( $current = 'syntax' ) {
     $tabs = array(
           'welcome' => 'Welcome to JCI',
-          'checkinstall' => 'Check Installation',
-          'settings' => 'Basic Settings',
-          'step1' => 'Step 1: Get data',
-          'step2' => 'Step 2: Use data',
-          'support' => 'Support',
-          'bugbounty' => 'JCI BugBounty Program',
-          'gdpr' => 'GDPR',
-          'jcipro' => 'JCI PRO',
-          'uninstall' => 'Uninstall',
+          'checkinstall' => __('Check Installation', 'json-content-importer'),
+          'settings' => __('Basic Settings', 'json-content-importer'),
+          'step1' => __('Step 1: Get data', 'json-content-importer'),
+          'step2' => __('Step 2: Use data', 'json-content-importer'),
+          'support' => __('Support', 'json-content-importer'),
+          'bugbounty' => __('JCI BugBounty Program', 'json-content-importer'),
+          'gdpr' => __('GDPR', 'json-content-importer'),
+          'jcipro' => __('JCI PRO', 'json-content-importer'),
+          'uninstall' => __('Uninstall', 'json-content-importer'),
           );
 
     echo '<h2 class="nav-tab-wrapper">';
@@ -155,6 +155,7 @@ function jci_settings_page() {
         case 'settings' :
     ?>
 		<tr><td>
+			<h1><?php _e('Basic Settings', 'json-content-importer'); ?></h1>
 			<input type="hidden" name="jci-settings-submit" value="savesettings" />
 			<input type="submit" name="Submit"  class="button-primary" value="<?php _e('Store and update the following Settings', 'json-content-importer'); ?>"/>
         </td></tr>
@@ -244,13 +245,17 @@ function jci_settings_page() {
 	case 'uninstall' :
 	?>
 	<tr><td>
-           <h1>Uninstall:</h1>
+           <h1><?php _e('Uninstall', 'json-content-importer'); ?></h1>
+           <?php 
+		   _e('By default, not all data of this plugin is deleted. If the following checkbox is NOT activated (default settings), 
+		   you can deactivate and delete the free JSON Content Importer Plugin without any risk.', 'json-content-importer');
+		   echo "<br>";
+		   _e('After reinstalling the free JCI plugin, all data will still be retained. 
+		   Only when the following checkbox is activated, templates, settings, etc., will also be deleted when the free JCI Plugin is deleted.', 'json-content-importer') 
+		   ?>: 
            <br>
-           By default, not all data of this plugin is deleted. If the following checkbox is NOT activated (default settings), 
-		   you can deactivate and delete the JSON Content Importer PRO Plugin without any risk. After reinstalling the free JCI plugin, all data will still be retained. 
-		   Only when the following checkbox is activated, templates, settings, etc., will also be deleted when the free JCI Plugin is deleted..
-           <br>
-           <input type="checkbox" name="jci_uninstall_deleteall" value="1" <?php echo (get_option('jci_uninstall_deleteall') == 1)?"checked=checked":""; ?> /> delete all, incl. templates and options
+           <input type="checkbox" name="jci_uninstall_deleteall" value="1" <?php echo (get_option('jci_uninstall_deleteall') == 1)?"checked=checked":""; ?> /> <?php 
+		   _e('delete all, incl. templates and options', 'json-content-importer'); ?>
         </td>
       </tr>
       <tr><td>
@@ -265,13 +270,14 @@ function jci_settings_page() {
 		<h1><?php _e('Step 1: Retrieve the data from the API', 'json-content-importer'); ?></h1>
 		<h2><?php _e('Gutenberg-Block-Way', 'json-content-importer'); ?></h2>
 		<ul class=jciul>
-			<li>This JCI-Plugin adds a "JSON Content Importer FREE" Gutenberg Block. </li>
-			<li>It is highly recommended to try out the JCI block and familiarize yourself with its functionality using the provided example</li>
-			<li>Outdated, but still helpful: <a href="https://www.youtube.com/watch?v=t3m0PmNyOHI" target="_blank">The video "Easy JSON Content Importer" shows you how to use the JCI Block VErsion 1.3.0</a><br>
-				Version 1.4 introduces a JCI-Template generator, which provides a blueprint for displaying the JSON data.
+			<li><?php _e('This JCI-Plugin adds a "JSON Content Importer FREE" Gutenberg Block.', 'json-content-importer'); ?></li>
+			<li><?php _e('It is highly recommended to try out the JCI block and familiarize yourself with its functionality using the provided example', 'json-content-importer'); ?></li>
+			<li><?php _e('Outdated, but still helpful:', 'json-content-importer'); ?> 
+				<a href="https://www.youtube.com/watch?v=t3m0PmNyOHI" target="_blank"><?php _e('The video "Easy JSON Content Importer" shows you how to use the JCI Block Version 1.3.0', 'json-content-importer'); ?> </a><br>
+				<?php _e('Version 1.4 introduces a JCI-Template generator, which provides a blueprint for displaying the JSON data.', 'json-content-importer'); ?>
 				</li>
-			<li>In the block settings, you can input the API URL and create a JCI template - you'll immediately see the API response and the merged JSON & template: Switch on the debugmode in the Block for that.</li>
-			<li>The Debugmode of the JCI Block also gives a Shortcode you can copy paste.</li>
+			<li><?php _e('In the block settings, you can input the API URL and create a JCI template - you\'ll immediately see the API response and the merged JSON & template: Switch on the debugmode in the Block for that.', 'json-content-importer'); ?></li>
+			<li><?php _e('The Debugmode of the JCI Block also gives a Shortcode you can copy paste.', 'json-content-importer'); ?></li>
 			</ul>
        </td></tr>
 
@@ -287,32 +293,37 @@ function jci_settings_page() {
             $example .= "[/jsoncontentimporter]\n";
             $example = htmlentities($example);
             echo "<pre class=precode>".$example."</pre>";
-		?> 
-		Use this Shortcode on a page, please. This should give you debug info (<b class=precode>debugmode="10"</b>) and "hello world" (<b class=precode>hello {hello}</b>).
-		If this is the case, you know that the plugin is working and is able to get data from your Wordpress.
+		
+		_e('Use this Shortcode on a page, please. This should give you debug info', 'json-content-importer'); ?> 
+		(<b class=precode>debugmode="10"</b>) <?php _e('and "hello world"', 'json-content-importer'); ?> 
+		(<b class=precode><?php _e('hello {hello}', 'json-content-importer'); ?> </b>).
+		<?php _e('If this is the case, you know that the plugin is working and is able to get data from your Wordpress.', 'json-content-importer'); ?> 
 		<p>
-		Now you can replace the local URL by the remote API-URL you want to use. Check the debug info on the JSON given by the URL:
-		Is it the JSON you expected? 
+		<?php _e('Now you can replace the local URL by the remote API-URL you want to use. Check the debug info on the JSON given by the URL:
+		Is it the JSON you expected?', 'json-content-importer'); ?> 
 		<br>
 		<ul class=jciul>
-		<li>YES, that looks like the JSON the API should give: Proceed to <a href="?page=unique_jci_menu_slug&tab=step2">Step 2</a></li>
-		<li>NO! The API does not give the expected JSON: See below "API does not give the expected JSON?"</li>
+		<li><?php _e('YES, that looks like the JSON the API should give: Proceed to', 'json-content-importer'); ?>  <a href="?page=unique_jci_menu_slug&tab=step2"><?php _e('Step 2', 'json-content-importer'); ?></a></li>
+		<li><?php _e('NO! The API does not give the expected JSON: See below "API does not give the expected JSON?"', 'json-content-importer'); ?> </li>
 		</ul>
         </td></tr>
 		<tr><td>
 		
 		<h2><?php _e('API does not give the expected JSON?', 'json-content-importer'); ?></h2>
-		There can be several reasons why the API-URL does not give the epxected JSON. Maybe the URL is not ok or the API expects more than a simple URL: By the http-errorcode or JSON with an errormessage the API hopefully tells what went wrong (not all APIs do tht, unfortunately). E. g. Some APIs expect a API-KEY, some Authentication, some POST-requests etc.. Check your API manual for that.
-		Typical situations are:
+		<?php _e('There can be several reasons why the API-URL does not give the epxected JSON. Maybe the URL is not ok or the API expects more than a simple URL: By the http-errorcode or JSON with an errormessage the API hopefully tells what went wrong (not all APIs do tht, unfortunately). 
+		E. g. Some APIs expect a API-KEY, some Authentication, some POST-requests etc.. Check your API manual for that.
+		Typical situations are:', 'json-content-importer'); ?>
 		<ul class=jciul>
-		<li>The API-URL is not correct, Errormessages like 404 etc.: Check the API-manual, please.</li>
-		<li>Basic Authentication: https://USERNAME:PASSWORT@www... sends USERNAME and PASSWORT to the API doing the Authentication.</li>
-		<li>API-KEY: https://www...?apikey=WHATEVER sends the Parameter "apikey" with value "WHATEVER" (you might get when registering at the API-Website) to the API.</li>
-		<li>Browser-Useragent: Some APIs expect a Browser-Useragent-Info in the http-Header. Check the Box at "Basic Settings" for that.</li>
-		<li>Send "Bearer" for authentication: Some APIs expect a so called "Bearer" in the http-Header. This is usually a Token you get at the API-Website. If needed: Insert the Token at "Basic Settings".</li>
-		<li>No JSON but something else: The free JCI Plugin can handle JSON only. Check the API-Manual on how to alter the URL to get JSON (if possible). The JCI-PRO Plugin can handle any input.</li>
-		<li>Some APIs use oAuth2, special ways to calc a Token etc.. The free JCI Plugin can't handle this, the JCI-PRO Plugin can.</li>
-		<li><a href="https://doc.json-content-importer.com/json-content-importer/step-1-data-access/" target="_blank">more on how you can get access to the data see at doc.json-content-importer.com</a></li>
+		<li><?php _e('The API-URL is not correct, Errormessages like 404 etc.: Check the API-manual, please.', 'json-content-importer'); ?></li>
+		<li><?php _e('Basic Authentication: https://USERNAME:PASSWORT@www... sends USERNAME and PASSWORT to the API doing the Authentication.', 'json-content-importer'); ?></li>
+		<li><?php _e('API-KEY: https://www...?apikey=WHATEVER sends the Parameter "apikey" with value "WHATEVER" (you might get when registering at the API-Website) to the API.', 'json-content-importer'); ?></li>
+		<li><?php _e('Browser-Useragent: Some APIs expect a Browser-Useragent-Info in the http-Header. Check the Box at "Basic Settings" for that.', 'json-content-importer'); ?></li>
+		<li><?php _e('Send "Bearer" for authentication: Some APIs expect a so called "Bearer" in the http-Header. This is usually a Token you get at the API-Website. 
+		If needed: Insert the Token at "Basic Settings".', 'json-content-importer'); ?></li>
+		<li><?php _e('No JSON but something else: The free JCI Plugin can handle JSON only. Check the API-Manual on how to alter the URL to get JSON (if possible). 
+		The JCI-PRO Plugin can handle any input.', 'json-content-importer'); ?></li>
+		<li><?php _e('Some APIs use oAuth2, special ways to calc a Token etc.. The free JCI Plugin can\'t handle this, the JCI-PRO Plugin can.', 'json-content-importer'); ?></li>
+		<li><a href="https://doc.json-content-importer.com/json-content-importer/step-1-data-access/" target="_blank"><?php _e('more on how you can get access to the data see at doc.json-content-importer.com', 'json-content-importer'); ?></a></li>
 		</ul>
         </td></tr>
 	<?php	
@@ -322,9 +333,10 @@ function jci_settings_page() {
 		<tr><td>
 		<h1><?php _e('Step 2: Use data', 'json-content-importer'); ?></h1>
 			<h2><?php _e('Gutenberg-Block-Way', 'json-content-importer'); ?></h2>
-			Click on "Create JCI-Template for JSON". This will open a window with the generated template based on the complete JSON data. This template is inserted into the template box of the block. By clicking on "Try Template", the template and the JSON are merged and displayed on the left side.
+			<?php _e('Click on "Create JCI-Template for JSON". This will open a window with the generated template based on the complete JSON data. 
+			This template is inserted into the template box of the block. By clicking on "Try Template", the template and the JSON are merged and displayed on the left side.', 'json-content-importer'); ?>
 			<p>
-			Then edit the template as you like.
+			<?php _e('Then edit the template as you like.', 'json-content-importer'); ?>
        </td></tr>
 		<tr><td>
 		<h2><?php _e('Shortcode-Way: Simple Example', 'json-content-importer'); ?></h2>
@@ -339,20 +351,21 @@ function jci_settings_page() {
             $example = htmlentities($example);
             echo "<pre class=precode>".$example."</pre>";
 		?> 
-		Insert this Shortcode on a page: It displays debug info (<b class=precode>debugmode="10"</b>) and JSON data starting with the node (<b class=precode>basenode="level1"</b>).
+		<?php _e('Insert this Shortcode on a page: It displays debug info', 'json-content-importer'); ?>
+		(<b class=precode>debugmode="10"</b>) <?php _e('and JSON data starting with the node', 'json-content-importer'); ?> (<b class=precode>basenode="level1"</b>).
         </td></tr>
 		<tr><td>
 		<h2><?php _e('Videos showing examples', 'json-content-importer'); ?></h2>
 			<ul class=jciul>
 				<li><a href="https://www.youtube.com/watch?v=IiMfE_CUPBo" target="_blank"><?php _e('Video How to: First Shortcode with JSON Content Importer', 'json-content-importer') ?></a> </li>
 				<li><a href="https://www.youtube.com/watch?v=GJGBPvaKZsk" target="_blank"><?php _e('Video How to: Wikipedia API, JSON Content Importer and WordPress', 'json-content-importer') ?></a></li>
-		<li><a href="https://doc.json-content-importer.com/json-content-importer/free-show-the-data/" target="_blank">see doc.json-content-importer.com for more syntax details</a> </li>
-		<li><a href="http://api.json-content-importer.com/category/free-s/" target="_blank">see api.json-content-importer.com for examples</a></li>
+		<li><a href="https://doc.json-content-importer.com/json-content-importer/free-show-the-data/" target="_blank"><?php _e('see doc.json-content-importer.com for more syntax details', 'json-content-importer') ?></a> </li>
+		<li><a href="http://api.json-content-importer.com/category/free-s/" target="_blank"><?php _e('see api.json-content-importer.com for examples', 'json-content-importer') ?></a></li>
 					</ul>		
         </td></tr>
 		<tr><td>
 		<h2><?php _e('JCI-Shortcode: Parameter and Template', 'json-content-importer'); ?></h2>
-		This is the basic setup of the JCI-Shortcode (remove the linefeeds when using it on a page, please):<br>
+		<?php _e('This is the basic setup of the JCI-Shortcode (remove the linefeeds when using it on a page, please)', 'json-content-importer') ?>:<br>
 		<?php
             $example = "[jsoncontentimporter \n";
             $example .= 'url="http://...json"'."\n";
@@ -390,9 +403,9 @@ function jci_settings_page() {
             $example = htmlentities($example);
             echo "<pre class=precode>".$example."</pre>";
 		?> 
-		This syntax gives you the items two, three and four (the internal enumeration is starting from 0) added with some extra chars.
+		<?php _e('This syntax gives you the items two, three and four (the internal enumeration is starting from 0) added with some extra chars.', 'json-content-importer') ?>
 		<br>
-		The free JCI Plugin does not have a loop-feature, you only can pick a defined item. The JCI PRO Plugin is doing this much easier by twig. 
+		<?php _e('The free JCI Plugin does not have a loop-feature, you only can pick a defined item. The JCI PRO Plugin is doing this much easier by twig.', 'json-content-importer') ?>
         </td></tr>
 		<tr><td>
 		<h2><?php _e('Syntax for the datafields', 'json-content-importer'); ?></h2>
@@ -414,13 +427,13 @@ function jci_settings_page() {
 		<h1><?php _e('Get Help - Get Support', 'json-content-importer'); ?></h1>
 		<h2><?php _e('Help Resources', 'json-content-importer'); ?></h2>
 		<ul class=jciul>
-		<li><a href="https://doc.json-content-importer.com" target="_blank">Visit doc.json-content-importer.com for the JCI manual.</a></li>
-		<li><a href="https://api.json-content-importer.com" target="_blank">Visit api.json-content-importer.com for many live examples..</a></li>
+		<li><a href="https://doc.json-content-importer.com" target="_blank"><?php _e('Visit doc.json-content-importer.com for the JCI manual.', 'json-content-importer'); ?></a></li>
+		<li><a href="https://api.json-content-importer.com" target="_blank"><?php _e('Visit api.json-content-importer.com for many live examples.', 'json-content-importer'); ?></a></li>
 		</ul>
 
 		<h2><?php _e('Individual Support', 'json-content-importer'); ?></h2>
 		<ul class=jciul>
-		<li><a href="https://doc.json-content-importer.com/json-content-importer/help-contact/" target="_blank">Visit doc.json-content-importer.com for information on obtaining help and support, either either through public channels at wordpress.org or via private means.</a>
+		<li><a href="https://doc.json-content-importer.com/json-content-importer/help-contact/" target="_blank"><?php _e('Visit doc.json-content-importer.com for information on obtaining help and support, either either through public channels at wordpress.org or via private means.', 'json-content-importer'); ?></a>
 		<br><?php _e('Private support is sometimes preferable as posting API keys or tokens publicly is not a good idea.', 'json-content-importer'); ?>
 		</ul>
         </td></tr>
@@ -465,8 +478,11 @@ function jci_settings_page() {
 		<h1><?php _e('JCI BugBounty Program', 'json-content-importer'); ?></h1>
 		<h2><?php _e('Participate in the bug bounty program and receive a reward for discovered vulnerabilities.', 'json-content-importer'); ?></h2>
 		<?php 
-			_e('We offer several Wordpress Plugins and Websites. The security of data and processes is of the highest priority. However, despite our best efforts, these digital services may still contain vulnerabilities that are not yet known to us.
-				Therefore, we are very grateful for any indications of Vulnerabilities!Please note: Searching for vulnerabilities may possibly constitute a criminal offense. To avoid legal difficulties, we kindly ask you to adhere to the following rules.!', 'json-content-importer');
+			_e('We offer several Wordpress Plugins and Websites. The security of data and processes is of the highest priority. However, despite our best efforts, these digital services may still contain vulnerabilities that are not yet known to us.', 'json-content-importer');
+		?>
+		<br>
+		<?php 
+			_e('Therefore, we are very grateful for any indications of Vulnerabilities!Please note: Searching for vulnerabilities may possibly constitute a criminal offense. To avoid legal difficulties, we kindly ask you to adhere to the following rules.!', 'json-content-importer');
 		?>
 		<h2><?php _e('How exactly does that work?', 'json-content-importer'); ?></h2>
 		<?PHP
@@ -480,12 +496,13 @@ function jci_settings_page() {
 	?>
       <tr><td>
 		<h1><?php _e('General Data Protection Regulation (GDPR)', 'json-content-importer'); ?></h1>
-			The General Data Protection Regulation <a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj" target="_blank">(EU) 2016/679</a> ("GDPR") is a regulation in EU law on data protection and privacy for all individuals within the European Union (EU) and the European Economic Area (EEA) 
-			(<a href="https://en.wikipedia.org/wiki/General_Data_Protection_Regulation" target="_blank">see more on that at Wikipedia</a>).
-			In the context of this plugin, GDPR is relevant in the following way:
+			<?php _e('The General Data Protection Regulation', 'json-content-importer'); ?> 
+			<a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj" target="_blank">(EU) 2016/679</a> <?php _e('("GDPR") is a regulation in EU law on data protection and privacy for all individuals within the European Union (EU) and the European Economic Area (EEA)', 'json-content-importer'); ?> 
+			(<a href="https://en.wikipedia.org/wiki/General_Data_Protection_Regulation" target="_blank"><?php _e('see more on that at Wikipedia', 'json-content-importer'); ?></a>).
+			<?php _e('In the context of this plugin, GDPR is relevant in the following way:', 'json-content-importer'); ?>
 			<ul>
-				<li>If you use the plugin to retrieve data from APIs, transform it, and display it on a website, it is important to consider GDPR compliance. In this case, the plugin functions as a piece of software that interacts with the data. 
-				Therefore, you should include the plugin in your <a href="https://gdpr-info.eu/art-30-gdpr/" target="_blank">GDPR-"Records of processing activities"</a> if the data involved contains personal information.</li>
+				<li><?php _e('If you use the plugin to retrieve data from APIs, transform it, and display it on a website, it is important to consider GDPR compliance. In this case, the plugin functions as a piece of software that interacts with the data. ', 'json-content-importer'); ?>
+				<?php _e('Therefore, you should include the plugin in your <a href="https://gdpr-info.eu/art-30-gdpr/" target="_blank">GDPR-"Records of processing activities"</a> if the data involved contains personal information.', 'json-content-importer'); ?></li>
 			</ul>
         </td></tr>
 	<?php

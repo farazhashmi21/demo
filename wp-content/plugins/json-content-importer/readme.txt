@@ -3,8 +3,8 @@ Contributors: berkux
 Tags: json, api, external api, endpoint, rest, rest api, block, template generator
 Requires at least: 5.0
 Requires PHP: 7.0
-Tested up to: 6.2.2
-Stable tag: 1.4
+Tested up to: 6.3
+Stable tag: 1.5.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -16,7 +16,13 @@ The simplest method to link WordPress with external APIs
 
 JCI simplifies the task of retrieving data from a third-party REST API. The returned data can be neatly arranged and showcased on your WordPress site via a shortcode or a JCI Block. Generate a template with the JCI Block.
 
-https://www.youtube.com/watch?v=t3m0PmNyOHI
+20 seconds: Load API and display data
+
+https://www.youtube.com/watch?v=RBlrAUVywAk
+
+7 minutes: Basic intro to JCI free
+
+https://www.youtube.com/watch?v=SDUj1teNG2s
 
 ### Examples, Preview
 
@@ -128,6 +134,19 @@ the other is "{subloop:AAAA.image:10}" where "AAAA.image" is the path to an obje
 9. JCI Block: Generate a template from JSON.
 	
 == Changelog ==
+= 1.5.2 =
+* Bugfix: JCI Block wasn't showing up when a browser had the "strict mime type" setting enabled. With this bugfix, the issue has been resolved.
+
+= 1.5.1 =
+* Fixed: JCI Block - In some situations, unwanted content ('Welcometext') is displayed on the published page.
+* Improved: Translation
+
+= 1.5.0 =
+* Versionproblems: Wordpress.org does not update from 1.4 to 1.4.1
+
+= 1.4.1 =
+* Bugfix: The default settings of the shortcode parameter basenode were incorrect. This has now been corrected.
+
 = 1.4 =
 * Recommendation: Please check your JCI cache! The plugin displays the number of files in the JCI cache and its size. You can delete the cached files by using the 'Clear Cache' function.
 * Significantly improved admin interface: Tabs, Tests, Settings, Step 1, Step 2...
@@ -350,6 +369,5 @@ Enhanced the template engine for better JSON-handling.
 Initial release on WordPress.org
 
 == Upgrade Notice ==
-= 1.4 =
-This version primarily enhances the JCI block: The user interface has been significantly improved to make it easier to fetch and process API data. 
-A special highlight is the ability to create a template from the JSON data, which can be used as a template for presenting the data.
+= 1.5.2 =
+* Bugfix: JCI Block wasn't showing up when a browser had the "strict mime type" setting enabled. With this bugfix, the issue has been resolved.

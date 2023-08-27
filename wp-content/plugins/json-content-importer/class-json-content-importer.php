@@ -87,7 +87,7 @@ class JsonContentImporter {
         'oneofthesewordsmustbeindepth' => '',
         'oneofthesewordsmustnotbein' => '',
         'oneofthesewordsmustnotbeindepth' => '',
-        'basenode' => 'k',
+        'basenode' => '',
         'fallback2cache' => 0,
         'debugmode' => '',
         'removewrappingsquarebrackets' => '',
