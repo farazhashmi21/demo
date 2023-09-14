@@ -1729,6 +1729,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                       //foreach (get_option('support_ans') as $support_ans){
                       $query_ans_counter=0;
                       foreach (array_combine($support_quereis, $support_ans) as $query => $ans) {
+                       
                           ?>
                 <div class="<?php esc_attr_e( 'row',  'wpbot' );  ?> "> <span class="<?php esc_attr_e( 'pull-right',  'wpbot' );  ?> "> </span>
                   <div class="<?php esc_attr_e( 'col-xs-12',  'wpbot' );  ?> ">
@@ -1900,7 +1901,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                               <label for="<?php esc_attr_e( 'disable_wp_chatbot_site_search',  'wpbot' );  ?>">
                                 <?php esc_html_e('Disable site search feature and button on Start Menu', 'wpbot'); ?>
                               </label>
-                              </br><small><?php echo esc_html('By default WPBot searches only Post titles. Enable searching post contents from the Extended Search module'); ?></small>
+                              </br><small><?php echo esc_html( '(By default WPBot searches only Post titles. Enable searching post contents from Extended Search module of WPBot Pro)'); ?></small>
 
                             </div>
                           </div>

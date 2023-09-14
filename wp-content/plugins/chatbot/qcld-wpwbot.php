@@ -4,12 +4,12 @@
  * Plugin URI: https://wordpress.org/plugins/chatbot/
  * Description: ChatBot is a native WordPress ChatBot plugin to provide quick support and email functionality.
  * Donate link: https://www.quantumcloud.com
- * Version: 4.8.2
+ * Version: 4.8.6
  * @author    QuantumCloud
  * Author: QuantumCloud
  * Author URI: https://www.quantumcloud.com/
  * Requires at least: 4.6
- * Tested up to: 6.3
+ * Tested up to: 6.3.1
  * Text Domain: wpbot
  * Domain Path: /lang
  * License: GPL2
@@ -18,7 +18,7 @@
 
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
-define('QCLD_wpCHATBOT_VERSION', '4.8.2');
+define('QCLD_wpCHATBOT_VERSION', '4.8.6');
 define('QCLD_wpCHATBOT_REQUIRED_wpCOMMERCE_VERSION', 2.2);
 define('QCLD_wpCHATBOT_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
 define('QCLD_wpCHATBOT_PLUGIN_URL', plugin_dir_url(__FILE__));
@@ -69,7 +69,7 @@ class qcld_wb_Chatbot
      */
     private function __construct()
     {
-        $this->promotion = QCLD_wpCHATBOT_IMG_URL . "/sale-wpbot.jpg";
+        $this->promotion = QCLD_wpCHATBOT_IMG_URL . "/labor-day.jpg";
     }
     /**
      *  Init behaves like, and replaces, construct
@@ -87,8 +87,9 @@ class qcld_wb_Chatbot
             add_action('admin_init', array($this, 'qcld_wb_chatbot_save_options'));
            
         }
-        if(( !empty($_GET['page']) && $_GET['page'] == 'wpbot-panel') || ( !empty($_GET['page']) &&$_GET["page"] == "wpbot") || ( !empty($_GET['page']) && $_GET['page'] == 'wpbot_help_page') || (!empty($_GET['page']) && $_GET['page'] == 'wpbot_support_page') || ( !empty($_GET['page']) && $_GET['page'] == 'wpbot_openAi') ){
-           // add_action( 'admin_notices', array( $this, 'promotion_notice' ) );
+        //( !empty($_GET['page']) && $_GET['page'] == 'wpbot-panel') || || (!empty($_GET['page']) && $_GET['page'] == 'wpbot_support_page') || ( !empty($_GET['page']) && $_GET['page'] == 'wpbot_openAi') || ( !empty($_GET['page']) && $_GET['page'] == 'wpbot_help_page')
+        if( ( !empty($_GET['page']) &&$_GET["page"] == "wpbot")  ){
+         //  add_action( 'admin_notices', array( $this, 'promotion_notice' ) );
         }
         if (is_admin() && !empty($_GET["page"]) && ($_GET["page"] == "wpbot") || (!empty($_GET['page']) && $_GET['page']=='wpbot_help_page')
 
@@ -1255,7 +1256,7 @@ class qcld_wb_Chatbot
                 $support_query = @$_POST["support_query"];
                 update_option('support_query', maybe_serialize(sanitize_array($support_query)));
                 $support_ans = @$_POST["support_ans"];
-                update_option('support_ans', maybe_serialize(sanitize_array($support_ans)));
+                update_option('support_ans',sanitize_tinymc($support_ans) );
                 //Create Mobile app pages.
                 if(isset( $_POST["wp_chatbot_app_pages"])) {
                     $wp_chatbot_app_pages = $_POST["wp_chatbot_app_pages"];

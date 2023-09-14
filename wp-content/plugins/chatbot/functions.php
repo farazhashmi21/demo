@@ -1983,3 +1983,19 @@ function sanitize_array( &$array ) {
     }
 	return $array;
 }
+function sanitize_tinymc( &$array ) {
+    if (!empty($array)) {
+        foreach ($array as &$value) {
+            $support_ans = wp_kses( $value, array( 
+                'a' => array(
+                    'href' => array(),
+                    'title' => array()
+                ),
+                'br' => array(),
+                'em' => array(),
+                'strong' => array(),
+            ) );
+        }
+    }
+    return $array;
+}
