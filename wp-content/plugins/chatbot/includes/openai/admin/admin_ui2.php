@@ -5,16 +5,11 @@
                 <div class="card-header bg-dark text-white py-sm-4 border-0">
                     <div class="row">
                         <div class="col-auto me-auto">
-                            <h4><?php esc_html_e( 'OpenAI Settings','openai_addon');?></h4> 
+                            <h4><?php esc_html_e( 'Open AI Settings','openai_addon');?></h4> 
                         </div>
                     </div>
                 </div>
                 <div class="card-body p-sm-0">
-                    <div class="p-sm-3">
-                    <!-- <div class="<?php // esc_attr_e( 'cxsc-settings-blocks-notic',  'wpbot' );  ?>" style="<?php // echo esc_attr('background: #2271B1'); ?>">
-              <p class="<?php // esc_attr_e( 'd-ib',  'wpbot' );  ?> "><?php // esc_html_e('New horizontal/wide template is now available. Select from Icons and Themes', 'wpbot'); ?>
-            </div> -->
-                    </div>
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-toggle="tab" href="#wp-chatbot-openai-settings"><?php echo esc_html__('OpenAI settings', 'wpchatbot'); ?></a></li>
                         <li><a data-toggle="tab" href="#wp-chatbot-openai-training-model"><?php echo esc_html__('Training Model', 'wpchatbot'); ?></a></li>

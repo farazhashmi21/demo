@@ -1,4 +1,5 @@
 <?php
+include_once(ABSPATH . 'wp-includes/pluggable.php');
 if(!class_exists('qcld_wp_OpenAI')){
     class qcld_wp_OpenAI{
         public $baseURL = "https://api.openai.com/v1/";

@@ -294,9 +294,11 @@ var wpwKits;
                     } )
                 });
             }else{
+                console.log(globalwpw.settings.obj)
                 return jQuery.post(globalwpw.settings.obj.ajax_url, {
 					'action': 'qcld_wp_df_api_call',
                     'dfquery': text,
+                    'nonce': globalwpw.settings.obj.ajax_nonce,
                     'sessionid': localStorage.getItem('botsessionid')?localStorage.getItem('botsessionid'):'wpwBot_df_2018071'
                 });
             }
@@ -1129,7 +1131,6 @@ var wpwKits;
                 }
         },
 		reset: function( msg ){
-			console.log(msg)
 			if( globalwpw.wildCard == 25 && globalwpw.resetStep == 'welcome' ){
 				var restWarning= globalwpw.settings.obj.reset;
 				var confirmBtn='<span class="qcld-chatbot-reset-btn" reset-data="yes" >'+globalwpw.settings.obj.yes+'</span> <span> '+globalwpw.settings.obj.or+' </span><span class="qcld-chatbot-reset-btn"  reset-data="no">'+globalwpw.settings.obj.no+'</span>';
@@ -1163,7 +1164,6 @@ var wpwKits;
                 if(json.status=='success'){
                     var serviceOffer=wpwKits.randomMsg(globalwpw.settings.obj.support_option_again);
                     setTimeout(function(){
-                        console.log(json.message)
                         wpwMsg.single(json.message);
                         if((globalwpw.settings.obj.qcld_disable_repited_startmenu != "1")){
                             if(globalwpw.settings.obj.disable_repeatative!=1){
@@ -1186,8 +1186,8 @@ var wpwKits;
             })  
         },
         site_search:function(msg){
-            msg = wpwKits.filterStopWords(msg);
-            var data = {'action':'wpbo_search_site','name':globalwpw.hasNameCookie,'keyword':msg};
+            msg1 = wpwKits.filterStopWords(msg);
+            var data = {'action':'wpbo_search_site','name':globalwpw.hasNameCookie,'keyword':msg1};
             wpwKits.ajax(data).done(function (res) {
                 var json=$.parseJSON(res);
                 if(json.status=='success'){

@@ -56,6 +56,18 @@ if ( ! class_exists( 'SP_WPCF_Metabox' ) ) {
 		 */
 		public $post_type = array();
 		/**
+		 * Post_formats
+		 *
+		 * @var array
+		 */
+		public $post_formats = array();
+		/**
+		 * Page_templates
+		 *
+		 * @var array
+		 */
+		public $page_templates = array();
+		/**
 		 * Args
 		 *
 		 * @var array

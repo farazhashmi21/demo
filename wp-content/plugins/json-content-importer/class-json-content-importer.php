@@ -129,9 +129,9 @@ class JsonContentImporter {
 		if ("y" == $removewrappingsquarebrackets) {
 			$this->removewrappingsquarebrackets = TRUE;
 		}
-		if (get_option('jci_api_errorhandling')>=0) {
-			$this->fallback2cache = get_option('jci_api_errorhandling');
-		}
+		#if (get_option('jci_api_errorhandling')>=0) {
+			$this->fallback2cache = get_option('jci_api_errorhandling') ?? 0;
+		#}
 	  if (
 		"1"==$fallback2cache ||
 		"2"==$fallback2cache ||
@@ -189,7 +189,10 @@ class JsonContentImporter {
       }
 
       $this->oauth_bearer_access_key = get_option('jci_oauth_bearer_access_key');
-      $this->http_header_default_useragent_flag = get_option('jci_http_header_default_useragent');
+	  if (!empty($this->oauth_bearer_access_key)) {
+		$this->showdebugmessage("oAuth Bearer Authentication Setting: ".$this->oauth_bearer_access_key);
+	  }
+		$this->http_header_default_useragent_flag = get_option('jci_http_header_default_useragent');
 
       if (""==$this->feedUrl) {
         $errormsg = __('No URL defined: Check the shortcode - one typical error: is there a blank after url= ?', 'json-content-importer');

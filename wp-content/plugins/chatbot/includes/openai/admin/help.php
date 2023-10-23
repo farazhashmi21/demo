@@ -32,6 +32,7 @@
             </div>
         </div>
     </div>
+    
     <div class="card">
         <div class="card-header">
             <h2 class="mb-0" id="panelsStayOpen-headingSeven">
@@ -60,18 +61,41 @@
                 <li><?php esc_html_e('d. Once the training is done and the file is ready, it will return the fine tuned model. It will be listed under the Fine Tuned Models List, the status will be shown as "Succeeded" and you will also get a FT(Fine Tuned) Model ID (to copy to the settings page).','openai_addon'); ?></li>
                 <li><?php esc_html_e('e. You can create multiple Fine Tuned models following the above procedure. Copy the Fine Tuned model ID you want to use.','openai_addon'); ?></li>
                 <li><?php esc_html_e('f. Go to the main Bot OpenAI settings page and paste the Fine Tuned model ID to the Custom Fine Tuned Model field and save. Now the bot will start responding according to the Training data.','openai_addon'); ?></li>
-              
+                
+                <li><?php esc_html_e('h. To Prepare your data model for GPT3.5:','openai_addon'); ?>
+                    <ol>
+                        <li><?php esc_html_e('1st you need to create a jsonl file like the formate below','openai_addon'); ?></li>
+                        <li><?php esc_html_e('Each prompt and completion should be in a single line','openai_addon'); ?></li>
+                    </ol>
             <ul>
         </p>
-        
-        <?php esc_html_e( 'Example:','openai_addon'); ?> </br>
-        <code > <?php esc_html_e( '
-        {"prompt": "puppy A is happy ->", "completion": "emotional state of puppy A ###"}','openai_addon'); ?></code></br>
-        <code > <?php esc_html_e( '
-        {"prompt": "puppy B is sad ->", "completion": "emotional state of puppy B ###"}','openai_addon'); ?></code></br>
-        </br>
-        <a href="https://wpbot.pro/myfile.jsonl" download><?php esc_html_e( 'Right click and Save the Example jsonl file','openai_addon');?></a>
+        <b><?php esc_html_e( 'Fine tuning file format with GPT 3.5','openai_addon'); ?></b></br>
+        <pre><?php esc_html_e('{ "messages": [  { "role": "system", "content": "You are an assistant that occasionally misspells words" },{ "role": "user", "content": "Tell me a story." }, { "role": "assistant", "content": "One day a student went to schoool." }]}','openai_addon'); ?>
+        </pre>
+        <b><?php esc_html_e( 'Fine tuning file format with Davinci, ADA etc.','openai_addon'); ?></b></br>
+        <pre><code ><?php esc_html_e( '{"prompt": "Who is the first person to step on the Moon? ->", "completion": "Neil Armstrong was the first person to step on the Moon during the Apollo 11 mission on July 20, 1969. ###"}','openai_addon'); ?></code></br><code ><?php esc_html_e( '{"prompt": "Who painted the Mona Lisa? ->", "completion": "The Mona Lisa was painted by the Italian artist Leonardo da Vinci. ###"}','openai_addon'); ?></code>
+        </pre>
+        <a href="https://wpbot.pro/myfile.jsonl" download><?php esc_html_e( 'Right click and Save the Example jsonl file for Fine Tuning with GPT 3.5','openai_addon');?></a></br>
+        <a href="https://wpbot.pro/myfile_gpt3.5.jsonl" download><?php esc_html_e( 'Right click and Save the Example jsonl file for Fine Tuning with Davinci, ADA etc.','openai_addon');?></a>
         </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="">
+                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#panelsStayOpen-collapseSixteen" aria-expanded="false" aria-controls="panelsStayOpen-collapsesixteen">
+                    <?php esc_html_e( 'Important points about fine tuning','openai_addon');?>
+                </button>
+            </h2>
+        </div>
+        <div id="panelsStayOpen-collapseSixteen" class=" collapse" aria-labelledby="panelsStayOpen-headingSixteen">
+            <div class="card-body">
+                <p><?php esc_html_e( 'For better results, you need at least 500+ prompts. Otherwise, OpenAI will mix the response with generic knowledge. Also, the prompts should be as descriptive as possible. Follow the FAQ type format with  descriptive questions and answers. Example prompt: Instead of just "Vintage Denim Jacket" you can write "Why one should wear our Vintage Denim Jacket?".','openai_addon');?></p>
+                <p><?php esc_html_e( 'If your completion is short like below or around 100 words, keep the Max Tokens value 200. Tweak the Temperature, Presence Penalty and Frequency penalty settings until you get results that you like.','openai_addon');?></p>
+                <p><?php esc_html_e( 'If you are Fine tuning with website data, the Bot will use the Post titles as prompts. If the Page/Post titles are not descriptive you will not get good results. In such caes, you can download the JSONL file from the Training Model page and improve the prompts.Then fine tune again.','openai_addon');?></p>
+                <p><?php esc_html_e( 'Keep the Site search disabled from Settings->Start Menu so that the bot does not bring answers from the site search. Please log out and log in again so our settings do not get overwritten.','openai_addon');?></p>
+                
+            </div>
         </div>
     </div>
     <div class="card">

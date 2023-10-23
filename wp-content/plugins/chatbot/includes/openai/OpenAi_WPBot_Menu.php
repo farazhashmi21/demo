@@ -30,19 +30,19 @@ class OpenAi_WPBot_Menus
       $action = 'admin.php?page=openai-panel_help';
        require_once( QCLD_openai_addon_PLUGIN_DIR_PATH . "includes/admin/help.php" );
     }
-    // public function screen_option(){
-    //   global $custom_hook;
-    //   $screen = get_current_screen();
-    
-    //       $option = 'per_page';
-    //   $args   = [
-    //     'label'   => 'Response',
-    //     'default' => 25,
-    //     'option'  => 'str_responses_per_page'
-    //   ];
-    //   add_screen_option( $option, $args );
-    //   qcld_wpbot()->set_response_list();
-    // }
+    public function screen_option(){
+		global $custom_hook;
+		$screen = get_current_screen();
+	
+        $option = 'per_page';
+		$args   = [
+			'label'   => 'Response',
+			'default' => 25,
+			'option'  => 'str_responses_per_page'
+		];
+		add_screen_option( $option, $args );
+		qcld_wpbot()->set_response_list();
+    }
 }
 
 

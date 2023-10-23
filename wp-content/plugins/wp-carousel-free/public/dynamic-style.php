@@ -34,12 +34,17 @@ $slide_border_color     = isset( $slide_border['color'] ) ? $slide_border['color
 $image_border_width = isset( $shortcode_data['wpcp_product_image_border']['all'] ) && ! empty( $shortcode_data['wpcp_product_image_border']['all'] ) ? $shortcode_data['wpcp_product_image_border']['all'] : $old_slide_border_width;
 $image_border_style = isset( $shortcode_data['wpcp_product_image_border']['style'] ) ? $shortcode_data['wpcp_product_image_border']['style'] : '1';
 $image_border_color = isset( $shortcode_data['wpcp_product_image_border']['color'] ) ? $shortcode_data['wpcp_product_image_border']['color'] : '#ddd';
-
+$show_quick_view_button = isset( $shortcode_data['quick_view'] ) ? $shortcode_data['quick_view'] : true;
 
 if ( 'product-carousel' === $carousel_type ) {
 	$wpcp_product_css = '#sp-wp-carousel-free-id-' . $post_id . '.sp-wpcp-' . $post_id . '.wpcp-product-carousel .wpcp-slide-image {
 		border: ' . $image_border_width . 'px ' . $image_border_style . ' ' . $image_border_color . ';
 	}';
+	if ( ! $show_quick_view_button ) {
+		$wpcp_product_css = '#sp-wp-carousel-free-id-' . $post_id . '.wpcp-product-carousel .wpcp-cart-button #sp-wqv-view-button {
+			display: none;
+		}';
+	}
 } else {
 	$wpcp_product_css = '#sp-wp-carousel-free-id-' . $post_id . '.sp-wpcp-' . $post_id . ' .wpcp-single-item {
 		border: ' . $slide_border_width . 'px ' . $slide_border_style . ' ' . $slide_border_color . ';

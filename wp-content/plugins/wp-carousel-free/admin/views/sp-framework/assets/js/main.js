@@ -2263,7 +2263,7 @@
 
 
     /* Copy to clipboard */
-    $('.wpcf-shortcode-selectable').click(function (e) {
+    $('.wpcf-shortcode-selectable').on('click', function (e) {
       e.preventDefault();
       wpcf_copyToClipboard($(this));
       wpcf_SelectText($(this));
@@ -2297,7 +2297,7 @@
       sel.addRange(r);
     }
 
-    $('.post-type-sp_wp_carousel .shortcode.column-shortcode input').click(function (e) {
+    $('.post-type-sp_wp_carousel .shortcode.column-shortcode input').on('click', function (e) {
       e.preventDefault();
       /* Get the text field */
       var copyText = $(this);
@@ -2336,7 +2336,7 @@
       return true;
     }
 
-    $('.wpcp_export .wpcf--button').click(function (event) {
+    $('.wpcp_export .wpcf--button').on('click', function (event) {
       event.preventDefault();
 
       var $shortcode_ids = $('.wpcp_post_ids select').val();
@@ -2381,11 +2381,11 @@
 
 
     // Wp Carousel import.
-    $('.wpcp_import button.import').click(function (event) {
+    $('.wpcp_import button.import').on('click', function (event) {
       event.preventDefault();
       var $this = $(this),
-      button_text = $this.text(),
-      wpcp_shortcodes = $('#import').prop('files')[0];
+        button_text = $this.text(),
+        wpcp_shortcodes = $('#import').prop('files')[0];
 
       if ($('#import').val() != '') {
         $this.css('opacity', '0.7');
@@ -2406,7 +2406,7 @@
             },
             success: function (resp) {
               $this.html(button_text).css('opacity', '1');
-  
+
               $('.wpcf-form-result.wpcf-form-success').text('Imported successfully!').show();
               setTimeout(function () {
                 $('.wpcf-form-result.wpcf-form-success').hide().text('');
@@ -2418,7 +2418,7 @@
               $('#import').val('');
               $this.html(button_text).css('opacity', '1');
               $('.wpcf-form-result.wpcf-form-success').addClass('error')
-              .text('Something went wrong, please try again!').show();
+                .text('Something went wrong, please try again!').show();
               setTimeout(function () {
                 $('.wpcf-form-result.wpcf-form-success').hide().text('').removeClass('error');
               }, 2000);
@@ -2459,7 +2459,7 @@
     var $button = $(this).find('.wpcf-save');
     $button.css({ "background-color": "#00C263", "pointer-events": "initial" }).val('Save Settings');
   });
-  $('.sp_wp_carousel_page_wpcp_settings .wpcf-save').click(function (e) {
+  $('.sp_wp_carousel_page_wpcp_settings .wpcf-save').on('click', function (e) {
     e.preventDefault();
     $(this).css({ "background-color": "#C5C5C6", "pointer-events": "none" }).val('Changes Saved');
   })
@@ -2469,7 +2469,7 @@
     var $button = $(this).find('.wpcf-save');
     $button.css({ "background-color": "#00C263", "pointer-events": "initial" }).val('Save Settings');
   });
-  $('.sp_wp_carousel_page_wpcp_settings .wpcf-save').click(function (e) {
+  $('.sp_wp_carousel_page_wpcp_settings .wpcf-save').on('click', function (e) {
     e.preventDefault();
     $(this).css({ "background-color": "#C5C5C6", "pointer-events": "none" }).val('Changes Saved');
   })
@@ -2515,7 +2515,7 @@
         $('.wpcp-carousel-preloader').animate({ opacity: 1 }, 600).hide();
         var carousel_id = $('.wpcp-carousel-section.wpcp-preloader').attr('id');
         $('#' + carousel_id).animate({ opacity: 1 }, 600);
-        $('.wpcpro-post-pagination-number').click(function (e) {
+        $('.wpcpro-post-pagination-number').on('click', function (e) {
           e.preventDefault();
           e.stopPropagation();
           $('.spwpc-pagination-not-work').animate({

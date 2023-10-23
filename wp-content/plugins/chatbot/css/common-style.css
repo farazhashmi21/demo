@@ -191,7 +191,9 @@
     border-top-color: #FF00FF;
     animation: spin 1.5s linear infinite;
 }
-
+.wp-chatbot-footer div#wp-chatbot-editor-container {
+    display: flex;
+}
 @keyframes spin {
     0% {
         -webkit-transform: rotate(0deg);

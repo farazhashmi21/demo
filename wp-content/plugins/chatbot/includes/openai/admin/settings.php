@@ -1,10 +1,15 @@
-
 <div class="<?php esc_attr_e( 'row g-0','wpbot');?>">
     <div class="<?php esc_attr_e( 'col-sm-10','wpbot');?>">
         <div class="<?php esc_attr_e( 'form-check form-switch my-4','wpbot');?>">
             <input class="<?php esc_attr_e( 'form-check-input','wpbot');?>" type="checkbox" <?php echo (get_option( 'ai_enabled') == 1) ? esc_attr( 'checked','wpbot') :'';?>  role="switch" value="" id="<?php esc_attr_e( 'is_ai_enabled','wpbot'); ?>">
             <label class="<?php esc_attr_e( 'form-check-label','wpbot');?>" for="<?php esc_attr_e( 'is_ai_enabled','wpbot'); ?>">
             <?php  esc_html_e( 'Enable Open AI','wpbot'); ?>
+            </label>
+        </div>
+        <div class="<?php esc_attr_e( 'form-check form-switch my-4','wpbot');?>">
+            <input class="<?php esc_attr_e( 'form-check-input','wpbot');?>" type="checkbox" <?php echo (get_option( 'ai_only_mode') == 1) ? esc_attr( 'checked','wpbot')  :'';?>  role="switch" value="" id="<?php esc_attr_e( 'is_ai_only_mode','wpbot');?>">
+            <label class="<?php esc_attr_e( 'form-check-label','wpbot');?>" for="<?php esc_attr_e( 'is_ai_only_mode','wpbot');?>">
+            <?php  esc_html_e( 'Enable OpenAI only mode and hide other chatBot features','wpbot');?>
             </label>
         </div>
         <div class="<?php esc_attr_e( 'mb-3','wpbot');?>">
@@ -56,11 +61,11 @@
         </div> 
         
         <div class="<?php esc_attr_e( 'mb-3','wpbot');?>">
-            <label for="<?php esc_attr_e( 'qcld_openai_include_keyword','wpbot');?>"><?php esc_attr_e( 'Connect to OpenAI only when user query includes one of the following (comma separated) Keywords','wpbot');?></label>
+            <label for="<?php esc_attr_e( 'qcld_openai_include_keyword','wpbot');?>"><?php esc_attr_e( 'Connect to OpenAI only when user query includes one of the following Keywords','wpbot');?></label>
             <textarea type="text" class="<?php esc_attr_e( 'form-control','wpbot');?>" id="<?php esc_attr_e( 'qcld_openai_include_keyword','wpbot');?>"><?php echo esc_attr( get_option( 'openai_include_keyword')); ?></textarea>
         </div>
         <div class="<?php esc_attr_e( 'mb-3','wpbot');?>">
-            <label for="<?php esc_attr_e( 'qcld_openai_exclude_keyword','wpbot');?>"><?php esc_attr_e( 'Connect to OpenAI only when user query does NOT include one of the following (comma separated) Keywords','wpbot');?></label>
+            <label for="<?php esc_attr_e( 'qcld_openai_exclude_keyword','wpbot');?>"><?php esc_attr_e( 'Connect to OpenAI only when user query does NOT include one of the following Keywords','wpbot');?></label>
             <textarea type="text" class="<?php esc_attr_e( 'form-control','wpbot');?>" id="<?php esc_attr_e( 'qcld_openai_exclude_keyword','wpbot');?>"><?php  echo esc_attr( get_option( 'openai_exclude_keyword')); ?></textarea>
         </div>
         <div class="<?php esc_attr_e( 'mb-3','wpbot');?>">
@@ -80,7 +85,11 @@
                 <label class="<?php esc_attr_e( 'form-check-label','wpbot');?>" for="<?php esc_attr_e( 'conversation_continuity','wpbot');?>"><?php esc_html_e( 'Enable conversation continuity','wpbot');  ?></label>
             </div>
         </div>
-        
+        <div class="<?php esc_attr_e( 'mb-3','wpbot');?>">
+            <label for="<?php esc_attr_e( 'qcld_openai_custom_model','wpbot');?>" class="<?php esc_attr_e( 'form-label','wpbot');?>"><?php esc_html_e( 'Custom Fine Tuned Model','wpbot');?></label>
+            <input id="<?php esc_attr_e( 'qcld_openai_custom_model','wpbot');?>" class="<?php esc_attr_e( 'form-control','wpbot');?>" type="text" name="qcld_openai_custom_model" value="<?php echo esc_attr( get_option( 'qcld_openai_custom_model')); ?>">
+            <label><small><?php  esc_html_e( 'Pick your custom model from fine tune list','wpbot');?></small></label>
+        </div>
         <div class="<?php esc_attr_e( 'mb-3','wpbot');?>">
             
             <label for="<?php esc_attr_e( 'qcld_openai_prompt','wpbot');?>" class="<?php esc_attr_e( 'form-label','wpbot');?>"><?php esc_html_e( 'Select Prompt','wpbot');?></label>

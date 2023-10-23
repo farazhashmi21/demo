@@ -23,7 +23,7 @@ function register_jcisettings() {
 }
 
 /* define tabs for plugin-admin-menu BEGIN*/
-function jci_admin_tabs( $current = 'syntax' ) {
+function jci_admin_tabs( $current = 'welcome' ) {
     $tabs = array(
           'welcome' => 'Welcome to JCI',
           'checkinstall' => __('Check Installation', 'json-content-importer'),
@@ -38,9 +38,15 @@ function jci_admin_tabs( $current = 'syntax' ) {
           );
 
     echo '<h2 class="nav-tab-wrapper">';
-	echo "<style>.nav-tab-active, .nav-tab-active:hover {background-color: #0071a1;color: #FFF;}</style>";
+	echo "<style>";
+	echo ".nav-tab-active, .nav-tab-active:hover {background-color: #0071a1;color: #FFF;}";
+	echo ".nav-tab-active-pro, .nav-tab-active-pro:hover {background-color: #356306;color: #FFF;}";
+	echo "</style>";
     foreach( $tabs as $tab => $name ){
         $class = ( $tab == $current ) ? ' nav-tab-active' : '';
+		if ('jcipro'==$tab) {
+			$class = ' nav-tab-active-pro';
+		}
         echo "<a class='nav-tab$class' href='?page=unique_jci_menu_slug&tab=$tab'>$name</a>";
 
     }
@@ -193,9 +199,9 @@ function jci_settings_page() {
 			<strong><?php _e('Handle unavailable APIs', 'json-content-importer') ?>:</strong> 
 			<br>
 			<?php 
-			$pluginOption_jci_api_errorhandling = get_option('jci_api_errorhandling');
+			$pluginOption_jci_api_errorhandling = get_option('jci_api_errorhandling') ?? 0;
 			if (empty($pluginOption_jci_api_errorhandling)) {
-				update_option('jci_api_errorhandling', 0);
+				#update_option('jci_api_errorhandling', 0);
 				$pluginOption_jci_api_errorhandling = 0;
 			}
 			?>
@@ -225,7 +231,8 @@ function jci_settings_page() {
 				<?php _e("Insert 'Authorization: ACCESSKEY' in the following text field, and the 'Bearer' part will be added automatically.", 'json-content-importer') ?></li>
 				<li><?php _e('Send "Authorization:ACCESSKEY"', 'json-content-importer') ?>: 
 				<?php _e("Insert 'nobearer Authorization: ACCESSKEY' in the following text field, and no 'Bearer' will be added.", 'json-content-importer') ?></li>
-				</li>
+				<li><?php _e('Send Header "HEADER_KEY:HEADER_VALUE"', 'json-content-importer') ?>: 
+				<?php _e("Insert 'header HEADER_KEY1:HEADER_VALUE1#HEADER_KEY2:HEADER_VALUE2' in the following text field, and no 'Bearer' will be added. E.g.: 'header User-Agent:JCIfree'", 'json-content-importer') ?></li>
 			</ul>
 			<?php 
 				$jci_oauth_bearer_access_key = get_option('jci_oauth_bearer_access_key'); 
@@ -504,47 +511,93 @@ function jci_settings_page() {
 				<li><?php _e('If you use the plugin to retrieve data from APIs, transform it, and display it on a website, it is important to consider GDPR compliance. In this case, the plugin functions as a piece of software that interacts with the data. ', 'json-content-importer'); ?>
 				<?php _e('Therefore, you should include the plugin in your <a href="https://gdpr-info.eu/art-30-gdpr/" target="_blank">GDPR-"Records of processing activities"</a> if the data involved contains personal information.', 'json-content-importer'); ?></li>
 			</ul>
-        </td></tr>
+		</td></tr>
 	<?php
 	break;
 	case 'jcipro' :
 	?>
-      <tr><td>
-		<?PHP 
-			echo "<h1>".__('JSON Content Importer PRO', 'json-content-importer')."</h1>";
+   <style>
+      .jcibutton {
+        background-color: #1c87c9;
+        color: white;
+        padding: 28px 28px;
+        display: inline-block;
+        font-size: 21px;
+      }
+      .jcibutton:hover {
+        background-color: white;
+        color: #1c87c9;
+      }
+    </style>
 
-			echo "<h2>".__('Same, but different', 'json-content-importer')."</h2>";
-			echo __("Both the free and PRO JCI Plugins serve the same purpose: retrieving data, transforming it, and publishing the results.", 'json-content-importer')."<br>";
-			echo __("However, while the free Plugin can only handle basic challenges, the PRO JCI Plugin offers nearly full control over WordPress, the database, and applications.", 'json-content-importer')."<br>";
+	<tr>
+		<td>
+		
+		<div class="wrap about-wrap">
+			<h1><?PHP 
+			echo __('JCI PRO is much simpler and more powerful than JCI Free!', 'json-content-importer');
+		?></h1
+		<p class="about-text">
+		Both the free and PRO JCI Plugins serve the same purpose: retrieving data, transforming it, and publishing the results.
+		<br>
+		However, while the free Plugin can only handle basic challenges, the PRO JCI Plugin offers nearly full control over WordPress, the database, and applications.
+			<ul>
+				<li>&bull; Get JSON: Unlike the limited methods of the free JCI, the JCI PRO can access almost any data: locally from files, remotely via any known authentication.</li>
+				<li>&bull; Use JSON: While the free JCI can handle JSON, the JCI PRO can work with any data source and is able to build applications.</li>
+				<li>&bull; To achieve this, the JCI PRO offers the twig parser and many extensions. Various WordPress and Database functions are available to give you full control.</li>
+				<?PHP 
+				echo '<li>&bull; '.__("Try it without risk: We offer a full refund if the PRO plugin cannot solve your challenge", 'json-content-importer')."</li>";
+				?>
+			</ul>
+		</p>
+		</div>
+			<?PHP
+			$imgurl = plugin_dir_url(__FILE__)."images/banner-772x250.jpg"; 
+			echo '<img src="'.$imgurl.'">';
+			?>
+		<br><a href="https://json-content-importer.com/download/" class="jcibutton">Click here to upgrade to the JCI PRO Plugin and unlock the full power of JCI!</a>
 
-			echo "<h2>".__('Are they independent? Absolutely!', 'json-content-importer')."</h2>";
-			echo __("The free JCI Plugin and the JCI PRO Plugin are completely independent of each other. Their software code and configurations are separate with no interference.", 'json-content-importer')."<br>";
-
-			echo "<h2>".__("Try it without risk: We offer a full refund if the PRO plugin cannot solve your challenge.", 'json-content-importer')."</h2>";
-			echo '<h3><a href="https://json-content-importer.com/welcome/" target="_blank">'.__("Upgrade to the JCI PRO Plugin and unlock the full power of JCI!", 'json-content-importer')."</a></h3>";
-			
-			echo '<h3><a href="https://json-content-importer.com/welcome/" target="_blank">'.__('Save 10% till August 31, 2023, with the discount code "wordpressorg"', 'json-content-importer')."</a></h3>";
-			
-?>
-		<ul class=jciul>
-				<li><a href="https://json-content-importer.com/compare/?sc=wp" target="_blank" title="<?php _e('Compare free and PRO JSON Content Importer Plugin', 'json-content-importer') ?>"><?php _e('Compare free and PRO JSON Content Importer', 'json-content-importer') ?></a>
-				<li>
-				<?PHP echo __('JCI PRO Examples','json-content-importer'); ?>: <a href="https://doc.json-content-importer.com/json-content-importer/jci-and-openstreetmaps/" target="_blank"><?PHP echo __('Openstreetmaps','json-content-importer'); ?></a>, 
-				<a href="https://doc.json-content-importer.com/json-content-importer/multisite-search/" target="_blank"><?PHP echo __('Search: Faceted / Multisite','json-content-importer'); ?></a>...</li>
+		<h2><?PHP 
+			echo __('PRO-Plugin: All free features plus...', 'json-content-importer'); ?></h2>
+		<ul>
+			<li>&bull; Support and ongoing development</li>
+			<li>&bull; handling of a wider range of JSON-feeds / APIs</li>
+			<li>&bull; enhanced template engine: the plugin-own engine is better, the famous twig-engine is the PRO-alternative</li>
+			<li>&bull; template-manager: store templates independent of pages</li>
+			<li>&bull; display as widget at the sidebar or footer</li>
+			<li>&bull; build applications: select JSON-feed on the fly</li>
+			<li>&bull; create WordPress-Pages and CPT, fill CPF</li>
+			<li>&bull; use Toolset and Elementor with JCI PRO</li>
+			<li>&bull; third-party shortcodes work inside the jsoncontentimporter-shortcode
+			<li>&bull; and a lot more…</li>
+	
 		</ul>
 
-
-        <h3><?php _e('JCI PRO Plugin only', 'json-content-importer') ?>:</h3>
-        <ul class=jciul>
-        <li><?php _e('Template-Manager: No more hassle with line breaks, and a single place to store templates for use on multiple pages.', 'json-content-importer') ?></li>
-        <li><?php _e('Format date and time', 'json-content-importer') ?></li>
-        <li><?php _e('Application building: E. g. pass GET/POST-parameter from Wordpress to JSON-feed', 'json-content-importer') ?></li>
-        <li><?php _e('Shortcode inside template', 'json-content-importer') ?></li>
-        <li><?php _e('Twig template engine: Add logic (if statements, etc.) to your templates', 'json-content-importer') ?></li>
-        <li><?php _e('Create custom post types out of JSON', 'json-content-importer') ?>: <a href="https://www.youtube.com/watch?v=fQsiJj_Aozw" target="_blank">Video</a></li>
-        <li><?php _e('And much more...', 'json-content-importer') ?></li>
-        </ul>
-        </td></tr>
+		<strong><a href="https://json-content-importer.com/compare/?sc=wp" target="_blank" title="<?php _e('Compare free and PRO JSON Content Importer Plugin', 'json-content-importer') ?>"><?php _e('Compare free and PRO JSON Content Importer', 'json-content-importer') ?></a></strong>
+		<hr>
+		<p>
+			<h2><?php _e('Some JCI PRO highlights', 'json-content-importer') ?></h2>
+			<ul class=jciul>
+				<li><?php _e('Twig template engine: Much simpler Syntax and logic (if statements, etc.) in your templates', 'json-content-importer') ?>
+				<br>
+				<?php _e('E. g. instead of ', 'json-content-importer') ?><br><code>{subloop:title:-1}{title.text}{/subloop:title}</code>
+				<br>
+				<?php _e('use the twig Syntax', 'json-content-importer') ?><br><code>{{title.text}}</code>
+				<br><a href="https://api.json-content-importer.com/free-pro-aara-show-data-from-monitoringapi-solaredge-com/" target="_blank"><?php _e('Example with a real API', 'json-content-importer') ?></a>
+				
+				</li>
+				<li><?php _e('Template-Manager: No more hassle with line breaks, and a single place to store templates for use on multiple pages.', 'json-content-importer') ?></li>
+				<li><?php _e('Format date and time', 'json-content-importer') ?></li>
+				<li><?php _e('Application building: E. g. pass GET/POST-parameter from Wordpress to JSON-feed', 'json-content-importer') ?><br>
+					<a href="https://doc.json-content-importer.com/json-content-importer/jci-and-openstreetmaps/" target="_blank"><?PHP echo __('Openstreetmaps','json-content-importer'); ?></a>,<br>
+					<a href="https://doc.json-content-importer.com/json-content-importer/multisite-search/" target="_blank"><?PHP echo __('Search: Faceted / Multisite','json-content-importer'); ?></a>...				
+				</li>
+				<li><?php _e('Shortcode inside template', 'json-content-importer') ?></li>
+				<li><?php _e('Create custom post types out of JSON', 'json-content-importer') ?>: <a href="https://www.youtube.com/watch?v=fQsiJj_Aozw" target="_blank">Show API JSON Data in Wordpress with the Plugins JsonContentImporter PRO and Toolset</a></li>
+				<li><?php _e('And much more...', 'json-content-importer') ?></li>
+			</ul>
+        </td>
+		 </tr>
 		<?php
 	break;
 	case 'checkinstall' :

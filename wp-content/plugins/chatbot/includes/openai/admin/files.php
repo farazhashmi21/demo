@@ -4,18 +4,25 @@ if((isset($wpchatbot_pro_master_init) && $wpchatbot_pro_master_init->is_valid())
 ?>
 <div class="row">
     <div  class="col-md-12">
-        <div class="alert alert-danger my-4">
-            <?php esc_html_e('Fine tuning will not work yet if you select GPT 3 Turbo (ChatGPT) and GPT 4 Turbo as engine. We will add this feature as soon as OpenAI API supports it'); ?>
-        </div>
+       
         <form class="file_form">
             <div class="success-message alert alert-info"></div>
             <div class="error-message alert alert-danger"></div>
             <input type="file" (change)="fileEvent($event)" class="inputfile" id="openfileinput" style="display:none"/>
             <label for="openfileinput" class="huge ui grey button">
                 <i class="fa fa-upload"></i> 
-                Upload JSONL
+                <?php esc_html_e('Upload JSONL'); ?>
             </label>
         </form>
+       <form class="file_form_gpt">
+            <div class="success-message alert alert-info"></div>
+            <div class="error-message alert alert-danger"></div>
+            <input type="file" (change)="fileEvent($event)" class="inputfile" id="openfileinput_gpt" style="display:none"/>
+            <label for="openfileinput_gpt" class="huge ui grey button">
+                <i class="fa fa-upload"></i> 
+                <?php esc_html_e('Upload JSONL GPT 3.5'); ?>
+            </label>
+        </form>  
         </br>
         <a href="https://wpbot.pro/myfile.jsonl" download><?php esc_html_e( 'Right click and Save the Example jsonl file','openai_addon');?></a>
         <div class="table-responsive">
@@ -31,9 +38,19 @@ if((isset($wpchatbot_pro_master_init) && $wpchatbot_pro_master_init->is_valid())
         </div>
         <div class="table-responsive">
             <table class="table table-striped table-bordered">
-                <thead><tr><td><?php esc_html_e( 'FT id','openai_addon');?></td><td><?php esc_html_e( 'FT Model','openai_addon');?></td><td><?php esc_html_e( 'Status','openai_addon');?> </td><td><?php esc_html_e( 'File Name','openai_addon');?></td><td> <?php esc_html_e( 'File Id','openai_addon');?></td></tr></thead>
+                <thead><tr><td><?php esc_html_e( 'FT Model','openai_addon');?></td><td><?php esc_html_e( 'Status','openai_addon');?> </td><td><?php esc_html_e( 'File Name','openai_addon');?></td><td> <?php esc_html_e( 'File Id','openai_addon');?></td></tr></thead>
                 <tbody id="openaiFTList">
                     
+                </tbody>
+            </table>
+        </div>
+        <div class="my-5">
+            <h2><?php esc_html_e( 'GPT 3.5 Fine Tuned Models List','openai_addon');?></br></h2>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead><tr><td><?php esc_html_e( 'FT Model','openai_addon');?></td><td><?php esc_html_e( 'Status','openai_addon');?> </td><td><?php esc_html_e( 'File Name','openai_addon');?></td><td> <?php esc_html_e( 'File Id','openai_addon');?></td></tr></thead>
+                <tbody id="openaiFTListGPT">
                 </tbody>
             </table>
         </div>
@@ -56,7 +73,7 @@ if((isset($wpchatbot_pro_master_init) && $wpchatbot_pro_master_init->is_valid())
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Create your Fine Tune</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle"> <?php esc_html_e('Create your Fine Tune'); ?></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -71,6 +88,7 @@ if((isset($wpchatbot_pro_master_init) && $wpchatbot_pro_master_init->is_valid())
                         <label for="exampleFormControlSelect1">Fine tune model</label>
                         <select class="form-select" aria-label="Default select example" name="qcld_openai_ft_engines" id="qcld_openai_ft_engines">
                             <option <?php echo ((get_option( 'openai_engines') == '') ? 'selected' : '') ; ?>><?php esc_html_e( 'Please select Engines','openai_addon');?></option>
+                            <option value="gpt-3.5-turbo-0613" <?php echo ((get_option( 'openai_engines') == 'gpt-3.5-turbo-0613') ? 'selected' : '') ; ?>><?php esc_html_e( 'gpt-3.5 Turbo','openai_addon');?></option>
                             <option value="text-davinci-003" <?php echo ((get_option( 'openai_engines') == 'text-davinci-003') ? 'selected' : '') ; ?>><?php esc_html_e( 'Davinci (GPT-3 model)','openai_addon');?></option>
                             <option value="text-davinci-001" <?php echo ((get_option( 'openai_engines') == 'text-davinci-001') ? 'selected' : '') ; ?>><?php esc_html_e( 'Davinci','openai_addon');?></option>
                             <option value="text-ada-001" <?php echo ((get_option( 'openai_engines') == 'text-ada-001') ? 'selected' : '') ; ?>><?php esc_html_e( 'Ada','openai_addon');?></option>
@@ -80,8 +98,8 @@ if((isset($wpchatbot_pro_master_init) && $wpchatbot_pro_master_init->is_valid())
                     </div>
                 </div>
                 <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary create_ft_model">Create Fine tune</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"> <?php esc_html_e('Close'); ?></button>
+                        <button type="button" class="btn btn-primary create_ft_model"> <?php esc_html_e('Create Fine tune'); ?></button>
                 </div>
             </div>
          </div>

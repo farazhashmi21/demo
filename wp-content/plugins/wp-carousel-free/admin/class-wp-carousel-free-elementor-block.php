@@ -12,6 +12,14 @@
  */
 class Wp_Carousel_Free_Element_Shortcode_Block {
 	/**
+	 * Script and style suffix
+	 *
+	 * @access protected
+	 * @var string
+	 */
+	protected $suffix;
+
+	/**
 	 * Instance
 	 *
 	 * @since 2.4.1

@@ -118,7 +118,7 @@ function checkCacheFolder($cacheBaseFolder, $cacheFolder) {
 		$debugheadline = "<b>".__('Debug Info:', 'json-content-importer')."</b><br>";
 	}
 	 
-	 $urlgettimeout = checkIntAttrib(($attributes['urlgettimeout'] ?? ''), 5) ?? '';
+	 $urlgettimeout = checkIntAttrib(($attributes['urlgettimeout'] ?? ''), '5') ?? '';
 	 $numberofdisplayeditems = checkIntAttrib(($attributes['numberofdisplayeditems'] ?? ''), -1) ?? '';
 
 	 ###############################################################
@@ -168,10 +168,10 @@ function checkCacheFolder($cacheBaseFolder, $cacheFolder) {
 		 require_once plugin_dir_path( __FILE__ ) . '../class-fileload-cache.php';
 	 }
 	 
-	 $pluginOption_jci_api_errorhandling = get_option('jci_api_errorhandling');
-		 if (empty($pluginOption_jci_api_errorhandling)) {
-			 update_option('jci_api_errorhandling', 0);
-		 }
+	 $pluginOption_jci_api_errorhandling = get_option('jci_api_errorhandling') ?? 0;
+		 #if (empty($pluginOption_jci_api_errorhandling)) {
+		#	 update_option('jci_api_errorhandling', 0);
+		 #}
 
 	$fileLoadWithCacheObj = new FileLoadWithCache($feedUrl, $urlgettimeout, $cacheEnable, $cacheFile,
 		 $cacheExpireTime, $pluginOption_oauthBearerAccessKey, $pluginOption_httpHeaderDefaultUseragentFlag, $debugmode, $pluginOption_jci_api_errorhandling);
@@ -209,7 +209,6 @@ function checkCacheFolder($cacheBaseFolder, $cacheFolder) {
 		}
 
 		$debugmsg .= __('API-Server does answer, but with an error-message', 'json-content-importer').':<br><b>'.
-			#"respHttpCode: ".$respHttpCode."--".
 			$respHttpCodeMessage.
 			'</b><br>';
 		#return $debugmsg;  # if an API gives a non-200-answer may there is JSON in the answer
@@ -237,7 +236,7 @@ function checkCacheFolder($cacheBaseFolder, $cacheFolder) {
 		$shortcodeData .= addShortcodeParam('numberofdisplayeditems', $numberofdisplayeditems);
 	 }
 	 $shortcodeData .= addShortcodeParam('basenode', $basenode);
-	 if ($urlgettimeout!=5) {
+	 if ($urlgettimeout!='5') {
 		$shortcodeData .= addShortcodeParam('urlgettimeout', $urlgettimeout);
 	 }
 	 $shortcodeData .= addShortcodeParam('debugmode', $debugmode);
@@ -351,9 +350,9 @@ function checkIntAttrib($value, $defaultvalue) {
 function jsoncontentimporterGutenbergBlock() {
 	wp_register_script(
 		'jcifree-block-script', 
-		plugins_url( 'jcifree-block.php', __FILE__ ),
-		array( 'wp-blocks', 'wp-element', 'wp-i18n', 'wp-editor', 'wp-components'),
-		filemtime( plugin_dir_path(__FILE__).'jcifree-block.php')
+		plugins_url( 'jcifree-block.js', __FILE__ ),
+		array( 'wp-blocks', 'wp-element', 'wp-i18n', 'wp-editor', 'wp-components', 'wp-api-fetch'),
+		filemtime( plugin_dir_path(__FILE__).'jcifree-block.js')
 	);
 	if (is_admin()) {
 		wp_enqueue_script('jcifree-block-script');
@@ -379,9 +378,6 @@ function jsoncontentimporterGutenbergBlock() {
 					'type' => 'string',
 					'default' => '',
 				),
-				//'noitems'	 => array(
-				//	'type' => 'number',
-				//),
 				'toggleswitch'	 => array(
 					'type' => 'boolean',
 					'default' => false,
@@ -394,9 +390,6 @@ function jsoncontentimporterGutenbergBlock() {
 					'type' => 'boolean',
 					'default' => false,
 				),
-				//'m1'	 => array(
-				//	'type' => 'string',
-				//),
 				'urlgettimeout'	 => array(
 					'type' => 'string',
 					'default' => '5',

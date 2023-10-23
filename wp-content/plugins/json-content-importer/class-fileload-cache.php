@@ -268,27 +268,44 @@ class FileLoadWithCache {
           #'filename'    => null
         );
       } else {
-        $acckey = $this->oauth_bearer_access_key;
-        if (preg_match("/^nobearer /i", $acckey)) {
-          $acckey = preg_replace("/^nobearer /i", "", $acckey);
-          $header = $acckey;
-        } else {
-          $header = __('Bearer', 'json-content-importer').' '.$acckey;
-        }
         $args = array(
             'timeout'     => $this->urlgettimeout,
-            'headers'     => array('Authorization' => $header),
-      			'sslverify' => false
-          );
+   			'sslverify' => false
+        );
+
+        $acckey = $this->oauth_bearer_access_key;
+        if (preg_match("/^nobearer /i", $acckey)) {
+			$acckey = preg_replace("/^nobearer /i", "", $acckey);
+			$header = $acckey;
+			$this->showdebugmessage("Authentication header: ".$header);
+			$args["headers"] = array('Authorization' => $header);
+        } elseif (preg_match("/^header /i", $acckey)) {
+			# header HEADER_KEY:HEADER_VALUE
+			$acckey = preg_replace("/^header /i", "", $acckey);
+			$acckeyArr = explode("#", $acckey);
+			$headerArr = array();
+			foreach ($acckeyArr as $acckeyItem) {
+				$acckeyArrSub = explode(":", $acckeyItem, 2);
+				if (!empty($acckeyArrSub[0]) && !empty($acckeyArrSub[1])) {
+					$headerArr[$acckeyArrSub[0]] = $acckeyArrSub[1];
+				}
+			}
+			$args["headers"] = $headerArr;
+        } else {
+			$header = __('Bearer', 'json-content-importer').' '.$acckey;
+			$args["headers"] = array('Authorization' => $header);
+        }
       }
       if ($this->http_header_default_useragent_flag==1) {
         $args['user-agent'] = __('JCI WordPress-Plugin - free Version', 'json-content-importer');
       }
 		if (1==get_option("jci_sslverify_off")) {
 			$args["sslverify"] = FALSE;
+			$this->showdebugmessage("Switch OFF SSL verification (send sslverify=false)");
 		};
 		if (2==get_option("jci_sslverify_off")) {
 			$args["sslverify"] = TRUE;
+			$this->showdebugmessage("Switch ON SSL verification (send sslverify=true)");
 		};
 		#echo print_r($args, TRUE);
 

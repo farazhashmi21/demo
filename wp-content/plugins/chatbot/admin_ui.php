@@ -1729,7 +1729,6 @@ if ( ! defined( 'ABSPATH' ) ) {
                       //foreach (get_option('support_ans') as $support_ans){
                       $query_ans_counter=0;
                       foreach (array_combine($support_quereis, $support_ans) as $query => $ans) {
-                       
                           ?>
                 <div class="<?php esc_attr_e( 'row',  'wpbot' );  ?> "> <span class="<?php esc_attr_e( 'pull-right',  'wpbot' );  ?> "> </span>
                   <div class="<?php esc_attr_e( 'col-xs-12',  'wpbot' );  ?> ">
@@ -2188,7 +2187,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             <div class="<?php esc_attr_e( 'cxsc-settings-blocks-addon',  'wpbot' );  ?> "><?php esc_html_e('Install Conversational form builder to Create Button(menu) Driven Conversations.', 'wpbot'); ?></br> 
                              <?php esc_html_e('After creating a Conversational form, you can add it to the ChatBot`s', 'wpbot'); ?><b><?php esc_html_e('Start Menu.', 'wpbot'); ?></b></div>
 
-              <?php include_once QCLD_wpCHATBOT_PLUGIN_DIR_PATH . '/qcld-recommendbot-plugin.php';?>
+              <?php  include_once QCLD_wpCHATBOT_PLUGIN_DIR_PATH . '/qcld-recommendbot-plugin.php'; ?>
           </section>  
         </div>
       </div>

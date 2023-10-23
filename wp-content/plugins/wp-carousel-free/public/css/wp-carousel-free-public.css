@@ -266,6 +266,7 @@
 
 #sp-wpcf-preview-box .wpcp-carousel-section.wpcp-product-carousel .wpcp-cart-button a.button {
 	height: auto;
+	margin-bottom: 5px;
 }
 
 .wpcp-carousel-section.wpcp-product-carousel .wpcp-all-captions .wpcp-cart-button a.add_to_cart_button.added {

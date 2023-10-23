@@ -54,7 +54,9 @@ class Wp_Carousel_Free_Import_Export {
 						$image_gallery      = explode( ',', $data['wpcp_gallery'] );
 						$gallery_attachment = array();
 						foreach ( $image_gallery as $gallery_img ) {
-							$gallery_attachment[] = wp_get_attachment_image_src( $gallery_img, 'full' )[0];
+							if ( $gallery_img ) {
+								$gallery_attachment[] = wp_get_attachment_image_src( $gallery_img, 'full' )[0];
+							}
 						}
 						$shortcode_export['gallery_img_url'] = $gallery_attachment;
 					}
@@ -127,13 +129,11 @@ class Wp_Carousel_Free_Import_Export {
 		}
 		$attachment_title = sanitize_file_name( pathinfo( $url, PATHINFO_FILENAME ) );
 		// Does the attachment already exist ?
-		if ( post_exists( $attachment_title, '', '', 'attachment' ) ) {
-			$attachment = get_page_by_title( $attachment_title, OBJECT, 'attachment' );
-			if ( ! empty( $attachment ) ) {
-				$attachment_id = $attachment->ID;
-				return $attachment_id;
-			}
+		$attachment_id = post_exists( $attachment_title, '', '', 'attachment' );
+		if ( $attachment_id ) {
+			return $attachment_id;
 		}
+
 		$http     = new \WP_Http();
 		$response = $http->request( $url );
 		if ( 200 !== $response['response']['code'] ) {

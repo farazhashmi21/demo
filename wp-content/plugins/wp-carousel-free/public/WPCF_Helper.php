@@ -201,11 +201,12 @@ if ( ! class_exists( 'WPCF_Helper' ) ) {
 			}
 
 			if ( 'product-carousel' === $carousel_type ) {
-				$show_product_name   = $shortcode_data['wpcp_product_name'];
-				$show_product_price  = $shortcode_data['wpcp_product_price'];
-				$show_product_rating = $shortcode_data['wpcp_product_rating'];
-				$show_product_cart   = $shortcode_data['wpcp_product_cart'];
-				$product_query       = self::wpcp_query( $upload_data, $shortcode_data, $post_id );
+				$show_quick_view_button = isset( $shortcode_data['quick_view'] ) ? $shortcode_data['quick_view'] : true;
+				$show_product_name      = $shortcode_data['wpcp_product_name'];
+				$show_product_price     = $shortcode_data['wpcp_product_price'];
+				$show_product_rating    = $shortcode_data['wpcp_product_rating'];
+				$show_product_cart      = $shortcode_data['wpcp_product_cart'];
+				$product_query          = self::wpcp_query( $upload_data, $shortcode_data, $post_id );
 				if ( $product_query->have_posts() ) {
 					while ( $product_query->have_posts() ) :
 						$product_query->the_post();

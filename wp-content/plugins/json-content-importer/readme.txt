@@ -3,8 +3,8 @@ Contributors: berkux
 Tags: json, api, external api, endpoint, rest, rest api, block, template generator
 Requires at least: 5.0
 Requires PHP: 7.0
-Tested up to: 6.3
-Stable tag: 1.5.2
+Tested up to: 6.3.1
+Stable tag: 1.5.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -134,6 +134,12 @@ the other is "{subloop:AAAA.image:10}" where "AAAA.image" is the path to an obje
 9. JCI Block: Generate a template from JSON.
 	
 == Changelog ==
+= 1.5.3=
+* Enhanced, see Tab "Basic Settings": Send Header "HEADER_KEY:HEADER_VALUE": Insert 'header HEADER_KEY1:HEADER_VALUE1#HEADER_KEY2:HEADER_VALUE2' in the following text field, and no 'Bearer' will be added. E.g.: 'header User-Agent:JCIfree'
+* Enhanced: The internal communication within a WordPress block relies on APIs, typically accessed via GET requests. For larger datasets, POST requests are more suitable. This new JCIfree version now utilizes POST instead of GET.
+* Changed: Some server have problems, using jcifree-block.php as JavaScript-Applicaton (strict mime policy). Solution: Renamed to jcifree-block.js
+* Some Backend-Bugfixes for Block-React, PHP8...
+
 = 1.5.2 =
 * Bugfix: JCI Block wasn't showing up when a browser had the "strict mime type" setting enabled. With this bugfix, the issue has been resolved.
 
@@ -369,5 +375,7 @@ Enhanced the template engine for better JSON-handling.
 Initial release on WordPress.org
 
 == Upgrade Notice ==
-= 1.5.2 =
-* Bugfix: JCI Block wasn't showing up when a browser had the "strict mime type" setting enabled. With this bugfix, the issue has been resolved.
+= 1.5.3=
+* Enhanced, see Tab "Basic Settings": Send Header "HEADER_KEY:HEADER_VALUE": Insert 'header HEADER_KEY1:HEADER_VALUE1#HEADER_KEY2:HEADER_VALUE2' in the following text field, and no 'Bearer' will be added. E.g.: 'header User-Agent:JCIfree'
+* Enhanced: The internal communication within a WordPress block relies on APIs, typically accessed via GET requests. For larger datasets, POST requests are more suitable. This new JCIfree version now utilizes POST instead of GET.
+* Changed: Some server have problems, using jcifree-block.php as JavaScript-Applicaton (strict mime policy). Solution: Renamed to jcifree-block.js

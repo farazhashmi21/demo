@@ -40,6 +40,7 @@
  *     03. 31. Field: typography
  *     03. 34. Field: heading
  *     03. 35. Field: subheading
+ *     03. 36. Field: submessage
  *     03. 37. Field: notice
  *     03. 40. Field: others
  * 04. Widget
@@ -1326,9 +1327,9 @@
 	line-height: 20px;
 }
 
-.wpcf-field-image_select figure img,
+/*.wpcf-field-image_select figure img,
 .wpcf-field-icon_select figure {
-	/* max-width: 100%;
+	 max-width: 100%;
   vertical-align: bottom;
   background-color: #fff;
   border: 2px solid #eee; */
@@ -1336,9 +1337,9 @@
 	/* -moz-transition: all 0.15s ease-out;
   -o-transition: all 0.15s ease-out;
   -webkit-transition: all 0.15s ease-out;
-  transition: all 0.15s ease-out; */
+  transition: all 0.15s ease-out; 
 }
-
+*/
 .wpcf-field-icon_select .wpcf--active figure {
 	border-color: #52b3d9;
 	opacity: 1;
@@ -1691,6 +1692,61 @@
 	padding-top: 17px;
 	padding-bottom: 17px;
 	color: #23282d;
+	background-color: #f7f7f7;
+}
+
+/**
+ * 03. 36. Field: submessage
+ */
+ .wpcf-field-submessage {
+	padding: 0 !important;
+	border: 0 !important;
+}
+
+.wpcf-field-submessage+.wpcf-field {
+	border-top: 0 !important;
+}
+
+.wpcf-submessage {
+	font-size: 14px;
+	padding: 17px 20px;
+	border-top: 1px solid transparent;
+	border-bottom: 1px solid transparent;
+}
+
+.wpcf-submessage-success {
+	color: #3c763d;
+	border-color: #d6e9c6;
+	background-color: #dff0d8;
+}
+
+.wpcf-submessage.wpcf-submessage-info {
+	color: #999999;
+	font-style: italic;
+}
+
+.wpcf-submessage-info a.brand-plugin-install,
+.wpcf-submessage-info a.activate_brand,
+.wpcf-submessage-info a.quick-view-install,
+.wpcf-submessage-info a.quick-view-install.activate_plugin {
+	font-weight: 500;
+}
+
+.wpcf-submessage-warning {
+	color: #8a6d3b;
+	border-color: #faebcc;
+	background-color: #fcf8e3;
+}
+
+.wpcf-submessage-danger {
+	color: #a94442;
+	border-color: #ebccd1;
+	background-color: #f2dede;
+}
+
+.wpcf-submessage-normal {
+	color: #23282d;
+	border-color: #eee;
 	background-color: #f7f7f7;
 }
 
@@ -3869,4 +3925,13 @@ Live Preview.
 
 .wpcf-section[data-section-id="watermark-settings"] .sp_wpcp--preview {
     display: none;
+}
+
+/* Brand and Quicke view css for preview */
+#sp-wpcf-preview-box .sp-smart-brand-single-product .sp-smart-brand-name {
+    display: inline-block;
+}
+
+#sp-wpcf-preview-box .wpcp-carousel-section.wpcp-product-carousel .wpcp-cart-button a.button+.button.sp-wqv-view-button {
+    margin-left: 5px;
 }

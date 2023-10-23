@@ -49,16 +49,19 @@ if((isset($wpchatbot_pro_master_init) && $wpchatbot_pro_master_init->is_valid())
                     ?>
             <div class="table-responsive">
                 <table class="table table-striped table-bordered qcld_convert_datatable">
-                    <thead><tr><td><?php esc_html_e( 'Filename','openai_addon');?></td><td><?php esc_html_e( 'Date of creation','openai_addon');?></td><td><?php esc_html_e( 'Size','openai_addon');?></td><td> <?php esc_html_e( 'Action','openai_addon');?></td></tr></thead>
+                    <thead><tr><td><?php esc_html_e( 'Filename','openai_addon');?></td><td><?php esc_html_e( 'Fine tune with','openai_addon');?></td><td><?php esc_html_e( 'Date of creation','openai_addon');?></td><td><?php esc_html_e( 'Size','openai_addon');?></td><td> <?php esc_html_e( 'Action','openai_addon');?></td></tr></thead>
                     <tbody id="post_conversion_files">
                     <?php
                     if($qcld_openai_files && is_array($qcld_openai_files) && count($qcld_openai_files)):
                     foreach($qcld_openai_files as $qcld_openai_file):
                         $file = wp_upload_dir()['basedir'].'/qcldopenai_site_training/'.$qcld_openai_file->post_title;
                         if(file_exists($file)):
+                            $type = explode('_',$qcld_openai_file->post_title);
+                            $type = (sizeof($type) == 2) ? 'GPT3.5' : 'Davinci, ADA etc.';
                             ?>
                             <tr>
                                 <td><?php echo esc_html($qcld_openai_file->post_title);?></td>
+                                <td><?php echo esc_html($type);?></td>
                                 <td><?php echo date('d.m.Y H:i',strtotime($qcld_openai_file->post_date));?></td>
                                 <td><?php echo date('d.m.Y H:i',strtotime($qcld_openai_file->post_modified));?></td>
                                 <td><?php echo size_format(filesize($file));?></td>
@@ -78,15 +81,14 @@ if((isset($wpchatbot_pro_master_init) && $wpchatbot_pro_master_init->is_valid())
             </div>
         </div>
     </div>
-    <?php
-        } else { ?>
-        <div class="row">
-            <div  class="col-md-12 panel-body">
-                <?php
-                        esc_html_e('Fine tuning and training is available with the WPBot Pro Professional and Master Licenses');
-                ?>
-            </div>
-        </div>
-    <?php } ?>
-
+<?php
+ } else { ?>
+<div class="row">
+    <div  class="col-md-12">
+        <?php
+                esc_html_e('Fine tuning and training is available with the WPBot Pro Professional and Master Licenses');
+        ?>
+    </div>
+</div>
+<?php } ?>
 

@@ -3,7 +3,7 @@
 Plugin Name: JSON Content Importer
 Plugin URI: https://json-content-importer.com/
 Description: Plugin to import, cache and display a JSON-Feed. Display is done with wordpress-shortcode or gutenberg-block.
-Version: 1.5.2
+Version: 1.5.3
 Author: Bernhard Kux
 Author URI: https://json-content-importer.com/
 Text Domain: json-content-importer
@@ -11,6 +11,10 @@ Domain Path: /languages/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 */
+
+#ini_set('display_errors', 1);
+#ini_set('display_startup_errors', 1);
+#error_reporting(E_ALL);
 
 /* block direct requests */
 if ( !function_exists( 'add_action' ) ) {
@@ -173,6 +177,11 @@ function jci_restapi() {
 					$url = WP_PLUGIN_URL.$url;
 				}
 				$ret["url"]  = $url;
+				if ("e1"==$ret["url"]) {
+					$example_url = '/json-content-importer/json/gutenbergblockexample1.json';
+					$ret["url"] = WP_PLUGIN_URL.$example_url; 
+				} 
+				
 				$ret["basenode"] = $basenode;
  
 				require_once plugin_dir_path( __FILE__ ) . '/class-fileload-cache.php';
@@ -187,7 +196,7 @@ function jci_restapi() {
 				$fallback2cache = 0;
 				$removewrappingsquarebrackets = FALSE;
 				
-				$fileLoadWithCacheObj = new FileLoadWithCache($url, $urlgettimeout, $cacheEnable, $cacheFile, $cacheExpireTime, $oauth_bearer_access_key, $http_header_default_useragent_flag, $debugmode, $fallback2cache, $removewrappingsquarebrackets);
+				$fileLoadWithCacheObj = new FileLoadWithCache($ret["url"], $urlgettimeout, $cacheEnable, $cacheFile, $cacheExpireTime, $oauth_bearer_access_key, $http_header_default_useragent_flag, $debugmode, $fallback2cache, $removewrappingsquarebrackets);
 				$fileLoadWithCacheObj->retrieveJsonData();
 				$feedData = $fileLoadWithCacheObj->getFeeddata();
 					
@@ -205,12 +214,42 @@ function jci_restapi() {
 				return json_encode($ret);
 			},
 			'permission_callback' => function () {
-				return TRUE;
+				return current_user_can('edit_posts');
 			},			
 			'methods'             => 'GET',
 		)
 	);
 }
 add_action( 'rest_api_init', 'jci_restapi' );
-/**/
+
+
+// REST for POST JCI-Block - begin
+function register_jcifree_block_restapi() {
+    register_rest_route(
+		'wp/jcifree/v1',
+		'/post/block-renderer/',
+		array(
+        'methods' => 'POST',
+        'callback' => 'jcifree_handle_block_endpoint',
+        'permission_callback' => function() {
+			return current_user_can('edit_posts');
+        }
+    ));
+}
+
+add_action('rest_api_init', 'register_jcifree_block_restapi');
+
+function jcifree_handle_block_endpoint(WP_REST_Request $request) {
+	$nonce = $request->get_header('X-WP-Nonce');
+	if ( ! wp_verify_nonce( $nonce, 'wp_rest' ) ) {
+		$renderedContent = 'Permission denied for JCIfree Block REST-API';
+		return new WP_REST_Response(array('renderedContent' => $renderedContent));
+    }
+	$gp = $request->get_params();
+	$attributes = $gp["attributes"];	
+	
+	$renderedContent = jci_free_render( $attributes, "" );
+    return new WP_REST_Response(array('renderedContent' => $renderedContent));
+}
+// REST for POST JCI-Block - end
 ?>

@@ -9,7 +9,7 @@
  * Plugin Name:       WP Carousel
  * Plugin URI:        https://wordpresscarousel.com/
  * Description:       The most powerful and user-friendly carousel, slider, and gallery plugin for WordPress. Create unlimited beautiful carousels, sliders, and galleries in minutes using images, posts, WooCommerce products, etc.
- * Version:           2.5.8
+ * Version:           2.5.9
  * Author:            ShapedPlugin LLC
  * Author URI:        https://shapedplugin.com/
  * License:           GPL-2.0+
@@ -17,7 +17,7 @@
  * Text Domain:       wp-carousel-free
  * Domain Path:       /languages
  * WC requires at least: 4.0
- * WC tested up to: 7.9.0
+ * WC tested up to: 8.2.1
  */
 
 // If this file is called directly, abort.
@@ -119,7 +119,7 @@ class SP_WP_Carousel_Free {
 	 */
 	public function setup() {
 		$this->plugin_name = 'wp-carousel-free';
-		$this->version     = '2.5.8';
+		$this->version     = '2.5.9';
 		$this->define_constants();
 		$this->includes();
 		$this->load_dependencies();
@@ -217,6 +217,7 @@ class SP_WP_Carousel_Free {
 		$this->loader->add_action( 'init', $plugin_cpt, 'wp_carousel_post_type', 11 );
 		$this->loader->add_action( 'admin_notices', $plugin_review_notice, 'display_admin_notice' );
 		$this->loader->add_action( 'wp_ajax_sp-wpcfree-never-show-review-notice', $plugin_review_notice, 'dismiss_review_notice' );
+		add_action( 'wp_ajax_wp_ajax_install_plugin', 'wp_ajax_install_plugin' );
 	}
 
 	/**
@@ -228,7 +229,6 @@ class SP_WP_Carousel_Free {
 	 */
 	private function define_admin_hooks() {
 		$plugin_admin = new WP_Carousel_Free_Admin( $this->get_plugin_name(), $this->get_version() );
-
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_admin_styles' );
 		$this->loader->add_filter( 'post_updated_messages', $plugin_admin, 'wpcp_carousel_updated_messages', 10, 2 );
 		$this->loader->add_filter( 'manage_sp_wp_carousel_posts_columns', $plugin_admin, 'filter_carousel_admin_column' );
@@ -338,8 +338,17 @@ function sp_wpcf() {
 	$plugin->loader->run();
 }
 
-require_once ABSPATH . 'wp-admin/includes/plugin.php';
-if ( ! ( is_plugin_active( 'wp-carousel-pro/wp-carousel-pro.php' ) || is_plugin_active_for_network( 'wp-carousel-pro/wp-carousel-pro.php' ) ) ) {
-	// Launch it out .
-	sp_wpcf();
+/**
+ * Load the main functionalities of the plugin.
+ *
+ * @return void
+ */
+function load_sp_wordpress_carousel_plugin() {
+	require_once ABSPATH . 'wp-admin/includes/plugin.php';
+	if ( ! ( is_plugin_active( 'wp-carousel-pro/wp-carousel-pro.php' ) || is_plugin_active_for_network( 'wp-carousel-pro/wp-carousel-pro.php' ) ) ) {
+		// Launch it out .
+		sp_wpcf();
+	}
 }
+add_action( 'plugins_loaded', 'load_sp_wordpress_carousel_plugin' );
+

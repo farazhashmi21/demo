@@ -105,7 +105,15 @@ global $wpdb;
 					<tr valign="top">
 						<th scope="row"> <?php esc_html_e('Response', 'wpbot'); ?></th>
 						<td>	
-							<textarea id="qlcd_wp_chatbot_stop_words" cols="130" rows="10" name="qc_bot_str_response" required><?php echo ($hasEdit?$data->response:''); ?></textarea>
+						<?php 
+							
+							$content   = ($hasEdit?$data->response:'');
+							$editor_id = 'qc_bot_str_response';
+							$settings  = array( );
+							 
+							wp_editor( $content, $editor_id, $settings );
+							
+							?>
 							<br><i><?php esc_html_e('*Required. Add the response here. ', 'wpbot'); ?></i>
 						</td>
 					</tr>

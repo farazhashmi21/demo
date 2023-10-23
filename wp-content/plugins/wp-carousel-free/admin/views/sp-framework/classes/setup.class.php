@@ -140,6 +140,67 @@ if ( ! class_exists( 'SP_WPCF' ) ) {
 		}
 
 		/**
+		 * Helper function to generate plugin installation and activation process.
+		 *
+		 * @param string      $plugin_slug The slug of the plugin.
+		 * @param string      $button_text The text for the install/activate button.
+		 * @param string|null $activate_capability Optional capability required for activation.
+		 * @param string|null $class_checks Check the plugin main class existed or not.
+		 * @param string|null $slug The plugin slug.
+		 *
+		 * @return array Plugin data array containing link, status, and activate URL.
+		 */
+		public static function plugin_installation_activation( $plugin_slug, $button_text, $activate_capability = null, $class_checks = null, $slug = null ) {
+			$plugin_link = add_query_arg(
+				array(
+					'tab'       => 'plugin-information',
+					'plugin'    => $slug,
+					'TB_iframe' => 'true',
+					'width'     => '772',
+					'height'    => '540',
+				),
+				admin_url( 'plugin-install.php' )
+			);
+
+			$get_plugins         = get_plugins();
+			$activate_plugin_url = '';
+			$has_plugin          = '';
+
+			$is_plugin_active = false;
+			// Check if any of the classes exist.
+			foreach ( $class_checks as $class_check ) {
+				if ( class_exists( $class_check ) ) {
+					$is_plugin_active = true;
+					break;
+				}
+			}
+
+			// Check if the plugin is active using is_plugin_active().
+			if ( $is_plugin_active || is_plugin_active( $plugin_slug ) ) {
+				$has_plugin = ' activated';
+			} elseif ( isset( $get_plugins[ $plugin_slug ] ) ) {
+				if ( 'woo-quickview/woo-quick-view.php' === $plugin_slug ) {
+					$has_plugin = ' activate_plugin';
+				} else {
+					$has_plugin = ' activate_brand';
+				}
+				$button_text = 'Activate Now';
+				if ( $activate_capability && current_user_can( $activate_capability ) ) {
+					$activate_plugin_url = add_query_arg(
+						array(
+							'_wpnonce' => wp_create_nonce( 'activate-plugin_' . $plugin_slug ),
+							'action'   => 'activate',
+							'plugin'   => $plugin_slug,
+						),
+						network_admin_url( 'plugins.php' )
+					);
+				}
+			}
+
+			return compact( 'plugin_link', 'has_plugin', 'button_text', 'activate_plugin_url', 'slug' );
+		}
+
+		/**
 		 * Define the locale for this plugin for internationalization.
 		 *
 		 * Uses the WP_Carousel_Free_I18n class in order to set the domain and to register the hook
@@ -376,6 +437,7 @@ if ( ! class_exists( 'SP_WPCF' ) ) {
 					'spacing',
 					'spinner',
 					'subheading',
+					'submessage',
 					'switcher',
 					'text',
 					'typography',
@@ -518,6 +580,8 @@ if ( ! class_exists( 'SP_WPCF' ) ) {
 						}
 					}
 				}
+				// Load thickbox assets for quick view and brand plugin notice.
+				add_thickbox();
 
 				// Fix the CSS conflict of radio player with wp caroursel free.
 				wp_dequeue_style( 'radio-player-admin' );

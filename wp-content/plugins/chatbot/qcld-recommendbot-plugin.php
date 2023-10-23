@@ -182,27 +182,8 @@ $qcld_plugininstal = array();
                     'plugin-install.php?tab=plugin-information&amp;plugin=' . $plugin['slug'] .
                     '&amp;width=700&amp;height=550'
                 );
-
-                $action_links[] = sprintf(
-                    '%s','
-                <a href="#" data-toggle="modal" data-target="#myModal">More Details</a>
-                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                      </div>
-                      <div class="modal-body">
-                        <iframe width="100%" height="550" src="'.$details_link.'"></iframe> 
-                      </div>
-                    </div>
-                  </div>
-                </div>',                          
-                );
-
-
-                  /*===show icon ==*/
-                    
+                $action_links[] = sprintf( '%s','<a href="#" data-toggle="modal" data-target="#myModal">More Details</a><div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><iframe width="100%" height="550" src="'.$details_link.'"></iframe></div></div></div></div>');
+                /*===show icon ==*/
                 if ( ! empty( $plugin['icons']['svg'] ) ) {
                     $plugin_icon_url = $plugin['icons']['svg'];
                 } elseif ( ! empty( $plugin['icons']['2x'] ) ) {
@@ -212,7 +193,6 @@ $qcld_plugininstal = array();
                 } else {
                     $plugin_icon_url = $plugin['icons']['default'];
                 }
-
                 /*
                  * $action_links An array of plugin action links. Defaults are links to Details and Install Now.
                  * $plugin The plugin currently being listed.

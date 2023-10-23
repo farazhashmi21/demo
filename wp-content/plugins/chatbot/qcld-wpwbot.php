@@ -4,12 +4,12 @@
  * Plugin URI: https://wordpress.org/plugins/chatbot/
  * Description: ChatBot is a native WordPress ChatBot plugin to provide quick support and email functionality.
  * Donate link: https://www.quantumcloud.com
- * Version: 4.8.6
+ * Version: 4.9.3
  * @author    QuantumCloud
  * Author: QuantumCloud
  * Author URI: https://www.quantumcloud.com/
  * Requires at least: 4.6
- * Tested up to: 6.3.1
+ * Tested up to: 6.3
  * Text Domain: wpbot
  * Domain Path: /lang
  * License: GPL2
@@ -18,7 +18,7 @@
 
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
-define('QCLD_wpCHATBOT_VERSION', '4.8.6');
+define('QCLD_wpCHATBOT_VERSION', '4.9.3');
 define('QCLD_wpCHATBOT_REQUIRED_wpCOMMERCE_VERSION', 2.2);
 define('QCLD_wpCHATBOT_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
 define('QCLD_wpCHATBOT_PLUGIN_URL', plugin_dir_url(__FILE__));
@@ -414,7 +414,6 @@ class qcld_wb_Chatbot
 
 			}
 		}
-		
         $wp_chatbot_obj = array(
             'wp_chatbot_position_x' => get_option('wp_chatbot_position_x'), 
             'wp_chatbot_position_y' => get_option('wp_chatbot_position_y'),
@@ -485,8 +484,8 @@ class qcld_wb_Chatbot
             'support_phone' => get_option('qlcd_wp_chatbot_support_phone'),
             'asking_phone' => $this->qcld_wb_chatbot_str_replace(unserialize(get_option('qlcd_wp_chatbot_asking_phone'))),
             'thank_for_phone' => $this->qcld_wb_chatbot_str_replace(unserialize(get_option('qlcd_wp_chatbot_thank_for_phone'))),
-            'support_query' =>$this->qcld_wb_chatbot_str_replace(unserialize( get_option('support_query'))),
-            'support_ans' => $this->qcld_wb_chatbot_str_replace(unserialize(get_option('support_ans'))),
+            'support_query' => ((gettype(get_option('support_query')) == 'string') ? $this->qcld_wb_chatbot_str_replace(unserialize( get_option('support_query'))) : $this->qcld_wb_chatbot_str_replace(( get_option('support_query')))),
+            'support_ans' => (gettype(get_option('support_ans')) == 'string') ? $this->qcld_wb_chatbot_str_replace(unserialize(get_option('support_ans'))) : $this->qcld_wb_chatbot_str_replace((get_option('support_ans'))),
             'notification_interval' => get_option('qlcd_wp_chatbot_notification_interval'),
             'notifications' => $this->qcld_wb_chatbot_str_replace(unserialize(get_option('qlcd_wp_chatbot_notifications'))),
             'order_welcome' => $this->qcld_wb_chatbot_str_replace(unserialize(get_option('qlcd_wp_chatbot_order_welcome'))),
@@ -710,11 +709,14 @@ class qcld_wb_Chatbot
     }
     public function qcld_wb_chatbot_str_replace($messages=array()){
         $refined_mesgses=array();
-        if(!empty($messages)){
+        if(!empty($messages) && is_array($messages)){
             foreach ($messages as $message){
                 $refined_msg=str_replace('\\', '', $message);
                 array_push($refined_mesgses,$refined_msg);
             }
+        }else{
+            $refined_msg=str_replace('\\', '', $messages);
+            array_push($refined_mesgses,$refined_msg);
         }
         return $refined_mesgses;
     }
@@ -1254,9 +1256,9 @@ class qcld_wb_Chatbot
                 update_option('qlcd_wp_chatbot_notifications', maybe_serialize(sanitize_array($qlcd_wp_chatbot_notifications)));
                 //Support building part.
                 $support_query = @$_POST["support_query"];
-                update_option('support_query', maybe_serialize(sanitize_array($support_query)));
+                update_option('support_query', maybe_serialize($support_query));
                 $support_ans = @$_POST["support_ans"];
-                update_option('support_ans',sanitize_tinymc($support_ans) );
+                update_option('support_ans', maybe_serialize($support_ans));
                 //Create Mobile app pages.
                 if(isset( $_POST["wp_chatbot_app_pages"])) {
                     $wp_chatbot_app_pages = $_POST["wp_chatbot_app_pages"];

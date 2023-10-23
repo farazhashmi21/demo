@@ -15,6 +15,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 //
 $wpcp_carousel_content_source_settings = 'sp_wpcp_upload_options';
 
+$smart_brand_plugin_link = 'smart-brands-for-woocommerce/smart-brands-for-woocommerce.php';
+$smart_brand_plugin_data = SP_WPCF::plugin_installation_activation(
+	$smart_brand_plugin_link,
+	'Install Now',
+	'activate_plugin',
+	array(
+		'ShapedPlugin\SmartBrands\SmartBrands',
+		'ShapedPlugin\SmartBrandsPro\SmartBrandsPro',
+	),
+	'smart-brands-for-woocommerce'
+);
+
+// Woo quick view Plugin.
+$quick_view_plugin_link = 'woo-quickview/woo-quick-view.php';
+$quick_view_plugin_data = SP_WPCF::plugin_installation_activation(
+	$quick_view_plugin_link,
+	'Install Now',
+	'activate_plugin',
+	array(
+		'SP_Woo_Quick_View',
+		'SP_Woo_Quick_View_Pro',
+	),
+	'woo-quickview'
+);
+
 /**
  * Preview metabox.
  *
@@ -694,6 +719,7 @@ SP_WPCF::createSection(
 				'default'    => false,
 				'dependency' => array( 'wpcp_carousel_type', '==', 'image-carousel', true ),
 			),
+
 			array(
 				'id'         => 'wpcp_image_desc',
 				'type'       => 'switcher',
@@ -842,6 +868,50 @@ SP_WPCF::createSection(
 				'text_width' => 77,
 				'default'    => false,
 				'dependency' => array( 'wpcp_carousel_type', '==', 'post-carousel', true ),
+			),
+			array(
+				'type'       => 'subheading',
+				'content'    => __( 'Product Brands', 'wp-carousel-free' ),
+				'dependency' => array( 'wpcp_carousel_type', '==', 'product-carousel', true ),
+			),
+			array(
+				'id'         => 'show_product_brands',
+				'type'       => 'switcher',
+				'title'      => __( 'Show Brands', 'wp-carousel-free' ),
+				'subtitle'   => __( 'Show/Hide product brands.', 'wp-carousel-free' ),
+				'text_on'    => __( 'Show', 'wp-carousel-free' ),
+				'text_off'   => __( 'Hide', 'wp-carousel-free' ),
+				'text_width' => 77,
+				'default'    => false,
+				'dependency' => array( 'wpcp_carousel_type', '==', 'product-carousel', true ),
+			),
+			array(
+				'type'       => 'submessage',
+				'style'      => 'info',
+				'content'    => __( 'To Enable Product Brands feature, you must Install and Activate the <a class="thickbox open-plugin-details-modal" href="' . esc_url( $smart_brand_plugin_data['plugin_link'] ) . '">Smart Brands for WooCommerce</a> plugin. <a href="#" class="brand-plugin-install' . $smart_brand_plugin_data['has_plugin'] . '" data-url="' . $smart_brand_plugin_data['activate_plugin_url'] . '" data-nonce="' . wp_create_nonce( 'updates' ) . '"> ' . $smart_brand_plugin_data['button_text'] . ' <i class="fa fa-angle-double-right"></i></a>', 'wp-carousel-free' ),
+				'dependency' => array( 'show_product_brands|wpcp_carousel_type', '==|==', 'true|product-carousel', true ),
+			),
+			array(
+				'type'       => 'subheading',
+				'content'    => __( 'Quick View Button', 'wp-carousel-free' ),
+				'dependency' => array( 'wpcp_carousel_type', '==', 'product-carousel', true ),
+			),
+			array(
+				'id'         => 'quick_view',
+				'type'       => 'switcher',
+				'title'      => __( 'Show Quick View Button', 'wp-carousel-free' ),
+				'subtitle'   => __( 'Show/Hide quick view button.', 'wp-carousel-free' ),
+				'text_on'    => __( 'Show', 'wp-carousel-free' ),
+				'text_off'   => __( 'Hide', 'wp-carousel-free' ),
+				'text_width' => 77,
+				'default'    => false,
+				'dependency' => array( 'wpcp_carousel_type', '==', 'product-carousel', true ),
+			),
+			array(
+				'type'       => 'submessage',
+				'style'      => 'info',
+				'content'    => __( 'To Enable Quick view feature, you must Install and Activate the <a class="thickbox open-plugin-details-modal" href="' . esc_url( $quick_view_plugin_data['plugin_link'] ) . '">Quick View for WooCommerce</a> plugin. <a href="#" class="quick-view-install' . $quick_view_plugin_data['has_plugin'] . '" data-url="' . $quick_view_plugin_data['activate_plugin_url'] . '" data-nonce="' . wp_create_nonce( 'updates' ) . '"> ' . $quick_view_plugin_data['button_text'] . ' <i class="fa fa-angle-double-right"></i></a> ', 'wp-carousel-free' ),
+				'dependency' => array( 'quick_view|wpcp_carousel_type', '==|==', 'true|product-carousel', true ),
 			),
 		), // End of fields array.
 	)

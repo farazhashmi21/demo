@@ -2,8 +2,8 @@
 Contributors: shapedplugin, khalilu, shamimmiashuhagh, rubel_miah
 Tags: wordpress carousel, best carousel plugin, image carousel, image slider, post carousel, custom post carousel, custom taxonomy carousel, woocommerce product carousel, content carousel, video carousel, video slider, video lightbox, youtube carousel, video gallery, carousel, slider, responsive slider, responsive carousel, carousel slider, ticker carousel, center mode carousel, slide anything, image gallery, image lightbox, wordpress image gallery, photo gallery, gallery slider, wordpress gallery plugin, gallery, post slider, vimeo slider, self hosted video carousel, content slider, wordpress slider, featured content slider, html slider, horizontal carousel slider, posts content slider, product carousel, woocommerce slider, woocommerce product slider
 Requires at least: 5.0
-Tested up to: 6.3
-Stable tag: 2.5.8
+Tested up to: 6.3.2
+Stable tag: 2.5.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -325,6 +325,14 @@ Thank you!
 
 
 == Changelog ==
+
+= 2.5.9 – Oct 19, 2023 =
+* New: The Quick View option to show the Quick View button in the product slider/grid.
+* New: The Show Brands option to show the brand's name in the product slider/grid.
+* Improved: The plugin was compatible with the Quick View for WooCommerce and Smart Brands for WooCommerce plugins.
+* Fix: Some PHPCS warnings found with PHP v8.2.
+* Tested: WooCommerce 8.2.1 compatibility.
+* Tested: WordPress 6.3.2 compatibility.
 
 = 2.5.8 – Jul 28, 2023 =
 * Fix: The plugin admin panel translation is not working if the language file is placed in the plugin language folder.

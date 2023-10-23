@@ -1,5 +1,4 @@
 <?php
-
 class JsonToTemplateConverter
 {
     const JCISPACER = '<br>';
@@ -76,23 +75,6 @@ class JsonToTemplateConverter
         return false;
     }
 
-
-	private function selectJSONnode($jsonArr, $seljsonnode) {
-		$seljsonnodeArr = explode(".", $seljsonnode);
-		$curnode = array_shift($seljsonnodeArr);
-		$restnode = join(".", $seljsonnodeArr);
-		if (empty($restnode)) {
-			return $this->jsonArr->$curnode;
-		} else {
-			if (!is_array($jsonArr)) {
-				return "";
-			}
-			$this->selectJSONnode($jsonArr->$curnode, $restnode);	
-		}		
-		return "";
-	}
-	
-
 	public function reduceJsonByBasenode($json, $seljsonnode) {
 		$seljsonnodeArr = explode(".", $seljsonnode);
 		$jsonStr = json_encode($json);
@@ -100,22 +82,39 @@ class JsonToTemplateConverter
 		$curnode = array_shift($seljsonnodeArr);
 		$restnode = join(".", $seljsonnodeArr);
 		if (empty($restnode)) {
-			$this->basenodeSelectedJSON[] = $jsonArr1[$curnode];
+			$this->basenodeSelectedJSON[] = $jsonArr1[$curnode] ?? null;
 			#$this->basenodeSelectedJSON[$curnode] = $jsonArr1[$curnode];
 		} else {
 			$this->reduceJsonByBasenode($jsonArr1[$curnode], $restnode);	
 		}		
 	}
-
+	
 	public function getBasenodeSelectedJSON() {
 		$jsonStr = json_encode($this->basenodeSelectedJSON);
 		$jsonArr1 = json_decode($jsonStr);
 		return $jsonArr1;
 	}
 
-    private function getJSONvalue($node) {
-		$ht = $this->selectJSONnode($this->jsonArr, $node);
-		return $ht;
+	private function getJSONvalue($key) {
+		$arrayIn = json_decode(json_encode($this->jsonArr), TRUE);
+		$array = array();
+		if ($this->isSequentiallyIndexedArray($arrayIn)) {
+			$array = $arrayIn[0] ?? null;
+		} else {
+			$array = $arrayIn;
+		}
+		$keys = explode('.', $key);
+		foreach ($keys as $k) {
+			if (!isset($array[$k])) {
+				return null;
+			}
+			$array = $array[$k];
+		}
+		return $array;
+	}	
+	
+	private function isSequentiallyIndexedArray($array) {
+		return array_keys($array) === range(0, count($array) - 1);
 	}
 	
 	private function is_html($string) {
@@ -127,7 +126,11 @@ class JsonToTemplateConverter
 	}
 
     private function checkFromattingJSONvalue($value) {
-		if (strtotime($value)) {
+		if (empty($value)) {
+			return "";
+		}
+		$chk_strtotime = strtotime($value) ?? "";
+		if (!empty($chk_strtotime)) {
 			$ht =":datetime,d.m.Y, H:i:s,0";
 			return $ht;
 		}
@@ -139,9 +142,6 @@ class JsonToTemplateConverter
 		return "";
 	}
 	
-
-	
-
     private function getLineForObjectProp($propKey, $level = 0, $key = null)  {
 		$keytmp = substr($key, 0, -1);
 		if (($propKey!="") 
@@ -156,8 +156,13 @@ class JsonToTemplateConverter
 
         return str_repeat(self::INDENT_STEP, $level) . "$propKeyEsc = {".$propKeyValueLiteral."$formattingextra}". self::JCISPACER;
     }
-
+	
     private function getLinesForObject(\StdClass $object, $level = 0, $key = null) {
+		#echo "level: ".$level." / key: ".$key." \n";
+		$keytmp = substr($key, 0, -1);
+		if (is_numeric($keytmp)) {
+			$key = "";
+		}
         $lines = [];
 
         if ($level === 0 && !$key){
@@ -238,14 +243,14 @@ class JsonToTemplateConverter
 		if (!$isalreadyarr) {
 			$lines[] = str_repeat(self::INDENT_STEP, $level) . "{subloop-array:$key:".$noarrl."}".self::JCISPACER;
 		}
-        if (isset($array[0]) && is_object($array[0])){
-            $accumObj = $this->getAccumObjectOfArray($array);
-            $lines = array_merge($lines, $this->getLinesForObject($accumObj, $level + 1, $itemKey));
-        } elseif (isset($array[0]) && is_array($array[0])){
-            $lines = array_merge($lines, $this->getLinesForArray($array[0], $level + 1, $itemKey));
-        } else {
-            $lines[] = str_repeat(self::INDENT_STEP, $level + 1) . $html_table_line_start. "{".$itemKey."}".$html_table_line_end;#.self::JCISPACER;
-        }
+		if (isset($array[0]) && is_object($array[0])){
+			$accumObj = $this->getAccumObjectOfArray($array);
+			$lines = array_merge($lines, $this->getLinesForObject($accumObj, $level + 1, $itemKey));
+		} elseif (isset($array[0]) && is_array($array[0])){
+			$lines = array_merge($lines, $this->getLinesForArray($array[0], $level + 1, $itemKey));
+		} else {
+			$lines[] = str_repeat(self::INDENT_STEP, $level + 1) . $this->html_table_line_start. "{".$itemKey."}".$this->html_table_line_end;#.self::JCISPACER;
+		}
 		if (!$isalreadyarr) {
 			$lines[] = str_repeat(self::INDENT_STEP, $level) . "{/subloop-array:$key}" . self::JCISPACER;
 		}
