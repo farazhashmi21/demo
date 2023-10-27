@@ -1,9 +1,9 @@
 Site Title: Demo Site
 Username: adminfarazhashmi
-Password: gK92$%54wQ
+Password: M5^0UkWbujEVqx*9&rHylUts
 Your Email: developerfaraz@yahoo.com
-Mail URL: http://demo/
-Login URL: http://demo/wp-login.php/
+Mail URL: http://demo:8080/
+Login URL: http://demo:8080/wp-login.php/
 WordPress Official: https://wordpress.org/
 Developer Resources: https://developer.wordpress.org/
 WordPress Manual: https://codex.wordpress.org/
@@ -12,4 +12,3 @@ WordPress License: https://wordpress.org/about/license/
 https://home.smelogin.co.uk/CustomerData/4614/GeneratedDocuments/Marketing/waas/all_marketed_properties
 
 http://127.0.0.1:80/demo/wp-content/plugins/json-content-importer/json/gutenbergblockexample1.json
-
