@@ -136,7 +136,8 @@ function wp_chatbot_load_footer_html(){
                     <div class="wp-chatbot-ball-animator wp-chatbot-ball-animation-switch"></div>
                     <?php
                     if (get_option('wp_chatbot_icon') == "custom.png") {
-                        $wp_chatbot_custom_icon_path = get_option('wp_chatbot_custom_icon_path');
+                        $wp_chatbot_custom_icon_path = (!empty(get_option('wp_chatbot_custom_icon_path')) && !is_404(get_option('wp_chatbot_custom_icon_path'))) ? get_option('wp_chatbot_custom_icon_path') : QCLD_wpCHATBOT_IMG_URL . 'icon-1.png';
+                   
                     } else if (get_option('wp_chatbot_icon') != "custom.png") {
                         $wp_chatbot_custom_icon_path = QCLD_wpCHATBOT_IMG_URL . get_option('wp_chatbot_icon');
                     } else {

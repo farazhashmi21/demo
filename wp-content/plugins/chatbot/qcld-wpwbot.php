@@ -4,12 +4,12 @@
  * Plugin URI: https://wordpress.org/plugins/chatbot/
  * Description: ChatBot is a native WordPress ChatBot plugin to provide quick support and email functionality.
  * Donate link: https://www.quantumcloud.com
- * Version: 4.9.3
+ * Version: 4.9.6
  * @author    QuantumCloud
  * Author: QuantumCloud
  * Author URI: https://www.quantumcloud.com/
  * Requires at least: 4.6
- * Tested up to: 6.3
+ * Tested up to: 6.3.2
  * Text Domain: wpbot
  * Domain Path: /lang
  * License: GPL2
@@ -18,7 +18,7 @@
 
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
-define('QCLD_wpCHATBOT_VERSION', '4.9.3');
+define('QCLD_wpCHATBOT_VERSION', '4.9.6');
 define('QCLD_wpCHATBOT_REQUIRED_wpCOMMERCE_VERSION', 2.2);
 define('QCLD_wpCHATBOT_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
 define('QCLD_wpCHATBOT_PLUGIN_URL', plugin_dir_url(__FILE__));
@@ -69,7 +69,7 @@ class qcld_wb_Chatbot
      */
     private function __construct()
     {
-        $this->promotion = QCLD_wpCHATBOT_IMG_URL . "/labor-day.jpg";
+        $this->promotion = QCLD_wpCHATBOT_IMG_URL . "/halloween-wpbot.jpg";
     }
     /**
      *  Init behaves like, and replaces, construct
@@ -88,8 +88,8 @@ class qcld_wb_Chatbot
            
         }
         //( !empty($_GET['page']) && $_GET['page'] == 'wpbot-panel') || || (!empty($_GET['page']) && $_GET['page'] == 'wpbot_support_page') || ( !empty($_GET['page']) && $_GET['page'] == 'wpbot_openAi') || ( !empty($_GET['page']) && $_GET['page'] == 'wpbot_help_page')
-        if( ( !empty($_GET['page']) &&$_GET["page"] == "wpbot")  ){
-         //  add_action( 'admin_notices', array( $this, 'promotion_notice' ) );
+        if( ( !empty($_GET['page']) &&$_GET["page"] == "wpbot") || ( !empty($_GET['page']) && $_GET['page'] == 'wpbot_openAi') || ( !empty($_GET['page']) && $_GET['page'] == 'simple-text-response')  ){
+           add_action( 'admin_notices', array( $this, 'promotion_notice' ) );
         }
         if (is_admin() && !empty($_GET["page"]) && ($_GET["page"] == "wpbot") || (!empty($_GET['page']) && $_GET['page']=='wpbot_help_page')
 
@@ -433,7 +433,7 @@ class qcld_wb_Chatbot
             'host' => str_replace('\\', '',get_option('qlcd_wp_chatbot_host')),
             'agent' => str_replace('\\', '',get_option('qlcd_wp_chatbot_agent')),
             'agent_image' => get_option('wp_chatbot_agent_image'),
-            'agent_image_path' => $this->qcld_wb_chatbot_agent_icon(),
+            'agent_image_path' => (!empty(get_option('wp_chatbot_custom_icon_path')) && !is_404(get_option('wp_chatbot_custom_icon_path'))) ? $this->qcld_wb_chatbot_agent_icon() : QCLD_wpCHATBOT_IMG_URL . 'icon-1.png',
             'shopper_demo_name' => str_replace('\\', '',get_option('qlcd_wp_chatbot_shopper_demo_name')),
             'agent_join' => $this->qcld_wb_chatbot_str_replace(unserialize(get_option('qlcd_wp_chatbot_agent_join'))),
             'welcome' => $this->qcld_wb_chatbot_str_replace(unserialize(get_option('qlcd_wp_chatbot_welcome'))),

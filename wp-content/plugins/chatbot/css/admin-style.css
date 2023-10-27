@@ -1952,3 +1952,11 @@ ul.checkbox-list li input[type=checkbox] + label::after {
   background: #464b50;
   padding: 8px 20px;
 }
+div#promotion-wpchatbot {
+  max-width: 1165px;
+  margin-left: 0;
+}
+.notice.is-dismissible {
+  max-width: 1165px;
+  margin-left: 0;
+}
