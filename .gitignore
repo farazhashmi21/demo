@@ -2,9 +2,3 @@
 
 wp-config.php
 .htaccess
-demo.sh
-wp-content/old_themes/
-logs/
-logs/access_log
-logs/error_log
-
