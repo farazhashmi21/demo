@@ -3,7 +3,7 @@ Username: adminfarazhashmi
 Password: HnyasFyCMbjFP2%Kae
 Your Email: developerfaraz@yahoo.com
 Mail URL: http://demo:8080/
-Login URL: http://demo:8080/wp-login.php/
+Login URL: http://demo:8080/?demologin
 WordPress Official: https://wordpress.org/
 Developer Resources: https://developer.wordpress.org/
 WordPress Manual: https://codex.wordpress.org/
