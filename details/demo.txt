@@ -15,3 +15,8 @@ https://home.smelogin.co.uk/CustomerData/4614/GeneratedDocuments/Marketing/waas/
 http://127.0.0.1:80/demo/wp-content/plugins/json-content-importer/json/gutenbergblockexample1.json
 
 Git Safe directory: git config --global --add safe.directory /opt/lampp/htdocs/sites/demo
+
+Help Worked:
+
+1) https://stackoverflow.com/questions/68677283/xampp-starting-proftpd-fail-with-password
+2) https://stackoverflow.com/questions/13120226/wordpress-localhost-ftp
