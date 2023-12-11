@@ -1,22 +1,16 @@
 Site Title: Demo Site
 Username: adminfarazhashmi
-Password: MFV@6ko$0iKwpZ3cR$
+Password: 7XIV6upCMy53V)RyWN
 Your Email: developerfaraz@yahoo.com
-Mail URL: http://sites:8000/demo/
-Login URL: http://sites:8000/demo/wp-admin/
+Mail URL: http://hashmiserver:8000/demo/
+Login URL: http://hashmiserver:8000/demo/wp-login.php/
+
 WordPress Official: https://wordpress.org/
 Developer Resources: https://developer.wordpress.org/
 WordPress Manual: https://codex.wordpress.org/
 WordPress License: https://wordpress.org/about/license/
 GIT Safe: git config --global --add safe.directory <directory>
 
-https://home.smelogin.co.uk/CustomerData/4614/GeneratedDocuments/Marketing/waas/all_marketed_properties
-
-http://127.0.0.1:80/demo/wp-content/plugins/json-content-importer/json/gutenbergblockexample1.json
-
-Git Safe directory: git config --global --add safe.directory /opt/lampp/htdocs/sites/demo
-
-Help Worked:
-
-1) https://stackoverflow.com/questions/68677283/xampp-starting-proftpd-fail-with-password
-2) https://stackoverflow.com/questions/13120226/wordpress-localhost-ftp
+Continue Learning: Global Settings and Styles
+Lesson URL: https://developer.wordpress.org/themes/core-concepts/global-settings-and-styles/
+Days Left: 09 Days.
