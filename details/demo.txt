@@ -1,7 +1,7 @@
 Site Title: Demo Site
 Username: adminfarazhashmi
-Password: 7XIV6upCMy53V)RyWN
-Your Email: developerfaraz@yahoo.com
+Password: sNns3gykzaFcq7!fw^
+Your Email: farazhashmi9000@hotmail.com
 Mail URL: http://hashmiserver:8000/demo/
 Login URL: http://hashmiserver:8000/demo/wp-login.php/
 
@@ -10,7 +10,3 @@ Developer Resources: https://developer.wordpress.org/
 WordPress Manual: https://codex.wordpress.org/
 WordPress License: https://wordpress.org/about/license/
 GIT Safe: git config --global --add safe.directory <directory>
-
-Continue Learning: Global Settings and Styles
-Lesson URL: https://developer.wordpress.org/themes/core-concepts/global-settings-and-styles/
-Days Left: 09 Days.
