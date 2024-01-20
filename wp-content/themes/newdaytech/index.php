@@ -8,12 +8,16 @@
                     <div class="col-lg-6">
                         <a href="<?php the_permalink(); ?>">
                         <div class="card">
-                            <div class="card-title">
-                                <h2><?php the_title(); ?></h2>
+                            <div class="card-header bg-dark">
+                                <h2 class="card-title text-center"><?php the_title(); ?></h2>
                             </div>
                             <div class="card-body">
-                                <p class="lead"><?php the_date(); ?>.</p>
-                                <?php the_content(); ?>
+                                <div class="card-text">
+                                    <?php the_content(); ?>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <p class="text-center text-dark"><?php the_date(); ?>.</p>
                             </div>
                         </div>
                     </a>
