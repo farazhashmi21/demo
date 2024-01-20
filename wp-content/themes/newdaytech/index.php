@@ -1,31 +1,37 @@
 <?php get_header(); ?>
         <!-- Content section-->
+        <?php if(have_posts()): ?>
+            <?php while(have_posts()): the_post(); ?>
         <section class="py-5">
             <div class="container my-5">
                 <div class="row justify-content-center">
                     <div class="col-lg-6">
-                        <h2>Full Width Backgrounds</h2>
-                        <p class="lead">A single, lightweight helper class allows you to add engaging, full width background images to sections of your page.</p>
-                        <p class="mb-0">The universe is almost 14 billion years old, and, wow! Life had no problem starting here on Earth! I think it would be inexcusably egocentric of us to suggest that we're alone in the universe.</p>
+                        <a href="<?php the_permalink(); ?>">
+                        <div class="card">
+                            <div class="card-title">
+                                <h2><?php the_title(); ?></h2>
+                            </div>
+                            <div class="card-body">
+                                <p class="lead"><?php the_date(); ?>.</p>
+                                <?php the_content(); ?>
+                            </div>
+                        </div>
+                    </a>
                     </div>
                 </div>
             </div>
         </section>
-        <!-- Image element - set the background image for the header in the line below-->
-        <div class="py-5 bg-image-full" style="background-image: url('<?php echo get_template_directory_uri(); ?>/assets/images/pcb-fan.png'); background-position: top;">
-            <!-- Put anything you want here! The spacer below with inline CSS is just for demo purposes!-->
-            <div style="height: 20rem"></div>
-        </div>
-        <!-- Content section-->
+    <?php endwhile; ?>
+    <?php else: ?>
         <section class="py-5">
             <div class="container my-5">
                 <div class="row justify-content-center">
                     <div class="col-lg-6">
-                        <h2>Engaging Background Images</h2>
-                        <p class="lead">The background images used in this template are sourced from Unsplash and are open source and free to use.</p>
-                        <p class="mb-0">I can't tell you how many people say they were turned off from science because of a science teacher that completely sucked out all the inspiration and enthusiasm they had for the course.</p>
+                        <h2>Write FIRST!</h2>
+                        <p class="">Write some Articles.</p>
                     </div>
                 </div>
             </div>
         </section>
+    <?php endif; ?>
 <?php get_footer(); ?>
