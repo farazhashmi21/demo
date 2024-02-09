@@ -6,10 +6,10 @@
             <div class="container my-5">
                 <div class="row justify-content-center">
                     <div class="col-lg-6">
-                        <a href="<?php the_permalink(); ?>">
                         <div class="card">
                             <div class="card-header bg-dark">
-                                <h2 class="card-title text-center"><?php the_title(); ?></h2>
+                                <h2 class="card-title text-center"><a href="<?php echo get_the_permalink(); ?>">
+                                    <?php the_title(); ?></a></h2>
                             </div>
                             <div class="card-body">
                                 <div class="card-text">
@@ -20,7 +20,6 @@
                                 <p class="text-center text-dark"><?php the_date(); ?>.</p>
                             </div>
                         </div>
-                    </a>
                     </div>
                 </div>
             </div>
