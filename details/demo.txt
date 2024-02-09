@@ -1,10 +1,15 @@
-Mail URL: http://hashmiserver:80/demo/
-Login URL: http://hashmiserver:80/demo/wp-login.php/
-Site Name: Demo WordPress
+Database Details:
+
+Username: root
+Password: pK92$%sQDw
+
+Mail URL: http://demo/
+Login URL: http://demo/wp-login.php/
+Site Name: WordPress Demo
 Username: adminfarazhashmi
-Password: PpCJrabsgtqeHX(jPB
+Password: U@DUOsXX#!&synC!D7
 Email: farazhashmi9000@hotmail.com
-Table Prefix: demowp_
+Table Prefix: demo_
 Database Name: demowp
 
 WordPress Official: https://wordpress.org/
