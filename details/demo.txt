@@ -1,7 +1,7 @@
 Database Details:
 
-Mail URL: http://demo:8800/
-Login URL: http://demo:8800/wp-login.php
+Mail URL: http://localhost/projects/demo/
+Login URL: http://localhost/projects/demo/wp-login.php
 Site Name: WordPress Demo
 Username: adminfarazhashmi
 Password: W)OWYWLeirEq)lQH#r
