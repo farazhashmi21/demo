@@ -109,7 +109,7 @@ class Create_Block_Theme_Admin {
 
 		$zip = Theme_Zip::copy_theme_to_zip( $zip, null, null );
 		$zip = Theme_Zip::add_templates_to_zip( $zip, 'current', $theme['slug'] );
-		$zip = Theme_Zip::add_theme_json_to_zip( $zip, 'current' );
+		$zip = Theme_Zip::add_theme_json_to_zip( $zip, MY_Theme_JSON_Resolver::export_theme_data( 'current' ) );
 
 		$zip->close();
 
@@ -144,7 +144,7 @@ class Create_Block_Theme_Admin {
 
 		$zip = Theme_Zip::copy_theme_to_zip( $zip, $theme['slug'], $theme['name'] );
 		$zip = Theme_Zip::add_templates_to_zip( $zip, 'current', $theme['slug'] );
-		$zip = Theme_Zip::add_theme_json_to_zip( $zip, 'current' );
+		$zip = Theme_Zip::add_theme_json_to_zip( $zip, MY_Theme_JSON_Resolver::export_theme_data( 'current' ) );
 
 		// Add readme.txt.
 		$zip->addFromStringToTheme(
@@ -213,7 +213,7 @@ class Create_Block_Theme_Admin {
 		$zip = Theme_Zip::copy_theme_to_zip( $zip, $theme['slug'], $theme['name'] );
 
 		$zip = Theme_Zip::add_templates_to_zip( $zip, 'all', $theme['slug'] );
-		$zip = Theme_Zip::add_theme_json_to_zip( $zip, 'all' );
+		$zip = Theme_Zip::add_theme_json_to_zip( $zip, MY_Theme_JSON_Resolver::export_theme_data( 'all' ) );
 
 		// Add readme.txt.
 		$zip->addFromStringToTheme(
@@ -277,7 +277,7 @@ class Create_Block_Theme_Admin {
 		$zip      = Theme_Zip::create_zip( $filename );
 
 		$zip = Theme_Zip::add_templates_to_zip( $zip, 'user', $theme['slug'] );
-		$zip = Theme_Zip::add_theme_json_to_zip( $zip, 'user' );
+		$zip = Theme_Zip::add_theme_json_to_zip( $zip, MY_Theme_JSON_Resolver::export_theme_data( 'user' ) );
 
 		// Add readme.txt.
 		$zip->addFromStringToTheme(
@@ -321,7 +321,7 @@ class Create_Block_Theme_Admin {
 
 		$zip = Theme_Zip::copy_theme_to_zip( $zip, null, null );
 		$zip = Theme_Zip::add_templates_to_zip( $zip, 'all', null );
-		$zip = Theme_Zip::add_theme_json_to_zip( $zip, 'all' );
+		$zip = Theme_Zip::add_theme_json_to_zip( $zip, MY_Theme_JSON_Resolver::export_theme_data( 'all' ) );
 
 		$zip->close();
 
@@ -462,6 +462,9 @@ class Create_Block_Theme_Admin {
 				$this->create_blank_theme( $_POST['theme'], $_FILES['screenshot'] );
 
 				add_action( 'admin_notices', array( 'Form_Messages', 'admin_notice_blank_success' ) );
+			} elseif ( ! class_exists( 'ZipArchive' ) ) {
+				// Avoid running if ZipArchive is not enabled.
+				add_action( 'admin_notices', array( 'Form_Messages', 'admin_notice_error_unsupported_zip_archive' ) );
 			} elseif ( is_child_theme() ) {
 				if ( 'sibling' === $_POST['theme']['type'] ) {
 					if ( '' === $_POST['theme']['name'] ) {
