@@ -1,0 +1,21 @@
+/*
+Theme Name: startbootstrap
+Theme URI: https://www.hashmiwebsol.com/startbootstrap
+Author: the WordPress team
+Author URI: https://about.me/farazhashmi
+Description: startbootstrap is a classic WordPress Theme that is introduced in WordPress. It is a simple and clean theme that is perfect for personal blogs, portfolios, and small business websites. The theme is fully responsive and looks great on all devices. It comes with a variety of customization options, including multiple color schemes, custom widgets, and support for popular plugins like WooCommerce and Jetpack. The theme is also optimized for SEO and performance, ensuring that your website loads quickly and ranks well in search engines.
+Requires at least: 6.1
+Tested up to: 6.8
+Requires PHP: 5.6
+Version: 1.6
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+Text Domain: startbootstrap
+Tags: one-column, custom-colors, custom-menu, custom-logo, editor-style, featured-images, full-site-editing, block-patterns, rtl-language-support, sticky-post, threaded-comments, translation-ready, wide-blocks, block-styles, style-variations, accessibility-ready, blog, portfolio, news
+*/
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
