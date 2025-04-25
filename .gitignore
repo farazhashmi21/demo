@@ -5,6 +5,7 @@ wp-config.php
 logs/
 wp-content/themes/karvaan
 wp-content/uploads
+wordfence-waf.php
 
 # Wordpress - ignore core, configuration, examples, uploads and logs.
 # https://github.com/github/gitignore/blob/main/WordPress.gitignore
