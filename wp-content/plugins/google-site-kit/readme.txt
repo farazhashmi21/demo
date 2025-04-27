@@ -2,9 +2,9 @@
 
 Contributors:      google
 Requires at least: 5.2
-Tested up to:      6.5
+Tested up to:      6.8
 Requires PHP:      7.4
-Stable tag:        1.126.0
+Stable tag:        1.151.0
 License:           Apache License 2.0
 License URI:       https://www.apache.org/licenses/LICENSE-2.0
 Tags:              google, search-console, analytics, adsense, pagespeed-insights
@@ -36,6 +36,7 @@ Site Kit shows key metrics and insights from different Google products:
 * **Tag Manager:** Use Site Kit to easily set up Tag Manager- no code editing required. Then, manage your tags in Tag Manager.
 
 == Installation ==
+
 **Note**: Make sure that your website is live. If your website isn't live yet, Site Kit can't show you any data.
 However, if you have a staging environment in addition to your production site, Site Kit can display data from your production site in the staging environment. Learn how to use [Site Kit with a staging environment](https://sitekit.withgoogle.com/documentation/using-site-kit/staging/).
 
@@ -45,7 +46,6 @@ However, if you have a staging environment in addition to your production site, 
 2. Search for **Site Kit by Google**.
 3. Install and activate the Site Kit by Google plugin.
 4. Connect Site Kit to your Google account. If there are multiple WordPress admins, keep in mind that each admin must connect their own Google account in order to access the plugin.
-
 
 = Manual installation =
 
@@ -109,32 +109,26 @@ Please create a new topic on our [WordPress.org support forum](https://wordpress
 
 == Changelog ==
 
-= 1.126.0 =
+= 1.151.0 =
 
 **Enhanced**
 
-* Support PAX-supplied Ads Conversion ID in tag output. See [#8580](https://github.com/google/site-kit-wp/issues/8580).
-* Add feature that requests AdsWords scope when required. See [#8565](https://github.com/google/site-kit-wp/issues/8565).
-* Add PAX settings to Ads settings. See [#8563](https://github.com/google/site-kit-wp/issues/8563).
-* Add Ads settings for PAX. See [#8562](https://github.com/google/site-kit-wp/issues/8562).
-* Scaffold dependencies for launching PAX. See [#8556](https://github.com/google/site-kit-wp/issues/8556).
-* Add the main `Conversion_Tracking` class. See [#8528](https://github.com/google/site-kit-wp/issues/8528).
-* Use a Google brand color for the WordPress link in the footer of the Authorize Application screen when authorizing a Google application. See [#8524](https://github.com/google/site-kit-wp/issues/8524).
-* Add "Powered by Site Kit" to the Authorize Application screen footer when authorizing a Google application. See [#8510](https://github.com/google/site-kit-wp/issues/8510).
-* Update WordPress Authorize Application Screen with enhanced design for Site Kit users. See [#8505](https://github.com/google/site-kit-wp/issues/8505).
-* Enqueue stylesheet specific to the Authorize Application screen. See [#8504](https://github.com/google/site-kit-wp/issues/8504).
-* Add stylesheet for Authorize Application screen. See [#8503](https://github.com/google/site-kit-wp/issues/8503).
-* Replace direct calls to retrieve audiences with use of the cached list of audiences. Props ankitrox. See [#8487](https://github.com/google/site-kit-wp/issues/8487).
-* Add REST and datastore APIs for audience caching. Props ankitrox. See [#8486](https://github.com/google/site-kit-wp/issues/8486).
-* Add the `googlesitekit_consent_defaults` filter to allow customisation of Consent Mode defaults. Props ankitrox. See [#8383](https://github.com/google/site-kit-wp/issues/8383).
-* Remove warning about Ad campaigns in the Consent Mode deactivation modal if Google Ads is not connected. See [#8381](https://github.com/google/site-kit-wp/issues/8381).
-* Improve the deprecation warning for the `googlesitekit_analytics-4_tag_block_on_consent` filter. Props ankitrox. See [#8362](https://github.com/google/site-kit-wp/issues/8362).
-* Add the Full Width Error Banner for the Audience Segmentation feature as a component in Storybook. See [#8230](https://github.com/google/site-kit-wp/issues/8230).
-* Add introductory popup for Audience Segmentation. See [#8171](https://github.com/google/site-kit-wp/issues/8171).
-* Add the Audience Tiles widget as a component in Storybook. See [#8136](https://github.com/google/site-kit-wp/issues/8136).
+* Remove old feature tours. See [#10574](https://github.com/google/site-kit-wp/issues/10574).
+* Remove the `conversionReporting` feature flag. See [#10552](https://github.com/google/site-kit-wp/issues/10552).
+* Update the WooCommerce modal to deactivate the Google For WooCommerce linked account notification when the user selects to install that plugin. See [#10542](https://github.com/google/site-kit-wp/issues/10542).
+* Add OverlayCard components to use for overlay notifications. See [#10532](https://github.com/google/site-kit-wp/issues/10532).
+* Remove the ESLint complexity override from the Reader Revenue Manager `SettingsEdit` component. See [#10363](https://github.com/google/site-kit-wp/issues/10363).
+* Enhance Ads measurement checks to avoid extra requests on dashboard. See [#10190](https://github.com/google/site-kit-wp/issues/10190).
+* Limit display of Visitor groups setup success notice to user who set up the feature. See [#10089](https://github.com/google/site-kit-wp/issues/10089).
+* Improve language intended to direct users to Site Kit settings. Props mxbclang. See [#7756](https://github.com/google/site-kit-wp/issues/7756).
+
+**Changed**
+
+* Update PAX SDK version to 1.1.4. See [#10614](https://github.com/google/site-kit-wp/issues/10614).
+* Replace all usage of `deprecatedProvideNotifications` with the updated `provideNotifications` utility and remove the deprecated utility. See [#10465](https://github.com/google/site-kit-wp/issues/10465).
 
 **Fixed**
 
-* Fix bug that could cause the Ads Module's Settings screen not to appear for admin users who did not connect the Ads Module. See [#8598](https://github.com/google/site-kit-wp/issues/8598).
+* Fix issue where syncing audiences and custom dimensions in parallel could result in the cached audiences not being persisted. See [#8888](https://github.com/google/site-kit-wp/issues/8888).
 
 [See changelog for all versions](https://raw.githubusercontent.com/google/site-kit-wp/main/changelog.txt).

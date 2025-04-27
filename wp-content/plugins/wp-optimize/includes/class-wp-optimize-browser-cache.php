@@ -9,6 +9,8 @@ require_once 'class-wp-optimize-htaccess.php';
  */
 class WP_Optimize_Browser_Cache {
 
+	use WP_Optimize_HTTP_Error_Codes_Trait;
+
 	private $_htaccess = null;
 
 	private $_options = null;
@@ -56,7 +58,7 @@ class WP_Optimize_Browser_Cache {
 		static $is_enabled;
 		if (isset($is_enabled)) return $is_enabled;
 
-		$headers = WP_Optimize()->get_stylesheet_headers();
+		$headers = $this->get_stylesheet_headers();
 
 		if (is_wp_error($headers)) return $headers;
 
@@ -187,11 +189,13 @@ class WP_Optimize_Browser_Cache {
 			$cache_section = $this->prepare_browser_cache_section($expiry_time);
 
 			if ($enable) {
+				// translators: %s is a file name
 				$message = sprintf(__("We can\'t update your %s file.", 'wp-optimize'), $this->_htaccess->get_filename()) . ' ' . __('Please try to add following lines manually:', 'wp-optimize');
 				$output = htmlentities($this->_htaccess->get_section_begin_comment() . PHP_EOL .
 						  join(PHP_EOL, $this->_htaccess->get_flat_array($cache_section)).
 						  PHP_EOL . $this->_htaccess->get_section_end_comment());
 			} else {
+				// translators: %s is a file name
 				$message = sprintf(__("We can\'t update your %s file.", 'wp-optimize'), $this->_htaccess->get_filename()) . ' ' . __('Please try to remove following lines manually:', 'wp-optimize');
 				$output = htmlentities($this->_htaccess->get_section_begin_comment() . PHP_EOL .
 					' ... ... ... '.

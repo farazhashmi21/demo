@@ -50,7 +50,10 @@ if ($conditional_tag_exceptions) {
 }
 
 // Don't cache non-GET requests.
-if (!isset($_SERVER['REQUEST_METHOD']) || 'GET' !== $_SERVER['REQUEST_METHOD']) {
+$is_cache_page_forced = function_exists('apply_filters') ? apply_filters('wpo_cache_page_force', false) : false;
+$is_get_request = isset($_SERVER['REQUEST_METHOD']) && 'GET' === $_SERVER['REQUEST_METHOD'];
+
+if (!$is_cache_page_forced && !$is_get_request) {
 	$no_cache_because[] = 'The request method was not GET ('.(isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : '-').')';
 }
 
@@ -83,7 +86,7 @@ if (!empty($_COOKIE)) {
 	}
 
 	// get cookie exceptions from options.
-	$cache_exception_cookies = !empty($GLOBALS['wpo_cache_config']['cache_exception_cookies']) ? $GLOBALS['wpo_cache_config']['cache_exception_cookies'] : array();
+	$cache_exception_cookies = empty($GLOBALS['wpo_cache_config']['cache_exception_cookies']) ? array() : $GLOBALS['wpo_cache_config']['cache_exception_cookies'];
 	// filter cookie exceptions, since WP 4.6
 	$cache_exception_cookies = function_exists('apply_filters') ? apply_filters('wpo_cache_exception_cookies', $cache_exception_cookies) : $cache_exception_cookies;
 

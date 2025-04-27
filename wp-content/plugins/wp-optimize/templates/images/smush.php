@@ -5,19 +5,15 @@
 		<div class="wpo-info__content">
 			<p><strong><?php esc_html_e('Not sure how to use the image compression feature?', 'wp-optimize'); ?></strong> <br><?php esc_html_e('Watch our howto video below.', 'wp-optimize'); ?></p>
 			<div class="wpo-video-preview">
-				<a href="https://vimeo.com/333938451" data-embed="https://player.vimeo.com/video/333938451?color=df6926&title=0&byline=0&portrait=0" target="_blank"><img src="<?php echo esc_url(trailingslashit(WPO_PLUGIN_URL) . 'images/notices/image-compression-video-preview.png'); ?>" alt="<?php esc_attr_e('Video preview', 'wp-optimize'); ?>" /></a>
+				<a href="https://vimeo.com/333938451" data-embed="https://player.vimeo.com/video/333938451?color=df6926&title=0&byline=0&portrait=0" target="_blank"><img src="<?php echo esc_url(trailingslashit(WPO_PLUGIN_URL) . 'images/notices/image-compression-video-preview.png'); // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage -- N/A ?>" alt="<?php esc_attr_e('Video preview', 'wp-optimize'); ?>" /></a>
 			</div>
 			<small>(<?php esc_html_e('Loads a video hosted on vimeo.com', 'wp-optimize'); ?>) - <?php $wp_optimize->wp_optimize_url('https://vimeo.com/333938451', __('Open the video in a new window', 'wp-optimize')); ?></small>
 		</div>
 	</div>
 	<p>
 		<?php
-			$message = __('Note: Currently this feature uses third party services from reSmush.it.', 'wp-optimize');
-			$message .= ' ';
-			$message .= __('The performance of this free image compression service may be limited for large workloads.', 'wp-optimize');
-			$message .= ' ';
-			$message .= __('We are working on a premium service.', 'wp-optimize');
-			echo esc_html($message);
+			// translators: %s is a link to reSmush.it website
+			printf(esc_html__('Note: Image optimization feature is offered via %s free API', 'wp-optimize'), '<a href="https://resmush.it/" target="_blank">reSmush.it</a>');
 		?>
 	</p>
 	<div class="wpo-fieldgroup">
@@ -129,7 +125,7 @@
 				<br>
 				<input type="checkbox" id="smush-backup-delete" class="smush-options" <?php checked($smush_options['back_up_delete_after']); ?> >
 				<label for="smush-backup-delete"><?php esc_html_e('Automatically delete image backups after', 'wp-optimize');?><input id="smush-backup-delete-days" type="number" min="1" value="<?php echo (0 !== intval($smush_options['back_up_delete_after_days'])) ? intval($smush_options['back_up_delete_after_days']) : 50; ?>"><?php esc_html_e('days', 'wp-optimize');?></label><label> — <?php esc_html_e('or', 'wp-optimize'); ?></label> <button type="button" id="wpo_smush_delete_backup_btn" class="wpo_primary_small button"><?php esc_html_e('Delete all backup images now', 'wp-optimize'); ?></button>
-				<img id="wpo_smush_delete_backup_spinner" class="display-none" src="<?php echo esc_url(admin_url('images/spinner-2x.gif')); ?>" alt="...">
+				<img id="wpo_smush_delete_backup_spinner" class="display-none" src="<?php echo esc_url(admin_url('images/spinner-2x.gif')); // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage -- N/A ?>" alt="...">
 				<span id="wpo_smush_delete_backup_done" class="dashicons dashicons-yes display-none save-done"></span>
 				<br>
 				<button type="button" id="wpo_smush_mark_all_as_uncompressed_btn" class="wpo_primary_small button"><?php esc_html_e('Mark all images as uncompressed', 'wp-optimize'); ?></button>
@@ -145,7 +141,7 @@
 			</div>
 		</div>
 		<div class="save-options">
-			<img id="wpo_smush_images_save_options_spinner" class="display-none" src="<?php echo esc_url(admin_url('images/spinner-2x.gif')); ?>" alt="...">
+			<img id="wpo_smush_images_save_options_spinner" class="display-none" src="<?php echo esc_url(admin_url('images/spinner-2x.gif')); // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage -- N/A ?>" alt="...">
 			<span id="wpo_smush_images_save_options_done" class="display-none"><span class="dashicons dashicons-yes"></span> <?php esc_html_e('Saved options', 'wp-optimize');?></span>
 			<span id="wpo_smush_images_save_options_fail" class="display-none"><span class="dashicons dashicons-no"></span> <?php esc_html_e('Failed to save options', 'wp-optimize');?></span>
 		</div>
@@ -172,7 +168,7 @@
 				<a href="javascript:;" id="wpo_smush_images_refresh" class="wpo-refresh-button"><?php esc_html_e('Refresh image list', 'wp-optimize');?> 
 					<span class="dashicons dashicons-image-rotate"></span>
 				</a>
-				<img class="wpo_smush_images_loader" width="16" height="16" src="<?php echo esc_url(admin_url('/images/spinner-2x.gif')); ?>" />
+				<img class="wpo_smush_images_loader" width="16" height="16" src="<?php echo esc_url(admin_url('/images/spinner-2x.gif')); // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage -- N/A ?>" />
 			</div>
 		</div>
 		<div id="wpo_smush_images_grid"></div>
@@ -182,73 +178,4 @@
 			<input type="button" id="wpo_smush_get_logs" class="wpo_smush_get_logs wpo_primary_small button-primary align-right" value="<?php esc_attr_e('View logs', 'wp-optimize'); ?>" />
 		</div>
 	</div>
-</div>
-
-<div id="wpo_smush_images_information_container" style="display:none;">
-	<div id="wpo_smush_images_information_wrapper"> 
-	<h3 id="wpo_smush_images_information_heading"><?php esc_html_e('Compressing images', 'wp-optimize');?></h3>
-	<h4 id="wpo_smush_images_information_server"></h4>
-	<div class="progress-bar orange stripes">
-		<span style="width: 100%"></span>
-	</div>
-	<p><?php esc_html_e('The selected images are being processed; please do not close the browser', 'wp-optimize');?></p>
-	<table id="smush_stats" class="smush_stats_table">
-		<tbody>
-			<tr class="smush_stats_row">
-				<td> <?php esc_html_e('Images pending', 'wp-optimize');?></td>
-				<td id="smush_stats_pending_images">&nbsp;...</td>
-			</tr>
-			<tr class="smush_stats_row">
-				<td> <?php esc_html_e('Images completed', 'wp-optimize');?></td>
-				<td id="smush_stats_completed_images">&nbsp;...</td>
-			</tr>
-			<tr class="smush_stats_row">
-				<td> <?php esc_html_e('Size savings', 'wp-optimize');?></td>
-				<td id="smush_stats_bytes_saved">&nbsp;...</td>
-			</tr>
-			<tr class="smush_stats_row">
-				<td> <?php esc_html_e('Average savings per image', 'wp-optimize');?></td>
-				<td id="smush_stats_percent_saved">&nbsp;...</td>
-			</tr>
-			<tr class="smush_stats_row">
-				<td> <?php esc_html_e('Time elapsed', 'wp-optimize');?></td>
-				<td id="smush_stats_timer">&nbsp;</td>
-			</tr>
-		</tbody>
-	</table>
-	</div>
-	<input type="button" id="wpo_smush_images_pending_tasks_cancel_button" class="wpo_primary_small button-primary" value="<?php esc_attr_e('Cancel', 'wp-optimize'); ?>" />
-</div>
-
-<div id="smush-complete-summary" class="complete-animation" style="display:none;">
-	<span class="dashicons dashicons-no-alt close"></span>
-	<div class="animation"> 
-		<div class="checkmark-circle">
-		  <div class="background"></div>
-		  <div class="checkmark draw"></div>
-		</div>
-	</div>
-	<div id="summary-message"></div>
-	<input type="button" id="wpo_smush_get_logs" class="wpo_smush_get_logs wpo_primary_small button-primary" value="<?php esc_attr_e('View logs', 'wp-optimize'); ?>" />
-	<input type="button" id="wpo_smush_clear_stats_btn" class="wpo_primary_small button-primary align-right" value="<?php esc_attr_e('Clear compression statistics', 'wp-optimize'); ?>" />
-	<img id="wpo_smush_images_clear_stats_spinner" class="display-none align-right" src="<?php echo esc_url(admin_url('images/spinner-2x.gif')); ?>" alt="...">
-	<span id="wpo_smush_images_clear_stats_done" class="dashicons dashicons-yes display-none save-done align-right"></span>
-	<span class="clearfix"></span>
-	<input type="button" class="wpo_primary_small button-primary wpo_smush_stats_cta_btn" value="<?php esc_attr_e('Close', 'wp-optimize'); ?>" />
-</div>
-
-<div id="smush-log-modal" class="complete-animation" style="display:none;">
-	<div id="log-panel"></div>
-	<a href="#" class="wpo_primary_small button-primary"> <?php esc_html_e('Download log file', 'wp-optimize'); ?></a>
-	<input type="button" class="wpo_primary_small button-primary close" value="<?php esc_attr_e('Close', 'wp-optimize'); ?>" />
-</div>
-
-<div id="smush-information-modal" style="display:none;">
-	<div class="smush-information"></div>
-	<input type="button" class="wpo_primary_small button-primary information-modal-close" value="<?php esc_attr_e('Close', 'wp-optimize'); ?>" />
-</div>
-
-<div id="smush-information-modal-cancel-btn" style="display:none;">
-	<div class="smush-information"></div>
-	<input type="button" class="wpo_primary_small button-primary" value="<?php esc_attr_e('Cancel', 'wp-optimize'); ?>" />
 </div>

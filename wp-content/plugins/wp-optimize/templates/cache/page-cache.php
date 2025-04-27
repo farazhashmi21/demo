@@ -1,7 +1,7 @@
 <?php if (!defined('WPO_VERSION')) die('No direct access allowed'); ?>
 <?php if ($does_server_handles_cache) : ?>
 <div class="wpo-info highlight-dashicons">
-	<h3><?php esc_html_e('Your web hosting company/server handles: ', 'wp-optimize'); ?></h3>
+	<h3><?php esc_html_e('Your web hosting company/server handles:', 'wp-optimize'); ?></h3>
 	<p><?php esc_html_e('Page caching', 'wp-optimize'); ?><span class="dashicons dashicons-saved"></span></p>
 	<p><?php esc_html_e('Gzip compression', 'wp-optimize'); ?><span class="dashicons dashicons-saved"></span></p>
 	<p><?php esc_html_e('Browser static file caching (via headers)', 'wp-optimize'); ?><span class="dashicons dashicons-saved"></span></p>	
@@ -12,14 +12,14 @@
 	<div class="wpo-info__content">
 		<p><strong><?php esc_html_e('Not sure how to use the cache feature?', 'wp-optimize'); ?></strong> <br><?php esc_html_e('Watch our how-to video below.', 'wp-optimize'); ?></p>
 		<div class="wpo-video-preview">
-			<a href="https://vimeo.com/337247770" data-embed="https://player.vimeo.com/video/337247770?color=df6926&title=0&byline=0&portrait=0" target="_blank"><img src="<?php echo esc_url(trailingslashit(WPO_PLUGIN_URL) . 'images/notices/cache-video-preview.png'); ?>" alt="<?php esc_attr_e('Cache video preview', 'wp-optimize');?>" /></a>
+			<a href="https://vimeo.com/337247770" data-embed="https://player.vimeo.com/video/337247770?color=df6926&title=0&byline=0&portrait=0" target="_blank"><img src="<?php echo esc_url(trailingslashit(WPO_PLUGIN_URL) . 'images/notices/cache-video-preview.png'); // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage -- N/A ?>" alt="<?php esc_attr_e('Cache video preview', 'wp-optimize');?>" /></a>
 		</div>
 		<small>(<?php esc_html_e('Loads a video hosted on vimeo.com', 'wp-optimize'); ?>) - <?php $wp_optimize->wp_optimize_url('https://vimeo.com/337247770', __('Open the video in a new window', 'wp-optimize')); ?></small>
 	</div>
 </div>
 <div class="wpo-fieldgroup wpo-first-child cache-options">
 	<div class="notice notice-warning below-h2 wpo-warnings__enabling-cache wpo_hidden"><p></p><ul></ul></div>
-	<div class="notice error below-h2 wpo-error wpo-error__enabling-cache <?php echo empty($error) ? 'wpo_hidden' : ''; ?>"><p><?php echo htmlentities($error); ?></p></div>
+	<div class="notice error below-h2 wpo-error wpo-error__enabling-cache <?php echo empty($error) ? 'wpo_hidden' : ''; ?>"><p><?php echo esc_html($error); ?></p></div>
 
 	<pre id="wpo_advanced_cache_output" style="display: none;"></pre>
 
@@ -39,6 +39,7 @@
 	<?php if (!empty($active_cache_plugins)) { ?>
 	<p class="wpo-error">
 		<?php
+			// translators: %s - list of active caching plugins
 			$message = sprintf(__('It looks like you already have an active caching plugin (%s) installed.', 'wp-optimize'), implode(', ', $active_cache_plugins));
 			$message .= ' ';
 			$message .=  __('Having more than one active page cache might cause unexpected results.', 'wp-optimize');
@@ -53,7 +54,7 @@
 <div class="wpo-fieldgroup cache-options purge-cache" style="<?php echo esc_attr($display); ?>" >
 	<p class="wpo-button-wrap">
 		<input id="wp-optimize-purge-cache" class="button button-primary <?php echo $can_purge_the_cache ? '' : 'disabled'; ?>" type="submit" value="<?php esc_attr_e('Purge cache', 'wp-optimize'); ?>" <?php echo $can_purge_the_cache ? '' : 'disabled'; ?>>
-		<img class="wpo_spinner" src="<?php echo esc_url(admin_url('images/spinner-2x.gif')); ?>" alt="...">
+		<img class="wpo_spinner" src="<?php echo esc_url(admin_url('images/spinner-2x.gif')); // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage -- N/A ?>" alt="...">
 		<span class="save-done dashicons dashicons-yes display-none"></span>
 	</p>
 	<p>
@@ -63,6 +64,17 @@
 		<span id="wpo_current_cache_size_information"><?php esc_html_e('Current cache size:', 'wp-optimize'); ?> <?php echo esc_html(WP_Optimize()->format_size($cache_size['size'])); ?></span>
 		<br><span id="wpo_current_cache_file_count"><?php esc_html_e('Number of files:', 'wp-optimize'); ?> <?php echo esc_html($cache_size['file_count']); ?></span>
 	</p>
+	<div class="wpo-fieldgroup__subgroup" style="padding-bottom: 15px;">
+		<div style="float: left;">
+			<label for="wpo-auto-preload-after-purge">
+				<input type="checkbox" id="wpo-auto-preload-after-purge" class="cache-settings" name="auto_preload_purged_contents"  <?php checked($auto_preload_purged_contents); ?>>
+				<?php esc_html_e('Automatically preload content after it is purged', 'wp-optimize'); ?>
+			</label>
+			<span tabindex="0" data-tooltip="<?php echo esc_attr__('Automatically preload pages when a post or page is purged or updated.', 'wp-optimize') . ' ' . esc_attr__('Note that enabling this feature may extend the time it takes to save a post due to background preloading.', 'wp-optimize');?>"><span class="dashicons dashicons-editor-help"></span> </span>
+		</div>
+		<span class="dashicons dashicons-yes display-none save-done" style="line-height: 20px; float: left;"></span>
+	</div>
+
 </div>
 
 <h3><?php esc_html_e('Cache settings', 'wp-optimize'); ?></h3>
@@ -108,7 +120,7 @@
 
 <input id="wp-optimize-save-cache-settings" class="button button-primary" type="submit" name="wp-optimize-save-cache-settings" value="<?php esc_attr_e('Save changes', 'wp-optimize'); ?>">
 
-<img class="wpo_spinner" src="<?php echo esc_url(admin_url('images/spinner-2x.gif')); ?>" alt="....">
+<img class="wpo_spinner" src="<?php echo esc_url(admin_url('images/spinner-2x.gif')); // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage -- N/A ?>" alt="....">
 
 <span class="save-done dashicons dashicons-yes display-none"></span>
 <?php endif;

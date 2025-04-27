@@ -51,7 +51,7 @@ class WP_Optimize_Minify_Fonts {
 		$merge = self::build();
 		$config = wp_optimize_minify_config();
 		/**
-		 * Filters wether to add display=swap to Google fonts urls
+		 * Filters whether to add display=swap to Google fonts urls
 		 *
 		 * @param boolean $display - Default to true
 		 */
@@ -84,7 +84,7 @@ class WP_Optimize_Minify_Fonts {
 	 * Parses google font api version 1 url
 	 */
 	private static function parse_font_api1_url($font) {
-		parse_str(parse_url(rtrim($font, '|'), PHP_URL_QUERY), $font_elements);
+		parse_str(wp_parse_url(rtrim($font, '|'), PHP_URL_QUERY), $font_elements);
 		// Process each font family
 		foreach (explode('|', $font_elements['family']) as $font_family) {
 			// Separate font and sizes
@@ -115,7 +115,7 @@ class WP_Optimize_Minify_Fonts {
 	 * Parses google font api version 2 url
 	 */
 	private static function parse_font_api2_url($font) {
-		$parsed_url = parse_url($font, PHP_URL_QUERY);
+		$parsed_url = wp_parse_url($font, PHP_URL_QUERY);
 		$query_elements = explode('&', $parsed_url);
 		foreach ($query_elements as $element) {
 			$family_str = str_replace('family=', '', $element);

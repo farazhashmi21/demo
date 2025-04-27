@@ -1,9 +1,9 @@
 === Create Block Theme ===
 Contributors: wordpressdotorg, mikachan, onemaggie, pbking, scruffian, mmaattiiaass, jffng, madhudollu, egregor, vcanales, jeffikus, cwhitmore
 Tags: themes, theme, block-theme
-Requires at least: 6.5
-Tested up to: 6.5
-Stable tag: 2.1.3
+Requires at least: 6.6
+Tested up to: 6.8
+Stable tag: 2.7.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -29,7 +29,9 @@ This plugin also makes several changes to the contents of a theme, including:
 - Ensures the block markup used in templates and patterns is export-ready.
 - Ensures most strings used in templates and patterns are translate-ready.
 
-The plugin is development only — not intended for use on production websites, but used as a tool to create new themes.
+*Disclaimer:* The Create Block Theme plugin offers critical developer-friendly features; you can think of it as a Development Mode for WordPress, and you should *keep in mind that changes made through this plugin could change your site and/or theme permanently*.
+
+(Make sure you know what you're doing before hitting that 'Save' button 😉)
 
 = Step 1 – Setup =
 Install and activate the [Create Block Theme](https://wordpress.org/plugins/create-block-theme) plugin.
@@ -76,7 +78,7 @@ To create a variation:
 - Provide a name for the new Variation
 - Click "Create Theme Variation"
 
-To create a new Clone of the current theme or to create a Child of the current theme:ons for the currently active theme:
+To create a new Clone of the current theme or to create a Child of the current theme:
 
 - Click "Create Theme"
 - Click "Clone Theme" to create a new Theme based on the active theme with your changes
@@ -94,7 +96,7 @@ If you run into an issue, you should check the [Support forum](https://wordpress
 
 If you have a bug to report, please submit it to the [GitHub repository](https://github.com/WordPress/create-block-theme/issues) as an issue. Please search prior to creating a new bug to confirm its not a duplicate.
 
-== General Troobleshooting ==
+== General Troubleshooting ==
 
 If you are having problems, please try the following:
 
@@ -122,6 +124,96 @@ If you are having problems, please try the following:
 
 
 == Changelog ==
+
+= 2.7.0 =
+* Update "Tested up to" version to 6.8 (#768)
+* Update wp-env configuration to use 'development mode' and to store themes in an accessible place for development (#764)
+* Code Quality: fix browser deprecation warning (#762)
+* PHPCS: Remove unused files and adjust release files (#754)
+* GitHub Actions: Install Subversion (#761)
+* Polish plugin sidebar buttons (#755)
+* Clean up package.json and update @wordpress/env (#753)
+* Tested up to: 6.7 (#751)
+* Add figcaption escaping for image and video blocks (#745)
+
+= 2.6.0 =
+* Process inner html of blocks when escaping text content (#719)
+* Removed all of the code relating to 'folder management' of a theme. (#723)
+* Fix Image URL Localization URI (#720)
+* Add __nextHasNoMarginBottom to BaseControl-based components (#729)
+
+= 2.5.0 =
+* Copy font assets to the local theme folder when creating a style variation (#713)
+* Adds minimum WordPress version to theme metadata (#715)
+* Add a main tag wrapper around the query loop (#726)
+* Remove "Categories: hidden" from default pattern header (#718)
+* Fix "troobleshooting" typo in readme.txt (#721)
+* Update node dependencies (#717)
+* Try: Add synced patterns to theme on save (#675)
+* Rename font assets when theme is saved and/or exported (#712)
+* Update escaping function (#683)
+* Redirect to proper editor_url (#708)
+* Update README.md disclaimer wording and formatting (#703)
+
+= 2.4.0 =
+* Bump minimum required WordPress version to 6.6 (#704)
+* Don't enable sidebar UI in classic theme (#705)
+* README markdown formatting (#702)
+* Update broken link in README (#701)
+* Update blank themes theme json version (#700)
+* Global Styles JSON data inspector (#697)
+* Delete only theme-related caches when saving changes (#685)
+* Update "Tested up to" version to 6.6 (#694)
+* Add theme reset section (#687)
+* Sanitize DOS (Windows) new line style on readme.txt (#681)
+
+= 2.3.0 =
+* Persist font settings when cloning a theme (#678)
+* Landing Page: Improve design (#673)
+* Fix small readme typo (#674)
+* A11y: Improve color contrast for help button (#672)
+* Quality: Fix warning error when exporting theme (#671)
+* Remove unused REST API endpoint (#670)
+* Refactor theme fonts class for readability (#661)
+* Check if theme fonts present before removing (#660)
+* Add an about section in the editor (#667)
+* Update escaping function (#665)
+* Make external links translatable (#663)
+* Update url for blueprint (#658)
+* Add image credits edit capabilities to the edit theme modal (#662)
+* Quality: Remove unused PHP classes (#664)
+
+= 2.2.0 =
+* Update modal width to 65vw (#638)
+* Fixed font utilities to work with font sources as an (optional) array. (#645)
+* Handle font licenses when editing theme metadata (#649)
+* Adds an endpoints that returns a list of font families used by a theme (#648)
+* Flush cache after creating new themes (#654)
+* Replace/admin interface (#637)
+* Added subfolder to initial theme state to eliminate render error (#652)
+* Fix the jslint warning (or infinate loop error when fixed) from useSelect usage (#651)
+* Enforce specifying which eslint rule is disabled when using eslint disable comments (#650)
+* Handle font credits in the backend (#647)
+* Move lib-font and add GPL license text (#646)
+
+= 2.1.4 =
+* Fix template texts localizing/escaping (#641)
+* Use only major.minor version in 'Tested up to' field (#635)
+* Don't Clobber Metadata (#634)
+* Clean and complete the changelog (#636)
+* Add prefix to the names in the PHP global namespace. (#628)
+* Improve tags UI (#630)
+* Refactor Theme_Readme (readme.txt) PHP class (#626)
+* Metadata screenshot (#621)
+* Allow spaces in slugs.  Changed logic to correctly replace functions.  Updated tests. (#622)
+* Reset changelog and version on clone and theme creation (#623)
+* Use non-default port for wp-env (#611)
+* Update package-lock.json (#620)
+* Tests: use tests-wordpress wp-env for phpunit (#618)
+* Add Repository Management section to contributing docs (#614)
+* Update wp-env version (#619)
+* Update Node version to 20 (#617)
+* ESLint: Add new rules (#616)
 
 = 2.1.3 =
 * Editor Sidebar: Persist "Save Changes" panel settings (#607)
@@ -188,13 +280,13 @@ If you are having problems, please try the following:
 * Add text domain to translation target (#499)
 
 = 1.13.8 =
-
+* Remove the development-only warning
 
 = 1.13.7 =
-
+* docs: Add recent release notes to the changelog
 
 = 1.13.6 =
-
+* Fix manage fonts page
 
 = 1.13.5 =
 * Make form files more specific to form page
@@ -228,17 +320,10 @@ If you are having problems, please try the following:
 * Update Google Fonts JSON data from API
 
 = 1.13.0 =
-* # Conflicts:
-#	admin/create-theme/theme-readme.php
-#	admin/create-theme/theme-zip.php
-
-* Merge branch 'trunk' into fix/resources-credits-on-save
-* Merge branch 'trunk' into add/subfolder-to-zip
 * Persist copyright info on new theme creation
 * Update Google Fonts JSON data from API
 * Move check for `download_url` higher up
 * Avoid white spaces or other weird characters on font asset paths.
-* Merge branch 'trunk' into add/subfolder-to-zip
 * Adding files to zip subfolder called as theme slug
 * Update Google Fonts JSON data from API
 
@@ -246,9 +331,6 @@ If you are having problems, please try the following:
 * Fix double replacement in replace_namespace
 
 = 1.12.0 =
-* # Conflicts:
-#	src/plugin-sidebar.js
-
 * Add image credits input
 * Update theme `version` logic to use isset()
 * Update Google Fonts JSON data from API
@@ -258,7 +340,7 @@ If you are having problems, please try the following:
 * Add linebreaks before hyphen lists in readme to fix plugin repository display
 * Prevent additional white space in font credits in readme.txt
 * Google fonts: Change onClick handlers to onChange
-* Merge pull request #374 from WordPress/fix/escape-template-text
+* Escape special characters to avoid syntax errors
 * Update required node version and update dependencies
 
 = 1.10.0 =
@@ -270,7 +352,7 @@ If you are having problems, please try the following:
 * Automatically add font license info for local fonts
 
 = 1.9.0 =
-* Merge branch 'trunk' into add/handle-google-font-credits
+* Handle Google Font Credits
 * Update Google Fonts JSON data from API
 * Fix console error in `prepareThemeNameValidation` function
 * Add FAQ section to readme.txt
@@ -278,7 +360,7 @@ If you are having problems, please try the following:
 * Removing donate link
 
 = 1.8.2 =
-* Merge branch 'trunk' into update/tested-up-wp-version-62
+* Bump tested version
 * Updating Tested up to: 6.2 WordPress version
 * fix tag duplication in exported theme
 * Fixing error checking
@@ -286,11 +368,9 @@ If you are having problems, please try the following:
 * Refactor react app code for general purpose
 * add build directory to php exclude list
 * Do not call replace_template_namespace when overwrting theme
-* Merge branch 'trunk' into fix/314
 * Fix error when switching to template edit mode in the post editor
 * Add useRootPaddingAwareAlignments to blank theme
 * Update Google Fonts JSON data from API
-* Merge branch 'trunk' into fix/314
 * Avoid adding Template info to style.css if it's empty
 * Fix delete font family/face when name is different from family
 * Add theme name validation
@@ -430,11 +510,7 @@ If you are having problems, please try the following:
 * Updating google fonts data
 * Force https to load Google fonts preview
 * Add the ability to select/unselect all google font variants
-* Merge branch 'trunk' into try/manage-fonts
 * Update google fonts JSON data automatically using a repo action
-* Merge branch 'trunk' into release-action
-* Merge branch 'trunk' into try/manage-fonts
-* Merge branch 'try/manage-fonts' into release-action
 * Manage theme fonts
 * Automate release: build, version bump, changelog, deploy to wp.org
 * Automate release

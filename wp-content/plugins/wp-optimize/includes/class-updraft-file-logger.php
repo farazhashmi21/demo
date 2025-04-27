@@ -132,7 +132,7 @@ class Updraft_File_Logger extends Updraft_Abstract_Logger {
 
 		if (!$this->is_enabled()) return false;
 		
-		$message = sprintf("[%s : %s] - %s \n", date("Y-m-d H:i:s"), Updraft_Log_Levels::to_text($level), $this->interpolate($message, $context));
+		$message = sprintf("[%s : %s] - %s \n", gmdate("Y-m-d H:i:s"), Updraft_Log_Levels::to_text($level), $this->interpolate($message, $context));
 		
 		if (false == file_put_contents($this->logfile, $message, FILE_APPEND)) {
 			error_log($message);
@@ -157,6 +157,7 @@ class Updraft_File_Logger extends Updraft_Abstract_Logger {
 
 		// We ignore a few lines here to avoid warnings on file operations
 		// WP.VIP does not like us writing directly to the filesystem
+		if (!is_file($this->logfile)) return false;
 		$logfile_handle = fopen($this->logfile, "r");
 		if (false === $logfile_handle) return false;
 		$temp_file = fopen(preg_replace("/\.log$/", "-temp.log", $this->logfile), "a");

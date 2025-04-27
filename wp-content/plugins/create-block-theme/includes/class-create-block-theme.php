@@ -9,7 +9,7 @@
  * @author     WordPress.org
  */
 #[AllowDynamicProperties]
-class Create_Block_Theme {
+class CBT_Plugin {
 
 	/**
 	 * Define the core functionality of the plugin.
@@ -40,12 +40,11 @@ class Create_Block_Theme {
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-create-theme.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/wp-org-theme-directory.php';
-
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-create-block-theme-api.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-create-block-theme-editor-tools.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-create-block-theme-admin-landing.php';
 
-		$this->loader = new Create_Block_Theme_Loader();
+		$this->loader = new CBT_Plugin_Loader();
 
 	}
 
@@ -57,10 +56,9 @@ class Create_Block_Theme {
 	 * @access   private
 	 */
 	private function define_admin_hooks() {
-
-		$plugin_admin       = new Create_Block_Theme_Admin();
-		$wp_theme_directory = new WP_Theme_Directory();
-		$plugin_api         = new Create_Block_Theme_API();
+		$plugin_api    = new CBT_Theme_API();
+		$editor_tools  = new CBT_Editor_Tools();
+		$admin_landing = new CBT_Admin_Landing();
 	}
 
 	/**

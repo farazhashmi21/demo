@@ -13,9 +13,17 @@
 		</span>
 	</p>
 
-	<?php if (is_wp_error($wpo_gzip_headers_information)) {
-		$class = 'notice notice-error';
-		printf('<div class="%1$s"><p>%2$s</p></div>', esc_attr($class), esc_html($wpo_gzip_headers_information->get_error_message()));
+	<?php
+	if (is_wp_error($wpo_gzip_headers_information)) {
+		?>
+		<div class="notice notice-error">
+			<p>
+				<b><?php esc_html_e('Error: Unable to Check GZIP Compression.', 'wp-optimize'); ?></b>
+				<?php esc_html_e('We encountered a problem while checking if GZIP compression is enabled.', 'wp-optimize'); ?>
+			</p>
+			<p><?php echo wp_kses_post($wpo_gzip_headers_information->get_error_message()); ?></p>
+		</div>
+		<?php
 	} else {
 		?>
 		<?php if ($wpo_gzip_compression_enabled && !is_wp_error($wpo_gzip_compression_enabled) && !$wpo_gzip_compression_enabled_by_wpo) : ?>
@@ -38,7 +46,7 @@
 					<strong class="wpo-enabled"><?php esc_html_e('Gzip compression is currently ENABLED.', 'wp-optimize'); ?></strong>
 					<strong class="wpo-disabled"><?php esc_html_e('Gzip compression is currently DISABLED.', 'wp-optimize'); ?></strong>
 					<?php if (!$wp_optimize->is_apache_server() || ($wpo_gzip_compression_enabled && false == $wpo_gzip_compression_settings_added)) : ?>
-						<a href="#" class="wpo-refresh-gzip-status" title="<?php esc_attr_e('Press this to see if any changes were made to your Gzip configuration', 'wp-optimize'); ?>"><?php esc_html_e('Check status again', 'wp-optimize'); ?> <img class="wpo_spinner display-none" src="<?php echo esc_url(admin_url('images/spinner-2x.gif')); ?>"></a>
+						<a href="#" class="wpo-refresh-gzip-status" title="<?php esc_attr_e('Press this to see if any changes were made to your Gzip configuration', 'wp-optimize'); ?>"><?php esc_html_e('Check status again', 'wp-optimize'); ?> <img class="wpo_spinner display-none" src="<?php echo esc_url(admin_url('images/spinner-2x.gif')); // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage -- N/A ?>"></a>
 					<?php endif; ?>
 				</p>
 				<br>
@@ -53,7 +61,7 @@
 						<form>
 							<button class="button-primary" type="button"
 								id="wp_optimize_gzip_compression_enable" data-enable="<?php echo $wpo_gzip_compression_enabled ? '0' : '1'; ?>"><?php echo esc_html($button_text); ?></button>
-								<img class="wpo_spinner display-none" src="<?php echo esc_url(admin_url('images/spinner-2x.gif')); ?>"
+								<img class="wpo_spinner display-none" src="<?php echo esc_url(admin_url('images/spinner-2x.gif')); // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage -- N/A ?>"
 							width="20" height="20" alt="...">
 							<br>
 						</form>

@@ -15,19 +15,16 @@ class WPO_Uninstall {
 		WP_Optimize()->get_minify()->plugin_uninstall();
 		WP_Optimize()->get_options()->wipe_settings();
 		WP_Optimize()->delete_transients_and_semaphores();
-		// Using Updraft_Smush_Manager() throws `Call to undefined function` fatal error
-		Updraft_Smush_Manager::instance()->delete_log_files();
+		WP_Optimize()->get_table_management()->delete_plugin_tables();
 		Updraft_Tasks_Activation::uninstall(WPO_PLUGIN_SLUG);
 		self::delete_wpo_folder();
-
-		$wpo_plugins_table_list = self::get_upload_basedir() . 'wpo-plugins-tables-list.json';
-		if (is_file($wpo_plugins_table_list)) {
-			unlink($wpo_plugins_table_list);
+		if (class_exists('WPO_Gravatar_Data')) {
+			wpo_delete_files(WPO_Gravatar_Data::WPO_CACHE_GRAVATAR_DIR);
 		}
 		
 		$htaccess_file = self::get_upload_basedir() . '.htaccess';
 		if (is_file($htaccess_file) && 0 === filesize($htaccess_file)) {
-			unlink($htaccess_file);
+			wp_delete_file($htaccess_file);
 		}
 		
 		wp_clear_scheduled_hook('process_smush_tasks');
@@ -77,11 +74,15 @@ class WPO_Uninstall {
 				wpo_delete_files($wpo_folder . $folder);
 			}
 
-			$files = @scandir($wpo_folder); // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged -- suppress warning if it arises due to race condition
+			// phpcs:disable
+			// Generic.PHP.NoSilencedErrors.Discouraged -- suppress warning if it arises due to race condition
+			// WordPress.WP.AlternativeFunctions.file_system_operations_rmdir -- Not applicable in this context
+			$files = @scandir($wpo_folder);
 			if (false === $files) return;
 			if (2 === count($files)) {
-				@rmdir($wpo_folder); // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged -- suppress error due to file permission issues
+				@rmdir($wpo_folder);
 			}
+			// phpcs:enable
 		}
 	}
 }

@@ -1,5 +1,5 @@
 <?php if (!defined('WPO_VERSION'))  die('No direct access allowed'); ?>
-<div class="wpo_section wpo_group">
+<div id='wpo_section_css' class="wpo_section wpo_group">
 	<div id="wpo_settings_warnings"></div>
 	<form>
 		<h3><?php esc_html_e('CSS options', 'wp-optimize'); ?></h3>
@@ -172,7 +172,7 @@
 				type="submit"
 				value="<?php esc_attr_e('Save settings', 'wp-optimize'); ?>"
 			>
-			<img class="wpo_spinner" src="<?php echo esc_url(admin_url('images/spinner-2x.gif')); ?>" alt="...">
+			<img class="wpo_spinner" src="<?php echo esc_url(admin_url('images/spinner-2x.gif')); // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage -- N/A ?>" alt="...">
 			<span class="save-done dashicons dashicons-yes display-none"></span>
 		</p>
 	</form>

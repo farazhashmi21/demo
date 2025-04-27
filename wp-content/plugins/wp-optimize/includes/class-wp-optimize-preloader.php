@@ -75,9 +75,10 @@ abstract class WP_Optimize_Preloader extends Updraft_Task_Manager_1_4 {
 	 *
 	 * @param string $type     - The preload type (schedule | manual)
 	 * @param array  $response - Specific response for echo into output thread when browser connection closing.
+	 * @param bool   $silent   - If DOING_AJAX, close the connection without sending any additional data (default: false)
 	 * @return array|void - Void when closing the browser connection
 	 */
-	public function run($type = 'scheduled', $response = null) {
+	public function run($type = 'scheduled', $response = null, $silent = false) {
 		if (!$this->is_option_active()) {
 			return $this->get_option_disabled_error();
 		}
@@ -104,7 +105,13 @@ abstract class WP_Optimize_Preloader extends Updraft_Task_Manager_1_4 {
 
 		// close browser connection and continue work for ajax actions.
 		if (defined('DOING_AJAX') && DOING_AJAX) {
-			WP_Optimize()->close_browser_connection(json_encode($response));
+			if (true === $silent) {
+				$output = '';
+			} else {
+				$output = wp_json_encode($response);
+			}
+
+			WP_Optimize()->close_browser_connection($output);
 		}
 
 		// trying to change time limit.
@@ -247,6 +254,7 @@ abstract class WP_Optimize_Preloader extends Updraft_Task_Manager_1_4 {
 		} else {
 			$preload_resuming_time = wp_next_scheduled('wpo_' . $this->preload_type . '_preload_continue');
 			$preload_resuming_in = $preload_resuming_time ? $preload_resuming_time - time() : 0;
+			// translators: %1$s: number of preloaded urls, %2$s: total number of urls
 			$preloaded_message = sprintf(_n('%1$s out of %2$s URL preloaded', '%1$s out of %2$s URLs preloaded', $status['all_tasks'], 'wp-optimize'), $status['complete_tasks'], $status['all_tasks']);
 			if ('sitemap' == $this->options->get_option('wpo_last_' . $this->preload_type . '_preload_type', '')) {
 				$preloaded_message = __('Preloading posts found in sitemap:', 'wp-optimize') .' '. $preloaded_message;
@@ -352,6 +360,7 @@ abstract class WP_Optimize_Preloader extends Updraft_Task_Manager_1_4 {
 			$this->options->update_option('wpo_last_' . $this->preload_type . '_preload_type', 'posts');
 		}
 
+		// translators: %d: number of urls
 		$this->log(sprintf(_n('%d url found.', '%d urls found.', count($urls), 'wp-optimize'), count($urls)));
 
 		/**

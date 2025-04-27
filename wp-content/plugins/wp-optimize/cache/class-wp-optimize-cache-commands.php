@@ -42,7 +42,7 @@ class WP_Optimize_Cache_Commands {
 
 		$enabled = false;
 		$disabled = false;
-		$return = !empty($validation) ? $validation : array();
+		$return = empty($validation) ? array() : $validation;
 		$previous_settings = WPO_Cache_Config::instance()->get();
 
 		// Attempt to change current status if required
@@ -115,6 +115,19 @@ class WP_Optimize_Cache_Commands {
 
 		$return['enabled'] = ($enabled && !is_wp_error($enabled)) || ($previous_settings['enable_page_caching'] && is_wp_error($disabled));
 
+		if ($enabled && !is_wp_error($enabled)) {
+			if (isset($data['cache-settings']['host_gravatars_locally']) && $data['cache-settings']['host_gravatars_locally'] !== $previous_settings['host_gravatars_locally']) {
+				$cache = WPO_Page_Cache::instance();
+				$cache->file_log('Host gravatars locally setting changed, purging cache');
+				$cache->purge();
+			}
+		}
+		// $disable can either be boolean or WP_Error
+		if (!is_wp_error($disabled) && $disabled) {
+			WPO_Page_Cache::instance()->prune_cache_logs();
+			wp_clear_scheduled_hook('wpo_prune_cache_logs');
+		}
+		
 		return $return;
 	}
 
@@ -129,7 +142,9 @@ class WP_Optimize_Cache_Commands {
 		$status[] = WPO_Page_Cache::instance()->is_enabled() ? __('Caching is enabled', 'wp-optimize') : __('Caching is disabled', 'wp-optimize');
 
 		$preloader_status = WP_Optimize_Page_Cache_Preloader::instance()->get_status_info();
+		// translators: %s: The current cache size
 		$status[] = sprintf(__('Current cache size: %s', 'wp-optimize'), $preloader_status['size']);
+		// translators: %s: The number of files in the cache
 		$status[] = sprintf(__('Number of files: %s', 'wp-optimize'), $preloader_status['file_count']);
 
 		if (array_key_exists('message', $preloader_status)) $status[] = $preloader_status['message'];
@@ -163,15 +178,17 @@ class WP_Optimize_Cache_Commands {
 	 * @return array
 	 */
 	public function purge_page_cache() {
+
+		$wpo_page_cache = WP_Optimize()->get_page_cache();
 		
-		if (!WP_Optimize()->get_page_cache()->is_enabled()) {
+		if (!$wpo_page_cache->is_enabled()) {
 			return array(
 				'success' => false,
 				'error' => __('Cache is not enabled.', 'wp-optimize'),
 			);
 		}
 		
-		if (!WP_Optimize()->get_page_cache()->can_purge_cache() && !(defined('WP_CLI') && WP_CLI)) {
+		if (!$wpo_page_cache->can_purge_cache() && !(defined('WP_CLI') && WP_CLI)) {
 			return array(
 				'success' => false,
 				'message' => __('You do not have permission to purge the cache', 'wp-optimize'),
@@ -179,6 +196,7 @@ class WP_Optimize_Cache_Commands {
 		}
 
 		$purged = WP_Optimize()->get_page_cache()->purge();
+		if ($purged) WP_Optimize()->get_page_cache()->file_log("Full Cache Purge triggered by: " . __METHOD__);
 		$cache_size = WP_Optimize()->get_page_cache()->get_cache_size();
 		$wpo_page_cache_preloader = WP_Optimize_Page_Cache_Preloader::instance();
 
@@ -196,6 +214,9 @@ class WP_Optimize_Cache_Commands {
 
 			// run preloader.
 			$wpo_page_cache_preloader->run('scheduled', $response);
+		} elseif ($wpo_page_cache->should_auto_preload_purged_contents()) {
+			// When auto preload is enabled but scheduled preload is disabled
+			$wpo_page_cache_preloader->run('manual', $response);
 		}
 
 		if ($response['success']) {
@@ -294,6 +315,33 @@ class WP_Optimize_Cache_Commands {
 
 		if ($result['success']) {
 			$result['message'] = __('Page cache settings updated successfully.', 'wp-optimize');
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Enable or disable auto preloading after cache purge
+	 *
+	 * @param array $params Option value sent via AJAX
+	 * @return array
+	 */
+	public function save_cache_auto_preload_option($params) {
+		$wpo_cache = WP_Optimize()->get_page_cache();
+		$wpo_cache_options = $wpo_cache->config->get();
+		$wpo_cache_options['auto_preload_purged_contents'] = 'true' === $params['enabled'] ? 1 : 0;
+		$update_status = $wpo_cache->config->update($wpo_cache_options);
+
+		if (is_wp_error($update_status)) {
+			$result = array(
+				'success' => false,
+				'message' => $update_status->get_error_message(),
+			);
+		} else {
+			$result = array(
+				'success' => true,
+				'message' => __('Auto preload settings have been updated successfully', 'wp-optimize'),
+			);
 		}
 
 		return $result;

@@ -10,30 +10,8 @@ if (function_exists('mb_internal_encoding')) {
 // must have
 ini_set('pcre.backtrack_limit', 5000000);
 ini_set('pcre.recursion_limit', 5000000);
-
-// Include PHP Minify [1.3.60] - https://github.com/matthiasmullie/minify
-if (!class_exists('\MatthiasMullie\Minify\Minify')) {
-	require_once WPO_PLUGIN_MAIN_PATH.'vendor/matthiasmullie/minify/src/Minify.php';
-	require_once WPO_PLUGIN_MAIN_PATH.'vendor/matthiasmullie/minify/src/CSS.php';
-	require_once WPO_PLUGIN_MAIN_PATH.'vendor/matthiasmullie/minify/src/JS.php';
-	require_once WPO_PLUGIN_MAIN_PATH.'vendor/matthiasmullie/minify/src/Exception.php';
-	require_once WPO_PLUGIN_MAIN_PATH.'vendor/matthiasmullie/minify/src/Exceptions/BasicException.php';
-	require_once WPO_PLUGIN_MAIN_PATH.'vendor/matthiasmullie/minify/src//Exceptions/FileImportException.php';
-	require_once WPO_PLUGIN_MAIN_PATH.'vendor/matthiasmullie/minify/src/Exceptions/IOException.php';
-	require_once WPO_PLUGIN_MAIN_PATH.'vendor/matthiasmullie/path-converter/src/ConverterInterface.php';
-	require_once WPO_PLUGIN_MAIN_PATH.'vendor/matthiasmullie/path-converter/src/Converter.php';
-}
 	
-use MatthiasMullie\Minify; // phpcs:ignore PHPCompatibility.Keywords.NewKeywords.t_useFound, PHPCompatibility.LanguageConstructs.NewLanguageConstructs.t_ns_separatorFound
-
-// Use HTML minification
-if (!class_exists('Minify_HTML')) {
-	require_once WPO_PLUGIN_MAIN_PATH.'vendor/mrclay/minify/lib/Minify/HTML.php';
-}
-
-if (!class_exists('WP_Optimize_Options')) {
-	include_once WPO_PLUGIN_MAIN_PATH.'includes/class-wp-optimize-options.php';
-}
+use MatthiasMullie\Minify;
 
 class WP_Optimize_Minify_Functions {
 
@@ -228,6 +206,18 @@ class WP_Optimize_Minify_Functions {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Check if selected url is point to already minifiled css/js file
+	 *
+	 * @param string $url
+	 * @return bool
+	 */
+	public static function is_minified_css_js_filename($url) {
+		$parts = wp_parse_url($url);
+		if (empty($parts['path']) || !is_string(basename($parts['path']))) return false;
+		return 1 === preg_match('/\.min\.(js|css)$/i', basename($parts['path']));
 	}
 
 	/**
@@ -521,7 +511,7 @@ class WP_Optimize_Minify_Functions {
 			// If $media_query contains print, and $remove_print_mediatypes is true, return empty string
 			if ($remove_print_mediatypes && false !== strpos($media_query, 'print') && apply_filters('wpo_minfy_remove_print_mediatypes_import', true, $url, $media_query, $matches[0], $file_url)) return ($debug ? '/*! Info: the import of "'.$url.'" was removed because the setting remove_print_mediatypes is enabled. */' : '');
 
-			$purl = parse_url($url);
+			$purl = wp_parse_url($url);
 			// If there's no host, the url is relative to $file_url, so prepend with the base url.
 			if (!isset($purl['host'])) {
 				$url = dirname($file_url).'/'.$url;
@@ -616,7 +606,7 @@ class WP_Optimize_Minify_Functions {
 				$log['debug'] = "$print_handle failed. Tried wp_remote_get and local file_get_contents.";
 			}
 			$return = array('request' => $dreq, 'log' => $log, 'code' => '', 'status' => false);
-			return json_encode($return);
+			return wp_json_encode($return);
 		}
 
 		if ('js' == $type) {
@@ -632,11 +622,11 @@ class WP_Optimize_Minify_Functions {
 		}
 		$log['success'] = true;
 		$return = array('request' => $dreq, 'log' => $log, 'code' => $code, 'status' => true);
-		return json_encode($return);
+		return wp_json_encode($return);
 	}
 
 	/**
-	 * Get the content of an asset, wether local or remote
+	 * Get the content of an asset, whether local or remote
 	 *
 	 * @param string $url
 	 * @return array
@@ -644,7 +634,7 @@ class WP_Optimize_Minify_Functions {
 	public static function get_asset_content($url) {
 
 		$wp_home = site_url();
-		$wp_domain = parse_url($wp_home, PHP_URL_HOST);
+		$wp_domain = wp_parse_url($wp_home, PHP_URL_HOST);
 		// If the file is local.
 		if (false !== stripos($url, $wp_domain)) {
 			// default
@@ -803,7 +793,7 @@ class WP_Optimize_Minify_Functions {
 		if (isset($_SERVER['REQUEST_URI']) && !empty($_SERVER['REQUEST_URI'])) {
 			$disable_on_url = array_filter(array_map('trim', explode("\n", get_option('wpo_min_disable_on_url', ''))));
 			foreach ($disable_on_url as $url) {
-				if (parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) == $url) {
+				if (wp_parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) == $url) {
 					return true;
 				}
 			}
@@ -883,7 +873,7 @@ class WP_Optimize_Minify_Functions {
 		}
 
 		/**
-		 * Wether to exclude the content or not from the minifying process.
+		 * Whether to exclude the content or not from the minifying process.
 		 */
 		return apply_filters('wpo_minify_exclude_contents', false);
 	}
@@ -1077,7 +1067,7 @@ class WP_Optimize_Minify_Functions {
 	 * @return boolean
 	 */
 	public static function is_google_font($href) {
-		return 'fonts.googleapis.com' === strtolower(parse_url($href, PHP_URL_HOST));
+		return 'fonts.googleapis.com' === strtolower(wp_parse_url($href, PHP_URL_HOST));
 	}
 
 	/**
@@ -1171,7 +1161,7 @@ class WP_Optimize_Minify_Functions {
 	 */
 	public static function fix_flatsome_google_fonts_url($href) {
 		// Get query from $href
-		$query = parse_url($href, PHP_URL_QUERY);
+		$query = wp_parse_url($href, PHP_URL_QUERY);
 		$query_arr = explode('&', $query);
 
 		// Separate 'family and display' arguments in query
@@ -1216,6 +1206,21 @@ class WP_Optimize_Minify_Functions {
 		}
 		$protocol = is_ssl() ? 'https:' : 'http:';
 		return $protocol . '//fonts.googleapis.com/css?family=' . implode('|', $google_fonts) . '&' . $display_type;
+	}
+
+	/**
+	 * Get the file modification time
+	 *
+	 * @param string $asset_src
+	 * @return string
+	 */
+	public static function get_modification_time($asset_src) {
+		$hurl = self::get_hurl($asset_src);
+		$abs_file_path = WP_Optimize_Utils::get_file_path($hurl);
+		if (empty($abs_file_path)) return '';
+
+		$modification_time = @filemtime($abs_file_path); // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged -- Suppress E-Warning on failure
+		return strval($modification_time);
 	}
 
 	/**
