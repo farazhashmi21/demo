@@ -1,0 +1,5 @@
+Admin Username: adminfarazhashmi
+Admin Email Address: developerfaraz@yahoo.com
+Admin Password: gY72@&Pq
+Development URL: http://127.0.0.1:9000/
+Development Login URL: http://127.0.0.1:9000/admin/
