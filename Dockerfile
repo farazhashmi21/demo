@@ -52,7 +52,8 @@
 #======
 
 from python:latest as base
+WORKDIR /app
 COPY . .
 RUN pip install --no-cache-dir -r requirements.txt
-EXPOSE 9000
-CMD python manage.py runserver 0.0.0.0:9000
+EXPOSE 80
+CMD python manage.py runserver 0.0.0.0:80
